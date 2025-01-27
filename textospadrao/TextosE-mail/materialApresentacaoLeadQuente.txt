@@ -1,0 +1,23 @@
+Fala Ítalo, Boa tarde!
+Segue anexo um case na area de logistica muito interessante, que tivemos na Latam Airlines, e obtivemos grandes resultados. Nesse case mostro como solucionamos o problema de AOG (Aircraft ong round) da companhia aérea.
+De qualquer forma listo por aqui os serviços que prestamos para que identifique melhor onde podemos ajudar. 
+
+   1. Consultoria de Requisitos com Prototipagem High Definition (HTML5);
+   2. Desenvolvimento de Sistemas Web:
+              a. PHP
+              b. Ruby on Rails
+              c. Python
+              d. Java
+              e. Node.JS
+              f. .Net C#
+   3. Desenvolvimento de Apps Mobile:
+              a. iOS Object C / Swift
+              b. Android Java / Kotlin 
+              c. Google Flutter
+   4. Outsourcing de profissionais de TI;
+   5. Headhunting de profissionais de TI;
+   6. RPA;
+   7. Plataforma de Assinatura Digital (https://www.e-digital.global/pt/)
+
+Obrigado.
+abs.;

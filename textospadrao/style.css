@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+
+}
+
+html {
+    font-size: 16px;
+    zoom: 1;
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    /* Garante que o html e o body ocupem pelo menos a altura total da tela */
+
+    min-height: 100vh;
+    /* Garante que o mínimo seja a altura da viewport, útil para conteúdo menor que a tela */
+
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(45deg, #000113, #000835);
+    color: rgba(255, 255, 255, 0.605);
+    padding: 10px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    /* Distribui espaço uniformemente entre as colunas */
+    align-items: flex-start;
+    /* Alinha as colunas ao topo */
+    flex-wrap: wrap;
+    /* Permite que as colunas se ajustem conforme o tamanho da tela */
+    max-width: 1200px;
+    margin: auto;
+}
+
+.buttons-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 45%;
+    /* Define uma base para o tamanho das colunas, mas permite que elas cresçam ou encolham */
+    margin: 10px;
+}
+
+.btn-adicionar {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.605);
+    color: #010c20;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+    /* Espaçamento entre os botões */
+
+}
+
+h2 {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+    /* Espaçamento abaixo dos títulos das colunas */
+}
+
+.btn-adicionar:hover {
+    background-color: #84b5ff;
+}
+
+.pop-up {
+    position: fixed;
+    bottom: 10px;
+    left: 10%;
+    transform: translateX(-50%);
+    background-color: #0056b3;
+    color: rgba(255, 255, 255, 0.605);
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pop-up.active {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+
+/* Estilo para o botão de Voltar à Homepage */
+.btn-voltar {
+    position: fixed;
+    bottom: 10px;
+    z-index: 1000;
+    left: 50%;
+    /* Ajustado para 50% para iniciar o posicionamento do centro */
+    transform: translateX(-50%);
+    /* Desloca o botão para a esquerda pela metade de sua largura */
+    padding: 10px;
+    background: linear-gradient(45deg, #00021d, #000a42);
+    color: rgba(255, 255, 255, 0.605);
+    border: 1px solid rgba(255, 255, 255, 0.605);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-weight: bold;
+    /* Adiciona negrito ao texto */
+    display: inline-block;
+    /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
+}
+
+.btn-voltar:hover {
+    background: linear-gradient(45deg, #00043a, #001170);
+}

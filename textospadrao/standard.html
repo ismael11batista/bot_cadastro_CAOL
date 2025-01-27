@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Standard Answers</title>
+    <link rel="icon" type="image/png" href="../images/paste.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Botão para Voltar à Homepage, colocado no início para fácil posicionamento -->
+    <a href="../index.html" class="btn-voltar">Voltar à Homepage</a>
+
+    <div class="container">
+        <div class="buttons-column" id="email-respostas">
+            <h2>Respostas para E-mail</h2>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/respostaDefault.txt')">Resposta
+                Default</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/respostaSemInteresse.txt')">Resposta Sem
+                Interesse</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/outraPessoaResponsavel.txt')">Outra
+                Pessoa Responsável</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/conectaPessoaAderente.txt')">Conecta
+                Pessoa Aderente</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/materialApresentacao.txt')">Material de
+                Apresentação</button>
+            <button class="btn-adicionar"
+                onclick="carregarTexto('TextosE-mail/materialApresentacaoLeadQuente.txt')">Material
+                de Apresentação (Lead mais quente)</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/comoacharammeuemail.txt')">Como pegaram
+                meu
+                e-mail?</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/formasdecontato.txt')">Formas de
+                contato</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/PIPA_nao_quer_indicar.txt')">PIPA (Não
+                quer
+                indicar)</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/PIPA_como_pegou_meu_contato.txt')">PIPA
+                (Como
+                pegou o contato)</button>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/PIPA.txt')">PIPA</button>
+            <!-- Adicione mais botões conforme necessário para e-mail -->
+        </div>
+
+        <div class="buttons-column" id="linkedin-respostas">
+            <h2>Respostas para LinkedIn</h2>
+            <button class="btn-adicionar" onclick="carregarTexto('TextosE-mail/comoacharammeuemail.txt')">Como pegaram
+                meu
+                e-mail?</button>
+
+            <!-- Adicione mais botões conforme necessário para LinkedIn -->
+        </div>
+        <div id="popUp" class="pop-up">Texto copiado com sucesso!</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

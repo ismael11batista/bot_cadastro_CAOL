@@ -1,0 +1,23 @@
+Bom dia Gilson, 
+
+Você foi indicado por alguma pessoa da minha rede de contatos, agora me foge da memória a pessoa. De qualquer forma deixo aqui listado os serviços que prestamos para caso identifique algum que possamos apoiar a Sapore S.A.
+
+   1. Consultoria de Requisitos com Prototipagem High Definition (HTML5);
+   2. Desenvolvimento de Sistemas Web:
+              a. PHP
+              b. Ruby on Rails
+              c. Python
+              d. Java
+              e. Node.JS
+              f. .Net C#
+   3. Desenvolvimento de Apps Mobile:
+              a. iOS Object C / Swift
+              b. Android Java / Kotlin 
+              c. Google Flutter
+   4. Outsourcing de profissionais de TI;
+   5. Headhunting de profissionais de TI;
+   6. RPA;
+   7. Plataforma de Assinatura Digital (https://www.e-digital.global/pt/)
+
+Obrigado.
+abs.;

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="icon" type="image/png" href="../images/notes.png">
+    <link rel="stylesheet" href="notes.css">
+</head>
+
+<body>
+
+    <!-- Botão para Voltar à Homepage, colocado no início para fácil posicionamento -->
+    <a href="../index.html" class="btn-voltar">Voltar à Homepage</a>
+
+
+    <!-- Blocos para To-Do List e Anotações dos Projetos -->
+    <div id="conteudo-principal" style="display: flex; width: 100%; justify-content: space-between;">
+        <!-- Novo Bloco To-Do List -->
+        <div class="bloco" id="todo-list">
+            <div class="todo-app">
+                <h2>To-Do List <img src="../images/icon.png"></h2>
+                <div class="row">
+                    <input type="text" id="input-box" placeholder="Adicione um novo item...">
+                    <button onclick="addTask()">Adicionar</button>
+                </div>
+                <ul id="list-container">
+                    <!-- Itens do To-Do List serão adicionados aqui -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bloco Anotações dos Projetos -->
+        <div class="bloco" id="anotacoes-projetos">
+            <h2>Anotações</h2>
+            <ul id="lista-anotacoes">
+                <!-- Anotações dos projetos serão adicionadas aqui -->
+            </ul>
+            <textarea id="nova-anotacao" placeholder="Adicione uma nova anotação..."></textarea>
+            <!-- Altere class para id na linha abaixo -->
+            <button id="btn-adicionar" onclick="adicionarAnotacao()">Adicionar</button>
+        </div>
+
+
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="../calendar/calendar.js"></script>
+    <!-- Referência ao JavaScript do To-Do List -->
+    <script src="todo-list.js"></script>
+    <!-- Script para Anotações dos Projetos -->
+    <script src="anotacoes-projetos.js"></script>
+</body>
+
+</html>

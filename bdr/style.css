@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    zoom: 1;
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    /* Garante que o html e o body ocupem pelo menos a altura total da tela */
+
+    min-height: 100vh;
+    /* Garante que o mínimo seja a altura da viewport, útil para conteúdo menor que a tela */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(0deg,#000000, #080808 );
+
+    color: rgba(255, 255, 255, 0.605);
+    padding: 10px;
+}
+
+.container {
+    max-width: 1850px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Centraliza horizontalmente os itens flex */
+
+}
+
+textarea {
+    background-color: #0D0D0D;
+    font-size: xx-large;
+    color: rgba(255, 255, 255, 0.605);
+    width: 95%;
+    padding: 0px;
+    border: 5px solid rgba(255, 255, 255, 0.605);
+    border-radius: 10px;
+    resize: none;
+    height: 470px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-left: 40px;
+}
+
+
+.buttons-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.btn-adicionar {
+    padding: 10px;
+    background-color: #0D0D0D;
+    color: rgba(255, 255, 255, 0.605);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    border: 0px solid rgba(255, 255, 255, 0.605);
+    font-weight: bold;
+    /* Define a largura mínima para 50px */
+    min-width: 250px;
+
+}
+
+.btn-adicionar:hover {
+    background: #18356e;
+}
+
+.info-div {
+    background-color: #02112e;
+    box-shadow: 0 4px 8px #010c20;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 40px;
+    color: rgba(255, 255, 255, 0.605);
+    width: calc(100% - 40px);
+    text-align: center;
+}
+
+.info-container {
+    display: flex;
+    justify-content: space-around;
+    width: 45%;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.pop-up {
+    position: fixed;
+    bottom: 10px;
+    left: 10%;
+    transform: translateX(-50%);
+    background-color: #0056b3;
+    color: rgba(255, 255, 255, 0.605);
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pop-up.active {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.containerLeadAutomatico {
+    max-width: 600px;
+    margin: auto;
+    background: #02112e;
+    padding: 0px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 180px;
+    background-color: #0D0D0D;
+    color: #02112e;
+    border: 1px solid #84b5ff;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #00043a, #001170);
+}
+
+.resultado {
+    margin-top: 0px;
+    background-color: #02112e;
+    border: 1px solid #02112e;
+    padding: 20px;
+    border-radius: 10px;
+    white-space: pre-wrap;
+}
+
+
+#resultados {
+    text-align: center;
+    /* Centraliza o texto horizontalmente */
+    margin: 20px 0;
+    /* Adiciona uma margem de 20px acima e abaixo para espaçamento */
+    color: rgba(255, 255, 255, 0.605);
+    /* Define a cor do texto (opcional, ajuste conforme necessário) */
+    width: 100%;
+    /* Garante que o div ocupe a largura total do seu container pai */
+}
+
+#resultados p {
+    margin: 10px 0;
+}
+
+
+.container-botao {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /* Garante que o container ocupe a largura total disponível */
+    margin: 20px 0;
+    /* Adiciona um espaçamento acima e abaixo do botão */
+}
+
+
+/* Estilo para o botão de Voltar à Homepage */
+.btn-voltar {
+    position: fixed;
+    bottom: 10px;
+    z-index: 1000;
+    left: 50%;
+    /* Ajustado para 50% para iniciar o posicionamento do centro */
+    transform: translateX(-50%);
+    /* Desloca o botão para a esquerda pela metade de sua largura */
+    padding: 10px;
+    background: #0D0D0D;
+    color: rgba(255, 255, 255, 0.605);
+    border: 0px solid rgba(255, 255, 255, 0.605);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    /* Adiciona negrito ao texto */
+    display: inline-block;
+    /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
+}
+
+.btn-voltar:hover {
+    background: #18356e;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+
+
+.hero {
+    width: 100%;
+    height: 10vh;
+    /*background-image: linear-gradient(#f44336, #730228);*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selector {
+    width: 350px;
+    position: relative;
+    margin-top: 0px;
+}
+
+
+#selectField {
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 0px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.605);
+    background: #070707;
+    font-weight: bold;
+
+}
+
+#selectField img {
+    width: 12px;
+    transition: transform 0.1s;
+}
+
+#list {
+    width: 100%;
+    color: rgba(255, 255, 255, 0.605);
+    border: 1px solid rgba(255, 255, 255, 0.605);
+    background: #070707;
+    border-radius: 6px;
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+}
+
+
+.options {
+    width: 100%;
+    padding: 15px 20px;
+    list-style: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.options:hover {
+    background: linear-gradient(45deg, #00043a, #001170);
+}
+
+.hide {
+    display: none;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+.buttonsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 50px;
+    background-color: #0D0D0D;
+    color: rgba(255, 255, 255, 0.605);
+    border: 0px solid rgba(255, 255, 255, 0.605);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+
+}
+
+button:hover {
+    background: #18356e;
+    color: rgba(255, 255, 255, 0.605);
+}
+
+
+.tira-esquerda {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    /* Ajuste a largura conforme necessário */
+    /* Cor cinza */
+    z-index: 1000;
+    /* Garante que as tiras fiquem acima de outros elementos */
+    left: 0;
+    
+    background-image: 
+        radial-gradient(
+            circle,
+            #252525 1.2px,
+            transparent 1px
+        );
+    background-size: 10px 10px;
+
+}
+
+
+.tira-direita {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    /* Ajuste a largura conforme necessário */
+
+    /* Cor cinza */
+    z-index: 1000;
+    /* Garante que as tiras fiquem acima de outros elementos */
+    right: 0;
+
+    background-image: 
+    radial-gradient(
+        circle,
+        #252525 1.2px,
+        transparent 1px
+    );
+    background-size: 10px 10px;
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BDR</title>
+    <link rel="icon" type="image/png" href="../images/find_user.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <a href="../index.html" class="btn-voltar">Voltar à Homepage</a>
+
+    <div class="hero">
+        <div class="selector">
+            <div id="selectField">
+                <p id="selectText">Selecione uma Opção de Cadência</p>
+                <img src="images/arrow.png" id="arrowIcon">
+            </div>
+            <ul id="list" class="hide">
+                <li class="options">Carlos Flávio R&S</li>
+                <li class="options">R&S</li>
+                <li class="options">Lean</li>
+                <li class="options">Fábrica</li>
+                <li class="options">Respostas Padrão</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="buttonsContainer" class="buttonsContainer hide">
+        <div id="CFButtons" class="hide">
+            <button id="copiarTextoRSConexaoCF">Conexão CF RS</button>
+            <button id="copiarTextoRSCF1">E-mail 1 CF</button>
+            <button id="copiarTextoRSCF2">E-mail 2 CF</button>
+            <button id="copiarPedidoReuniaoRSCF">Pedido de Reunião CF</button>
+            <button id="copiarFollowUp1RSCF">Follow Up 1 CF</button>
+            <button id="copiarFollowUp2RSCF">Follow Up 2 CF</button>
+        </div>
+        <div id="RSButtons" class="hide">
+            <button id="copiarTextoRSConexao">Conexão RS</button>
+            <button id="copiarTextoRS1">E-mail 1</button>
+            <button id="copiarTextoRS2">E-mail 2</button>
+            <button id="copiarPedidoReuniaoRS">Pedido de Reunião</button>
+            <button id="copiarFollowUp1RS">Follow Up 1</button>
+            <button id="copiarFollowUp2RS">Follow Up 2</button>
+        </div>
+        <div id="LeanButtons" class="hide">
+            <button id="copiarTextoLeanConexao">Conexão Lean</button>
+            <button id="copiarTextoLean1">E-mail 1</button>
+            <button id="copiarTextoLean2">E-mail 2</button>
+            <button id="copiarPedidoReuniaoLean">Pedido de Reunião</button>
+            <button id="copiarFollowUp1Lean">Follow Up 1</button>
+            <button id="copiarFollowUp2Lean">Follow Up 2</button>
+        </div>
+        <div id="FabricaButtons" class="hide">
+            <button id="copiarTextoFabricaConexao">Conexão Fábrica</button>
+            <button id="copiarTextoFabrica1">E-mail 1</button>
+            <button id="copiarTextoFabrica2">E-mail 2</button>
+            <button id="copiarPedidoReuniaoFabrica">Pedido de Reunião</button>
+            <button id="copiarFollowUp1">Follow Up 1</button>
+            <button id="copiarFollowUp2">Follow Up 2</button>
+        </div>
+        <div id="OtherButtons" class="hide">
+            <button id="copiarConfirmaçãoDeReunião">Confirmação De Reunião</button>
+            <button id="copiarTextoPediuPortfólio">Pediu nosso Portfólio</button>
+            <button id="copiarTextoMaterialApresentação">Material Apresentação</button>
+            <button id="copiarTextoConectouPessoaAderente">Conectou Pessoa Aderente</button>
+            <button id="copiarTextoSemInteresse">Sem Interesse</button>
+            <button id="copiarComoPegaramMeuEmail">Como conseguiram meu E-mail?</button>
+        </div>
+    </div>
+
+
+    <div id="conteudoPerfil">
+        <textarea id="inputText" rows="20" cols="100"></textarea>
+    </div>
+
+
+    <div class="buttons-row">
+        <button id="copiarTudo" class="btn-adicionar">Todas as Informações</button>
+        <button id="copiarNome" class="btn-adicionar">Nome do Contato</button>
+        <button id="copiarCargo" class="btn-adicionar">Último Cargo</button>
+        <button id="copiarEmpresa" class="btn-adicionar">Nome da Empresa</button>
+        <button id="copiarDuracao" class="btn-adicionar">Tempo no Cargo</button>
+        <button id="copiarLead" class="btn-adicionar">Formatar Lead</button>
+    </div>
+
+
+
+    <div id="resultados">
+        <p id="nomeContato"></p>
+        <p id="ultimoCargo"></p>
+        <p id="ultimaEmpresa"></p>
+        <p id="duracaoExperiencia"></p>
+    </div>
+    
+    <div class="tira-esquerda"></div>
+    <div class="tira-direita"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

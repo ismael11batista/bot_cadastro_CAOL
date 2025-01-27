@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Ads - Campanhas</title>
+    <link rel="icon" type="image/png" href="../images/googleads.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <a href="../index.html" class="btn-voltar">Voltar à Homepage</a>
+
+    <div class="container">
+        <header>
+            <h1></h1>
+        </header>
+        <div class="content-wrapper">
+            <div class="input-section">
+                <form id="form-custos">
+                    <div class="form-column">
+                        <h2>Fábrica</h2>
+                        <div class="input-group">
+                            <label for="consultoriaRequisitos">Consultoria de TI:</label>
+                            <div class="input-pair">
+                                <input type="text" id="consultoriaRequisitos1" placeholder="">
+                                <input type="text" id="consultoriaRequisitos2" placeholder="">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="desenvolvimentoMobile">Desenvolvimento Mobile:</label>
+                            <div class="input-pair">
+                                <input type="text" id="desenvolvimentoMobile1" placeholder="">
+                                <input type="text" id="desenvolvimentoMobile2" placeholder="">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="desenvolvimentoWeb">Desenvolvimento Web:</label>
+                            <div class="input-pair">
+                                <input type="text" id="desenvolvimentoWeb1" placeholder="">
+                                <input type="text" id="desenvolvimentoWeb2" placeholder="">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="eCommerce">e-Commerce:</label>
+                            <div class="input-pair">
+                                <input type="text" id="eCommerce1" placeholder="">
+                                <input type="text" id="eCommerce2" placeholder="">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="eadMoodle">EAD - Moodle:</label>
+                            <div class="input-pair">
+                                <input type="text" id="eadMoodle1" placeholder="">
+                                <input type="text" id="eadMoodle2" placeholder="">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="rpa">RPA - Robotic Process Automation:</label>
+                            <div class="input-pair">
+                                <input type="text" id="rpa1" placeholder="">
+                                <input type="text" id="rpa2" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <h2>Staff Augmentation</h2>
+                        <div class="input-group">
+                            <label for="headhunting">Headhunting de TI:</label>
+                            <div class="input-pair">
+                                <input type="text" id="headhunting1" placeholder="">
+                                <input type="text" id="headhunting2" placeholder="">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="outsourcing">Outsourcing de TI:</label>
+                            <div class="input-pair">
+                                <input type="text" id="outsourcing1" placeholder="">
+                                <input type="text" id="outsourcing2" placeholder="">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="backgroundCheck">Background Check:</label>
+                            <div class="input-pair">
+                                <input type="text" id="backgroundCheck1" placeholder="">
+                                <input type="text" id="backgroundCheck2" placeholder="">
+                            </div>
+                        </div>
+
+                        <h2>Display</h2>
+                        <div class="input-group">
+                            <label for="display"></label>
+                            <div class="input-pair">
+                                <input type="text" id="display1" placeholder="">
+                                <input type="text" id="display2" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="botao-centralizado">
+                            <button type="button" onclick="calcularTotais()">Calcular Totais</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="results-section">
+                <h2>Resultados</h2>
+                <div id="resultados">
+                    <!-- Os resultados serão exibidos aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop-up" id="popUp">Valor copiado para a área de transferência!</div>
+    <script src="script.js"></script>
+</body>
+
+</html>

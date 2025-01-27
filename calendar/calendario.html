@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="icon" type="image/png" href="../images/calendar.png">
+    <link rel="stylesheet" href="calendar.css">
+    <script src="calendar.js" defer></script>
+    <script src="drag-and-drop.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Botão para Voltar à Homepage, colocado no início para fácil posicionamento -->
+    <a href="../index.html" class="btn-voltar">Voltar à Homepage</a>
+
+    <div class="container">
+        <!-- Estrutura do calendário -->
+        <div id="calendario">
+            <!-- Dia anterior -->
+            <div class="dia" id="dia-anterior">
+                <h2 id="data-anterior">Data Anterior</h2>
+                <ul id="tarefas-anterior"></ul>
+                <textarea id="entrada-anterior" placeholder="Adicionar uma nova tarefa..."></textarea>
+                <button class="btn-adicionar" onclick="adicionarTarefa('anterior')">Adicionar</button>
+            </div>
+            <!-- Dia atual -->
+            <div class="dia" id="dia-atual">
+                <h2 id="data-atual">Data Atual</h2>
+                <ul id="tarefas-atual"></ul>
+                <textarea id="entrada-atual" placeholder="Adicionar uma nova tarefa..."></textarea>
+                <button class="btn-adicionar" onclick="adicionarTarefa('atual')">Adicionar</button>
+            </div>
+
+            <div class="tira-esquerda"></div>
+            <div class="tira-direita"></div>
+        </div>
+
+
+        <!-- Botões de navegação -->
+        <button class="btn-navegacao" id="btn-anterior" onclick="navegar('anterior')">&#10094; Anterior</button>
+        <button class="btn-navegacao" id="btn-proximo" onclick="navegar('proximo')">Próximo &#10095;</button>
+    </div>
+</body>
+
+</html>

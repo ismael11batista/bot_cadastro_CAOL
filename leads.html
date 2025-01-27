@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lead Orchestrator</title>
+    <link rel="icon" type="image/png" href="../images/client.png">
+    <link rel="stylesheet" href="leads.css">
+</head>
+
+<body>
+
+    <!-- Botão para Voltar à Homepage, colocado no início para fácil posicionamento -->
+    <a href="../index.html" class="btn-voltar">Voltar à Homepage</a>
+
+    <a href="#" onclick="copiarPromptGPT()"> <img src="../images/chatgpt.png" alt="Prompt ChatGPT" class="ChatGPT-btn">
+    </a>
+
+    <a href="#" onclick="copiarLinkWhatsapp()"> <img src="../images/whatsapp.png" alt="Link Whatsapp"
+            class="whatsapp-btn">
+    </a>
+    
+    <!-- Novos botões para copiar conteúdo das células S2 e S4 -->
+    <a href="#" id="copiarS2"> <img src="../images/agence2.png" alt="Copiar S2" class="copy-btn"> </a>
+    <a href="#" id="copiarS4"> <img src="../images/cn.png" alt="Copiar S4" class="copy-btn"> </a>
+
+    <!-- Adicione este bloco dentro do <body> da sua página complexa -->
+    <div class="consultores">
+        <div id="column1" class="column">🔍 Buscando CN da vez...</div>
+        <div id="column2" class="column"></div>
+        <div id="column3" class="column"></div>
+        <div id="column4" class="column"></div> <!-- Nova coluna adicionada -->
+    </div>
+
+
+    <div class="container">
+        <textarea id="inputText" class="textarea"></textarea>
+
+        <div class="buttons-row">
+            <button class="btn-adicionar2" onclick="PesquisarLinkedin()">
+                <span class="button-content">
+                    <img src="../images/linkedin-profile.png" alt="LinkedIn" class="button-icon">
+                    <span class="button-text">Pesquisar Linkedin</span>
+                </span>
+            </button>
+            
+            <button class="btn-adicionar2" onclick="SiteDaEmpresa()">
+                <span class="button-content">
+                    <img src="../images/web.png" alt="Web" class="button-icon">
+                    <span class="button-text">Site da Empresa</span>
+                </span>
+            </button>
+
+            <button class="btn-adicionar" onclick="copiarEmpresa()">Nome da Empresa</button>
+            <button class="btn-adicionar" onclick="copiarNome()">Nome do Contato</button>
+            <button class="btn-adicionar" onclick="copiarTelefone()">Telefone</button>
+            <button class="btn-adicionar" onclick="copiarEmail()">E-mail</button>
+            <button class="btn-adicionar" onclick="copiarAssunto()">Assunto</button>
+            <button class="btn-adicionar" onclick="copiarLocalidade()">Localidade</button>
+            <button id="copiarLeadFaleCom" class="btn-adicionar">Lead FaleCom</button>
+
+            <button class="btn-adicionar" onclick="copiarLinkedin()">
+                <span class="button-content">
+                    <img src="../images/linkedin.png" alt="LinkedIn" class="button-icon">
+                    <span class="button-text">Linkedin</span>
+                </span>
+            </button>
+
+        </div>
+
+        <div class="buttons-row">
+
+            <button onclick="copiarTextoLeadConsultor()" class="btn-adicionar3">Aviso Lead Consultor</button>
+
+            <button onclick="copiarInformacoesEconodata()" class="btn-adicionar3"> <img src="../images/econodata.png"
+                    id="econodata"></button>
+
+            <button onclick="copiarTextoLeadFilaA()" class="btn-adicionar3">Aviso Lead Fila A</button>
+
+        </div>
+
+        <!-- Container Principal para Informações Automáticas e Adicionais Lado a Lado -->
+        <div class="info-principal">
+            <!-- Nova Seção de Detalhes do Lead à Esquerda -->
+            <div class="detalhes-lead">
+                <div id="detalhesLead" class="containerLeadAutomatico">Chegou lead para você.<br><br>Contato: não informado<br>Empresa: não informado<br>E-mail: não informado<br>Telefone: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Assunto: não encontrado
+                    <!-- Conteúdo dos Detalhes do Lead será inserido aqui -->
+                </div>
+            </div>
+
+            <!-- Seção para Informações Adicionais no Meio -->
+            <div class="info-adicional">
+                <div id="informacoesAdicionais" class="containerLeadAutomatico">
+                    <!-- Conteúdo das Informações Adicionais será inserido aqui -->
+                </div>
+            </div>
+
+            <!-- Container Principal para Resultado Automático à Direita -->
+            <div class="containerLeadAutomatico">
+                <div id="resultado" class="resultado">Chegou lead na Fila A para o @<br><br>Contato: não informado<br>Empresa: não informado<br>Telefone: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Perfil linkedin:<br>ainda não identificado<br>--------------------------------------------------------<br>próximo da fila é o @</div>
+            </div>
+        </div>
+
+        <!-- Container para Interesse e Origem do Lead -->
+        <div class="info-container-duplo">
+            <div id="interesseLead" class="info-div2">Interesse: não informado</div>
+            <div id="origemLead" class="info-div2">Origem: não identificada</div>
+            <div id="porteLead" class="info-div2">Porte da Empresa: não informado</div>
+        </div>
+
+        <div class="tira-esquerda"></div>
+        <div class="tira-direita"></div>
+    </div>
+
+    <script src="leads.js"></script>
+
+	<script src="https://apis.google.com/js/api.js"></script>
+
+	<!-- Script de ajuste de zoom -->
+	<script>
+	  function ajustarZoom() {
+	    // Defina a largura base para a qual o zoom será 1 (100%)
+	    const larguraBase = 1920; // Você pode ajustar este valor conforme necessário
+	
+	    // Obtenha a largura atual da janela
+	    const larguraAtual = window.innerWidth;
+	
+	    // Calcule o nível de zoom
+	    const nivelZoom = larguraAtual / larguraBase;
+	
+	    // Defina limites para o zoom (opcional)
+	    const zoomMin = 0.5; // 50%
+	    const zoomMax = 0.9; // 100%
+	
+	    // Ajuste o nível de zoom dentro dos limites
+	    const zoomFinal = Math.min(Math.max(nivelZoom, zoomMin), zoomMax);
+	
+	    // Aplique o zoom ao elemento <body>
+	    document.body.style.zoom = zoomFinal;
+	  }
+	
+	  // Chame a função quando a página carregar
+	  window.addEventListener("load", ajustarZoom);
+	
+	  // Chame a função sempre que a janela for redimensionada
+	  window.addEventListener("resize", ajustarZoom);
+	</script>	
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const apiKey = 'AIzaSyCCaW-e21Rn5F8ziL1HSsozZgJrtmOI6Hg';
+			const spreadsheetId = '1FwDn3RSuCZDpMl4QdjcL9gFr5cek1mlYWqCcqrjBDFY';
+			const ranges = ['Leads!R1', 'Leads!R2', 'Leads!R3', 'Leads!R4', 'Leads!S2', 'Leads!S4'];
+
+			function initClient() {
+				gapi.client.init({
+					apiKey: apiKey,
+					discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+				}).then(function () {
+					getSheetData();
+					setInterval(getSheetData, 10000);
+					setupCopyButtons();
+				}, function (error) {
+					console.error('Erro ao inicializar a API do Google Sheets:', error);
+					const dataDiv = document.getElementById('data');
+					dataDiv.textContent = 'Erro ao carregar dados.';
+				});
+			}
+
+			function getSheetData() {
+				gapi.client.sheets.spreadsheets.values.batchGet({
+					spreadsheetId: spreadsheetId,
+					ranges: ranges,
+				}).then(function (response) {
+					const responses = response.result.valueRanges;
+					const ProximoFilaA = responses[0].values ? responses[0].values[0][0] : 'Não encontrado';
+					const ProximoFilaB = responses[1].values ? responses[1].values[0][0] : 'Não encontrado';
+					const ProximoFilaLicitacao = responses[2].values ? responses[2].values[0][0] : 'Não encontrado';
+					const ProximoFilaD = responses[3].values ? responses[3].values[0][0] : 'Não encontrado';
+					window.s2Value = responses[4].values ? responses[4].values[0][0] : '';
+					window.s4Value = responses[5].values ? responses[5].values[0][0] : '';
+
+					document.getElementById('column1').innerHTML = `<p>✅ Fila A: ${ProximoFilaA}</p>`;
+					document.getElementById('column2').innerHTML = `<p>☑️ Fila B: ${ProximoFilaB}</p>`;
+					document.getElementById('column3').innerHTML = `<p>📑 Licitação: ${ProximoFilaLicitacao}</p>`;
+					document.getElementById('column4').innerHTML = `<p>✅ Outbound: ${ProximoFilaD}</p>`;
+				}).catch(function (error) {
+					console.error('Erro ao buscar dados da planilha:', error);
+					document.getElementById('column1').textContent = 'Erro ao carregar dados.';
+					document.getElementById('column2').textContent = 'Erro ao carregar dados.';
+					document.getElementById('column3').textContent = 'Erro ao carregar dados.';
+					document.getElementById('column4').textContent = 'Erro ao carregar dados.';
+				});
+			}
+
+			function setupCopyButtons() {
+				document.getElementById('copiarS2').addEventListener('click', function(e) {
+					e.preventDefault();
+					copyToClipboard(window.s2Value);
+				});
+				document.getElementById('copiarS4').addEventListener('click', function(e) {
+					e.preventDefault();
+					copyToClipboard(window.s4Value);
+				});
+			}
+
+			function copyToClipboard(text) {
+				navigator.clipboard.writeText(text).then(function() {
+					console.log('Texto copiado com sucesso');
+				}, function(err) {
+					console.error('Erro ao copiar texto: ', err);
+				});
+			}
+
+			gapi.load('client', initClient);
+		});
+		
+	</script>
+
+
+</body>
+
+</html>

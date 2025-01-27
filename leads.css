@@ -1,0 +1,461 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    zoom: 1;
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    /* Garante que o html e o body ocupem pelo menos a altura total da tela */
+
+    min-height: 100vh;
+    /* Garante que o mínimo seja a altura da viewport, útil para conteúdo menor que a tela */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(0deg,#000000, #080808 );
+    padding: 10px;
+    color: rgba(255, 255, 255, 0.605);
+    overflow-x: hidden;
+    /* Impede o overflow horizontal */
+}
+
+
+.tira-esquerda {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    /* Ajuste a largura conforme necessário */
+    /* Cor cinza */
+    z-index: 1000;
+    /* Garante que as tiras fiquem acima de outros elementos */
+    left: 0;
+    
+    background-image: 
+        radial-gradient(
+            circle,
+            #252525 1.2px,
+            transparent 1px
+        );
+    background-size: 10px 10px;
+
+}
+
+
+.tira-direita {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    /* Ajuste a largura conforme necessário */
+
+    /* Cor cinza */
+    z-index: 1000;
+    /* Garante que as tiras fiquem acima de outros elementos */
+    right: 0;
+
+    background-image: 
+    radial-gradient(
+        circle,
+        #252525 1.2px,
+        transparent 1px
+    );
+    background-size: 10px 10px;
+}
+
+
+.container {
+    max-width: 1850px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+textarea {
+    background-color: #0D0D0D;
+    font-size: xx-large;
+    color: rgba(255, 255, 255, 0.605);
+    width: 95%;
+    padding: 10px;
+    margin: 20px;
+    border: 5px solid rgba(255, 255, 255, 0.605);
+    border-radius: 10px;
+    resize: none;
+    height: 280px;
+    margin-bottom: 15px;
+
+}
+
+.buttons-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.btn-adicionar,
+.btn-adicionar2,
+.btn-adicionar3 {
+    padding: 10px;
+    background-color:#0D0D0D;
+    color: #ffffff9a;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    border: 0px solid rgba(255, 255, 255, 0.605);
+    font-weight: bold;
+    /* Define a largura mínima para 50px */
+}
+
+.btn-adicionar:hover,
+.btn-adicionar2:hover,
+.btn-adicionar3:hover {
+    background-color: #1b1b1b;
+}
+
+
+.btn-adicionar {
+    min-width: 150px;
+    margin-top: 0px;
+}
+
+.btn-adicionar2 {
+    min-width: 180px;
+    margin-top: 0px;
+}
+
+.button-content {
+    display: flex;
+    align-items: center;
+}
+
+.button-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px; /* Aumenta o espaço entre o ícone e o texto */
+}
+
+.btn-adicionar3 {
+    min-width: 480px;
+}
+
+
+.info-container-duplo,
+.info-container {
+    display: flex;
+    flex-direction: line;
+    justify-content: space-around;
+    gap: 20px;
+    width: 80%;
+    margin-top: 120px;
+}
+
+/* Estilo para o botão de Voltar à Homepage */
+.btn-voltar {
+    position: fixed;
+    bottom: 10px;
+    z-index: 1000;
+    left: 50%;
+    /* Ajustado para 50% para iniciar o posicionamento do centro */
+    transform: translateX(-50%);
+    /* Desloca o botão para a esquerda pela metade de sua largura */
+    padding: 10px;
+    background: #0D0D0D;
+    color: rgba(255, 255, 255, 0.605);
+    border: 0px solid rgba(255, 255, 255, 0.605);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    /* Adiciona negrito ao texto */
+    display: inline-block;
+    /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
+}
+
+.btn-voltar:hover {
+    background: #1b1b1b;
+}
+
+
+.pop-up {
+    position: fixed;
+    bottom: 10px;
+    left: 5px;
+    background-color: #2F2F37;
+    color: #ffffff9a;
+    padding: 5px 10px;
+    border-radius: 2px;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    max-width: 400px; /* Ajuste conforme necessário */
+    width: auto;
+    /* ... outras propriedades ... */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 14px; /* Ajuste conforme necessário */
+}
+
+
+.pop-up.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+button {
+    background: #0D0D0D;
+    color: rgba(255, 255, 255, 0.605);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    border: 0px solid #84b5ff;
+    text-wrap: none;
+    max-height: 50px
+}
+
+button:hover {
+    background: #121212;
+}
+
+
+#thumbs-down {
+    width: 20px;
+    vertical-align: middle;
+    /* Centraliza verticalmente a imagem com o texto */
+    margin-left: 10px;
+    /* Adiciona espaço entre o texto e a imagem */
+    transition: transform 0.5s;
+    /* Mantém a transição suave */
+}
+
+#thumbs-up {
+    width: 20px;
+    vertical-align: middle;
+    /* Centraliza verticalmente a imagem com o texto */
+    margin-left: 10px;
+    /* Adiciona espaço entre o texto e a imagem */
+    transition: transform 0.5s;
+    /* Mantém a transição suave */
+}
+
+#econodata {
+    width: 100px;
+    vertical-align: middle;
+    /* Centraliza verticalmente a imagem com o texto */
+    margin-left: 0px;
+    /* Adiciona espaço entre o texto e a imagem */
+    transition: transform 0.5s;
+    /* Mantém a transição suave */
+}
+
+
+/* Layout principal */
+.info-principal {
+    display: flex;
+    justify-content: space-around;
+    /* Espaçamento uniforme */
+    width: 100%;
+    padding: 0px 0;
+
+    /* Padding superior e inferior */
+
+}
+
+.resultado,
+.info-adicional,
+.containerLeadAutomatico,
+.detalhes-lead {
+    background-color: transparent;
+    height: 250px;
+    align-items: center;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.605);
+    border-radius: 10px;
+    /* Padding uniforme */
+    text-align: center;
+    /* Centraliza o texto horizontalmente */
+    width: calc(100%);
+    /* Largura total */
+    align-items: first baseline;
+}
+
+/* Estilos para caixas de texto */
+.info-div,
+.info-div2 {
+    color: rgba(255, 255, 255, 0.605);
+    border-radius: 10px;
+    padding: 10px;
+    /* Padding uniforme */
+    text-align: center;
+    /* Centraliza o texto horizontalmente */
+    width: calc(100%);
+    /* Largura total */
+    background: #0D0D0D;
+    border: 0px solid rgba(255, 255, 255, 0.605);
+}
+
+
+/* Ajuste para caixas de detalhes do lead, informações adicionais e info-principal */
+.containerLeadAutomatico,
+.info-adicional,
+.detalhes-lead {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    /* Centraliza o conteúdo horizontalmente */
+    align-items: first baseline;
+    /* Centraliza o conteúdo verticalmente */
+    flex: 1;
+    /* Distribuição igual do espaço */
+    min-width: 500px;
+    /* Largura mínima */
+    max-width: 100%;
+    /* Evita sobreposição */
+    padding: 0px 0px;
+    /* Ajuste para igualar o padding superior */
+    border: 0px solid #02112e;
+    border-radius: 0px;
+    white-space: pre-wrap;
+
+}
+
+/* Media query para ajustes em telas menores */
+@media (max-width: 768px) {
+    .info-principal {
+        flex-direction: column;
+    }
+}
+
+.detalhes-lead {
+    padding-top: 0px;
+    padding-left: 10.5%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+}
+
+.info-principal {
+
+    padding-right: 10%;
+
+}
+
+.consultores {
+    display: flex;
+    max-width: 1900px;
+    flex-direction: row;
+    /* Corrigido de 'line' para 'row' */
+    justify-content: space-around;
+    gap: 0%;
+    margin-top: 20px;
+    align-items: baseline;
+    /* Corrigido de 'first baseline' para 'baseline' */
+    flex: 1;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
+}
+
+.column {
+    flex: 1;
+    padding: 0px;
+    margin: 0 0px 15px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.605);
+    border: 0px solid rgba(255, 255, 255, 0.605);
+    border-radius: 10px;
+    text-align: center;
+    height: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: pre-wrap;
+}
+
+.column:first-child {
+    margin-left: 0;
+}
+
+.column:last-child {
+    margin-right: 0;
+}
+
+
+.ChatGPT-btn {
+    position: fixed;
+    display: flex;
+    right: 3%;
+    top: 80%;
+    width: auto;
+    height: 65px;
+    z-index: 1;
+    transition: transform 0.3s ease;
+    /* Adiciona uma transição suave */
+}
+
+.ChatGPT-btn:hover {
+    transform: translateY(-5px);
+    /* Move o botão para cima ao passar o mouse */
+}
+
+
+.whatsapp-btn {
+    position: fixed;
+    display: flex;
+    right: 3%;
+    top: 90%;
+    width: auto;
+    height: 60px;
+    z-index: 1;
+    transition: transform 0.3s ease;
+    /* Adiciona uma transição suave */
+}
+
+.whatsapp-btn:hover {
+    transform: translateY(-5px);
+    /* Move o botão para cima ao passar o mouse */
+}
+
+
+
+.copy-btn {
+    position: fixed;
+    display: flex;
+    left: 3%;
+    width: auto;
+    height: 60px;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.copy-btn:hover {
+    transform: translateY(-5px);
+}
+
+/* Posicionamento específico para cada botão de cópia */
+#copiarS2 .copy-btn {
+    top: 92%; /* Ajuste este valor conforme necessário */
+    height: 32px;
+
+}
+
+#copiarS4 .copy-btn {
+    top: 82%; /* Ajuste este valor conforme necessário */
+}

@@ -660,14 +660,18 @@ function obterOrigem(textoMinusculo) {
     return "Origem: Ligação ao Escritório";
   } else if (textoMinusculo.includes("origem: whats")) {
     return "Origem: Inbound Whatsapp";
-  } else if (
-    textoMinusculo.includes("origem: inbound lp mobile")
-  ) {
+  } else if (textoMinusculo.includes("origem: inbound lp mobile")) {
     return "Origem: Formulário LP Mobile";
   } else if (textoMinusculo.includes("falecom@agence.com.br")) {
     return "Origem: Inbound E-mail";
   } else if (textoMinusculo.includes("fale conosco - agence")) {
     return "Origem: Formulário Fale Conosco";
+  } else if (
+    textoMinusculo.includes(
+      "novo lead gerado pela lp de inteligência artificial"
+    )
+  ) {
+    return "Origem: Inbound LP Inteligência Artificial";
   } else if (
     textoMinusculo.includes("origem: outbound e-mail") ||
     textoMinusculo.includes("origem: outbound email")
@@ -1038,7 +1042,7 @@ function formatarPromptGPT() {
 
   PromptGPTFormatado = `Acesse o site ${siteDaEmpresa} e me traga um resumo do que essa empresa faz, seus principais serviços e principais clientes.
 
-Além disso, e segundo meu contexto como potencial fornecedor de ${interesse}, e sabendo que é esse o serviço desejado por essa empresa, quais seriam as 5 melhores perguntas que posso fazer a eles nessa primeira reunião que terei com eles. Considere também que esse lead da empresa ${NomeDaEmpresa} chegou com o seguinte texto no formulário do fale conosco: "${assuntoFormatado}"
+Além disso, e segundo meu contexto como potencial fornecedor de ${interesse}, e sabendo que é esse o serviço desejado por essa empresa, quais seriam as perguntas que eu devo fazer utilizando a metodologia GPCTBA & CI nessa primeira reunião que terei com eles. Considere também que esse lead da empresa ${NomeDaEmpresa} chegou com o seguinte texto no formulário do fale conosco: "${assuntoFormatado}"
 
 Quais são os principais clientes e concorrentes diretos da ${NomeDaEmpresa}? E o que estão fazendo de inovação nesse ramo que sou potencial fornecedor.
 
@@ -1289,5 +1293,439 @@ Desenvolvimento de software, robotização de processos, profissionais de TI? Al
     }
   } else {
     mostrarPopUp("Telefone não encontrado");
+  }
+}
+
+// Função para obter as perguntas padrão com base no interesse
+function obterPerguntasDefault(interesse) {
+  let perguntasDefault = "";
+
+  switch (interesse) {
+    case "Interesse: Consultoria de Ti":
+      perguntasDefault = `#### Checklist de Consultoria de Ti
+
+- Objetivos e Processos
+  - Qual é o objetivo principal do projeto?
+  - Como funciona esse processo hoje? Existe alguma ferramenta em uso hoje pelos usuários? Tem um nome ou foi desenvolvido internamente?
+  - Você está considerando alguma integração com outros sistemas legados da empresa ou outros sites externos? Quais e por favor liste a forma de integração existente como API, Webservices, etc?
+  
+- Documentação e Identidade
+  - Já tem algum protótipo ou documentação do projeto?
+  - Você tem um manual de identidade visual do projeto?
+  - Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
+
+- Tecnologia e Infraestrutura
+  - Quais são as premissas de infra-estrutura e arquitetura?
+  - Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
+  - Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
+
+- Orçamento e Prazos
+  - Você tem alguma expectativa para as datas de início e término do projeto?
+  - Existe um orçamento máximo já estabelecido para o projeto?
+  - Qual é o prazo esperado para a implementação da solução?
+
+- Equipe e Tomadores de Decisão
+  - Quem é o principal responsável pelo projeto do lado de vocês?
+  - Como a sua empresa realiza o processo de compras?
+  - Quais serão os demais participantes do processo de compra?
+  - Qual o grau de influência de cada participante?
+  - Existe alguém que possa impedir a compra (gatekeeper)?
+  - Se sim, por qual motivo?
+
+- Experiência Anterior e Competitividade
+  - Você já recebeu outros orçamentos? Qual foi a experiência?
+  - Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
+
+- Estrutura Organizacional
+  - Tem alguma consultoria externa de RH e/ou TI?
+  - Tem time de TI Devs interno? Quantos?
+  - Tem time de TI Infra/Help Desk? Quantos?
+
+
+### Perguntas Auxiliares (Transversais a Diversos Serviços)
+
+- Estrutura Organizacional
+  - Tem time de TI Devs interno? Quantos?
+  - Tem time de TI Infra/Help Desk? Quantos?
+
+- Segurança e Compliance
+  - Vocês têm algum requisito de segurança?
+  - Se sim, tem alguma documentação padrão a ser seguida?
+
+- Usuários e Escalabilidade
+  - Para o caso de o sistema ser de grande porte:
+    - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+    - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+    - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      break;
+
+    case "Interesse: Robotic Process Automation (RPA)":
+      perguntasDefault = `#### Checklist para Validação de Requerimentos de RPA
+
+1. Escopo do Processo
+   - Quantas etapas o processo possui e qual é a sua complexidade?
+   - Quantos sistemas são necessários acessar (ERP, Planilhas, e-mails, FTP, etc.)?
+
+2. Integração de Sistemas
+   - Quais sistemas e aplicativos precisam ser integrados?
+   - Os sistemas requerem integração via API? Existe disponibilidade de APIs disponíveis para automação? Sim/Não
+   - A integração requer leitura e escrita em dados de aplicações legadas? Sim/Não
+
+3. Volume de Processamento
+   - Qual é o volume de tarefas/processos que precisam ser automatizados?
+   - Com que frequência esses processos ocorrem (diariamente, semanalmente, mensalmente)?
+
+4. Escalabilidade e Suporte
+   - Há planos antecipados de expansão dos processos automatizados? Sim/Não
+   - Precisa de suporte técnico e manutenção (Sistemas que passam constantemente por atualizações)?
+
+5. Flexibilidade e Personalização
+   - É possível que o processo seja atualizado dentro de pouco tempo? Sim/Não
+
+6. Segurança e Governança
+   - Existem requisitos específicos de segurança ou conformidade que precisam ser atendidos?
+   - Como os dados sensíveis serão tratados durante a automação?
+
+7. Deployment
+   - Qual é a infraestrutura preferida para executar o processo de automação: remoto ou local?
+   - Há requisitos específicos de implantação (ex: Deve ser iniciado de forma automática, iniciado por uma pessoa, etc.)?
+
+8. Orçamento e Prazos
+   - Qual é o orçamento estimado para o projeto de automação?
+   - Qual é o prazo esperado para a implementação da solução?`;
+      break;
+
+    case "Interesse: Desenvolvimento Mobile":
+      perguntasDefault = `#### Checklist para Validação de Requerimentos de Desenvolvimento Mobile
+
+- Requisitos e Funcionalidades
+  - Quais funcionalidades ou características específicas você gostaria de ver incorporadas no aplicativo móvel?
+  - Você possui software personalizado ou utiliza apenas soluções prontas?
+  - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+  - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+  - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?
+
+- Tecnologia e Integração
+  - Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
+  - Em caso mobile, tecnologia (iOS Swift ou Objective-C, Android Kotlin ou Java, Flutter, React Native)?
+  - Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
+  - Vocês têm ferramentas, frameworks ou linguagens de programação preferenciais para o desenvolvimento do aplicativo? Incluindo banco de dados preferencial?
+  - Existem sistemas ou softwares atualmente usados internamente que precisam de integração com o aplicativo móvel proposto?
+
+- Design e Experiência do Usuário
+  - Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
+  - Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
+
+- Infraestrutura e Hospedagem
+  - Podemos considerar o armazenamento da aplicação? Vamos ficar encarregados da Hospedagem também ou você vai hospedar?
+  - Acerca de hospedagem, vocês trabalham com algum serviço específico de Cloud? Poderia ficar hosteado conosco ou necessariamente teria que ficar no seu ambiente?
+
+- Documentação e Manutenção
+  - Já tem algum protótipo ou documentação do projeto?
+  - É necessário documentar o projeto?
+  - Se sim, você tem algum formato de documentação padrão? Quais são os documentos necessários para o projeto? Artefatos que devemos contemplar?
+  - Com que frequência a SDI antecipa a atualização de conteúdo ou a adição de novas funcionalidades ao aplicativo? Atualizações regulares podem exigir suporte contínuo, por isso é essencial entender seus requisitos antecipadamente.
+
+- Suporte e Operacional
+  - O atendimento de suporte e manutenção desejado seria 24 x 7 ou 8 x 5?
+  - Você precisará de uma configuração de VPN para trabalhar com vocês?
+
+- Orçamento e Prazos
+  - Você tem alguma expectativa para as datas de início e término do projeto?
+  - Existe um orçamento máximo já estabelecido para o projeto?
+
+### Perguntas Auxiliares (Transversais a Diversos Serviços)
+
+- Estrutura Organizacional
+  - Tem time de TI Devs interno? Quantos?
+  - Tem time de TI Infra/Help Desk? Quantos?
+
+- Segurança e Compliance
+  - Vocês têm algum requisito de segurança?
+  - Se sim, tem alguma documentação padrão a ser seguida?
+
+- Usuários e Escalabilidade
+  - Para o caso de o sistema ser de grande porte:
+    - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+    - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+    - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      break;
+
+    case "Interesse: Desenvolvimento Web":
+      perguntasDefault = `#### Checklist para Validação de Requerimentos de Desenvolvimento Web
+
+- Requisitos e Funcionalidades
+  - Quais funcionalidades ou características específicas você gostaria de ver incorporadas no aplicativo móvel?
+  - Você possui software personalizado ou utiliza apenas soluções prontas?
+  - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+  - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+  - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?
+
+- Tecnologia e Integração
+  - Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
+  - Em caso mobile, tecnologia (iOS Swift ou Objective-C, Android Kotlin ou Java, Flutter, React Native)?
+  - Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
+  - Vocês têm ferramentas, frameworks ou linguagens de programação preferenciais para o desenvolvimento do aplicativo? Incluindo banco de dados preferencial?
+  - Existem sistemas ou softwares atualmente usados internamente que precisam de integração com o aplicativo móvel proposto?
+
+- Design e Experiência do Usuário
+  - Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
+  - Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
+
+- Infraestrutura e Hospedagem
+  - Podemos considerar o armazenamento da aplicação? Vamos ficar encarregados da Hospedagem também ou você vai hospedar?
+  - Acerca de hospedagem, vocês trabalham com algum serviço específico de Cloud? Poderia ficar hosteado conosco ou necessariamente teria que ficar no seu ambiente?
+
+- Documentação e Manutenção
+  - Já tem algum protótipo ou documentação do projeto?
+  - É necessário documentar o projeto?
+  - Se sim, você tem algum formato de documentação padrão? Quais são os documentos necessários para o projeto? Artefatos que devemos contemplar?
+  - Com que frequência a SDI antecipa a atualização de conteúdo ou a adição de novas funcionalidades ao aplicativo? Atualizações regulares podem exigir suporte contínuo, por isso é essencial entender seus requisitos antecipadamente.
+
+- Suporte e Operacional
+  - O atendimento de suporte e manutenção desejado seria 24 x 7 ou 8 x 5?
+  - Você precisará de uma configuração de VPN para trabalhar com vocês?
+
+- Orçamento e Prazos
+  - Você tem alguma expectativa para as datas de início e término do projeto?
+  - Existe um orçamento máximo já estabelecido para o projeto?
+
+
+### Perguntas Auxiliares (Transversais a Diversos Serviços)
+
+- Estrutura Organizacional
+  - Tem time de TI Devs interno? Quantos?
+  - Tem time de TI Infra/Help Desk? Quantos?
+
+- Segurança e Compliance
+  - Vocês têm algum requisito de segurança?
+  - Se sim, tem alguma documentação padrão a ser seguida?
+
+- Usuários e Escalabilidade
+  - Para o caso de o sistema ser de grande porte:
+    - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+    - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+    - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      break;
+
+    case "Interesse: EAD - e-Learning Moodle":
+      perguntasDefault = `#### Checklist para Validação de Requerimentos de e-Learning Moodle
+
+- Requisitos e Funcionalidades
+  - Quais funcionalidades ou características específicas você gostaria de ver incorporadas no aplicativo móvel?
+  - Você possui software personalizado ou utiliza apenas soluções prontas?
+  - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+  - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+  - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?
+
+- Tecnologia e Integração
+  - Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
+  - Em caso mobile, tecnologia (iOS Swift ou Objective-C, Android Kotlin ou Java, Flutter, React Native)?
+  - Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
+  - Vocês têm ferramentas, frameworks ou linguagens de programação preferenciais para o desenvolvimento do aplicativo? Incluindo banco de dados preferencial?
+  - Existem sistemas ou softwares atualmente usados internamente que precisam de integração com o aplicativo móvel proposto?
+
+- Design e Experiência do Usuário
+  - Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
+  - Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
+
+- Infraestrutura e Hospedagem
+  - Podemos considerar o armazenamento da aplicação? Vamos ficar encarregados da Hospedagem também ou você vai hospedar?
+  - Acerca de hospedagem, vocês trabalham com algum serviço específico de Cloud? Poderia ficar hosteado conosco ou necessariamente teria que ficar no seu ambiente?
+
+- Documentação e Manutenção
+  - Já tem algum protótipo ou documentação do projeto?
+  - É necessário documentar o projeto?
+  - Se sim, você tem algum formato de documentação padrão? Quais são os documentos necessários para o projeto? Artefatos que devemos contemplar?
+  - Com que frequência a SDI antecipa a atualização de conteúdo ou a adição de novas funcionalidades ao aplicativo? Atualizações regulares podem exigir suporte contínuo, por isso é essencial entender seus requisitos antecipadamente.
+
+- Suporte e Operacional
+  - O atendimento de suporte e manutenção desejado seria 24 x 7 ou 8 x 5?
+  - Você precisará de uma configuração de VPN para trabalhar com vocês?
+
+- Orçamento e Prazos
+  - Você tem alguma expectativa para as datas de início e término do projeto?
+  - Existe um orçamento máximo já estabelecido para o projeto?
+
+
+### Perguntas Auxiliares (Transversais a Diversos Serviços)
+
+- Estrutura Organizacional
+  - Tem time de TI Devs interno? Quantos?
+  - Tem time de TI Infra/Help Desk? Quantos?
+
+- Segurança e Compliance
+  - Vocês têm algum requisito de segurança?
+  - Se sim, tem alguma documentação padrão a ser seguida?
+
+- Usuários e Escalabilidade
+  - Para o caso de o sistema ser de grande porte:
+    - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+    - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+    - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      break;
+
+    case "Interesse: e-Commerce":
+      perguntasDefault = `  #### Checklist para Validação de Requerimentos de e-Commerce
+
+- Requisitos e Funcionalidades
+  - Quais funcionalidades ou características específicas você gostaria de ver incorporadas no aplicativo móvel?
+  - Você possui software personalizado ou utiliza apenas soluções prontas?
+  - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+  - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+  - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?
+
+- Tecnologia e Integração
+  - Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
+  - Em caso mobile, tecnologia (iOS Swift ou Objective-C, Android Kotlin ou Java, Flutter, React Native)?
+  - Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
+  - Vocês têm ferramentas, frameworks ou linguagens de programação preferenciais para o desenvolvimento do aplicativo? Incluindo banco de dados preferencial?
+  - Existem sistemas ou softwares atualmente usados internamente que precisam de integração com o aplicativo móvel proposto?
+
+- Design e Experiência do Usuário
+  - Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
+  - Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
+
+- Infraestrutura e Hospedagem
+  - Podemos considerar o armazenamento da aplicação? Vamos ficar encarregados da Hospedagem também ou você vai hospedar?
+  - Acerca de hospedagem, vocês trabalham com algum serviço específico de Cloud? Poderia ficar hosteado conosco ou necessariamente teria que ficar no seu ambiente?
+
+- Documentação e Manutenção
+  - Já tem algum protótipo ou documentação do projeto?
+  - É necessário documentar o projeto?
+  - Se sim, você tem algum formato de documentação padrão? Quais são os documentos necessários para o projeto? Artefatos que devemos contemplar?
+  - Com que frequência a SDI antecipa a atualização de conteúdo ou a adição de novas funcionalidades ao aplicativo? Atualizações regulares podem exigir suporte contínuo, por isso é essencial entender seus requisitos antecipadamente.
+
+- Suporte e Operacional
+  - O atendimento de suporte e manutenção desejado seria 24 x 7 ou 8 x 5?
+  - Você precisará de uma configuração de VPN para trabalhar com vocês?
+
+- Orçamento e Prazos
+  - Você tem alguma expectativa para as datas de início e término do projeto?
+  - Existe um orçamento máximo já estabelecido para o projeto?
+
+
+### Perguntas Auxiliares (Transversais a Diversos Serviços)
+
+- Estrutura Organizacional
+  - Tem time de TI Devs interno? Quantos?
+  - Tem time de TI Infra/Help Desk? Quantos?
+
+- Segurança e Compliance
+  - Vocês têm algum requisito de segurança?
+  - Se sim, tem alguma documentação padrão a ser seguida?
+
+- Usuários e Escalabilidade
+  - Para o caso de o sistema ser de grande porte:
+    - Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+    - Qual seria o número total de usuários previstos para o sistema web/app mobile?
+    - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      break;
+
+    case "Interesse: Outsourcing de Ti":
+      perguntasDefault = `#### Checklist para Validação de Requerimentos de Outsourcing
+
+- Necessidades de Contratação
+  - Vocês vêm enfrentando problemas na contratação de funcionários?
+  - Atualmente tem vagas em aberto com dificuldade no preenchimento?
+
+- Retenção e Rotatividade
+  - Como é a rotatividade destes funcionários? É comum eles ficarem pouco e saírem logo depois de contratados?
+
+- Perfis e Qualificações
+  - Quantidade e Senioridade dos profissionais: Junior (Até 2 anos de experiência), Pleno (De 3 a 5 anos) ou Sênior (De 6 anos para mais).
+  - Conhecimento de programação necessária: ASP, .NET, PHP, Ruby, Python, Java, etc.
+  - Conhecimento de programação em algum framework específico? Cake, Zend, Laravel, Rails, Django, etc.
+  - Conhecimento de programação desejável: ASP, .NET, PHP, Ruby, Python, Java, etc.
+  - Conhecimento de banco de dados necessário: SQL Server, MySQL, PostgreSQL, Oracle, etc.
+
+- Custos e Regimes de Contratação
+  - Qual o custo por hora/homem que vocês têm com esses funcionários?
+  - Qual o regime de contratação? CLT ou PJ?
+
+- Logística e Localização
+  - Localização que deverá ficar o profissional: Bairro/Rua/Referência/Etc.
+  - Obrigatoriamente o profissional deverá ficar in-loco ou poderia ser remoto (sendo remoto o preço pode cair de 20% a 30%):
+  - Tempo estimado de alocação: 6 meses? 1 ano? Indeterminado?
+  - Data de início necessário para o profissional: Imediata? Daqui 1 semana? 1 mês?
+
+- Treinamento e Adaptação
+  - Qual o tempo de treinamento e de adaptação?`;
+      break;
+
+    case "Interesse: Headhunting de Ti":
+      perguntasDefault = `#### Checklist para Validação de Requerimentos de Headhunting
+
+- Necessidades de Contratação
+  - Vocês vêm enfrentando problemas na contratação de funcionários?
+  - Atualmente tem vagas em aberto com dificuldade no preenchimento?
+
+- Retenção e Rotatividade
+  - Como é a rotatividade destes funcionários? É comum eles ficarem pouco e saírem logo depois de contratados?
+
+- Perfis e Qualificações
+  - Quantidade e Senioridade dos profissionais: Junior (Até 2 anos de experiência), Pleno (De 3 a 5 anos) ou Sênior (De 6 anos para mais).
+  - Conhecimento de programação necessária: ASP, .NET, PHP, Ruby, Python, Java, etc.
+  - Conhecimento de programação em algum framework específico? Cake, Zend, Laravel, Rails, Django, etc.
+  - Conhecimento de programação desejável: ASP, .NET, PHP, Ruby, Python, Java, etc.
+  - Conhecimento de banco de dados necessário: SQL Server, MySQL, PostgreSQL, Oracle, etc.
+
+- Custos e Regimes de Contratação
+  - Qual o custo por hora/homem que vocês têm com esses funcionários?
+  - Qual o regime de contratação? CLT ou PJ?
+
+- Logística e Localização
+  - Localização que deverá ficar o profissional: Bairro/Rua/Referência/Etc.
+  - Obrigatoriamente o profissional deverá ficar in-loco ou poderia ser remoto (sendo remoto o preço pode cair de 20% a 30%):
+  - Tempo estimado de alocação: 6 meses? 1 ano? Indeterminado?
+  - Data de início necessário para o profissional: Imediata? Daqui 1 semana? 1 mês?
+
+- Treinamento e Adaptação
+  - Qual o tempo de treinamento e de adaptação?
+
+### Perguntas Auxiliares (Transversais a Diversos Serviços)
+
+- Estrutura Organizacional
+  - Tem time de TI Devs interno? Quantos?
+  - Tem time de TI Infra/Help Desk? Quantos?`;
+      break;
+
+    default:
+      perguntasDefault = "";
+      break;
+  }
+
+  return perguntasDefault;
+}
+
+// Função para copiar as perguntas padrão com base no interesse identificado
+function copiarPerguntasDefault() {
+  const texto = document.getElementById("inputText").value;
+  const interesse = obterInteresse(texto);
+
+  const interesse_ajustado = interesse.split(":")[1]?.trim() || interesse;
+
+  if (interesse) {
+    const perguntas = obterPerguntasDefault(interesse);
+
+    if (perguntas) {
+      // Copiar as perguntas para a área de transferência
+      navigator.clipboard.writeText(perguntas).then(
+        function () {
+          mostrarPopUp(
+            `Perguntas de ${interesse_ajustado} copiadas com sucesso.`
+          );
+        },
+        function () {
+          mostrarPopUp(
+            `Falha ao copiar as perguntas de ${interesse_ajustado}.`
+          );
+        }
+      );
+    } else {
+      mostrarPopUp(`${interesse}`);
+    }
+  } else {
+    mostrarPopUp(`${interesse}`);
   }
 }

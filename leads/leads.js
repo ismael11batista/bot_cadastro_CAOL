@@ -671,7 +671,7 @@ function obterOrigem(textoMinusculo) {
       "novo lead gerado pela lp de inteligência artificial"
     )
   ) {
-    return "Origem: Inbound LP Inteligência Artificial";
+    return "Origem: Formulário LP Inteligência Artificial";
   } else if (
     textoMinusculo.includes("origem: outbound e-mail") ||
     textoMinusculo.includes("origem: outbound email")

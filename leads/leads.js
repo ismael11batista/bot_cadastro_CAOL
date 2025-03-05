@@ -6,6 +6,29 @@ let EmailFormatado = "";
 var textoFormatadoGlobal = ""; // Variável global para armazenar o texto formatado
 let PromptGPTFormatado = "";
 
+// Definição das constantes de interesse
+const DEFAULT_SERVICES = {
+  BACKGROUND_CHECK: "Background Check",
+  CONSULTORIA: "Consultoria de Ti",
+  DESENVOLVIMENTO_MOBILE: "Desenvolvimento Mobile",
+  DESENVOLVIMENTO_WEB: "Desenvolvimento Web",
+  E_COMMERCE: "e-Commerce",
+  EAD_MOODLE: "EAD - e-Learning Moodle",
+  HEADHUNTING: "Headhunting de Ti",
+  HOSPEDAGEM: "Hospedagem",
+  INTELIGENCIA_ARTIFICIAL: "Inteligência Artificial",
+  OUTSOURCING: "Outsourcing de Ti",
+  RPA: "Robotic Process Automation (RPA)",
+};
+
+// Gerar DEFAULT_INTERESTS adicionando "Interesse: " antes de cada serviço
+const DEFAULT_INTERESTS = Object.fromEntries(
+  Object.entries(DEFAULT_SERVICES).map(([key, value]) => [
+    key,
+    `Interesse: ${value}`,
+  ])
+);
+
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("inputText").addEventListener("input", function () {
     identificarInformacoesAutomaticamente(); // Função existente
@@ -698,58 +721,58 @@ function obterInteresse(texto) {
   const interestMappings = [
     {
       triggers: ["rpa", "automação", "automation", "automatización"],
-      value: "Robotic Process Automation (RPA)",
+      value: DEFAULT_SERVICES.RPA,
     },
 
     {
       triggers: ["consultoria", "consulting", "consultoría"],
-      value: "Consultoria de Ti",
+      value: DEFAULT_SERVICES.CONSULTORIA,
     },
 
     {
       triggers: ["aplicativo", "mobile", "app", "aplicaciones"],
 
-      value: "Desenvolvimento Mobile",
+      value: DEFAULT_SERVICES.DESENVOLVIMENTO_MOBILE,
     },
 
     {
       triggers: ["headhunting", "recrutamento", "reclutamiento", "selección"],
-      value: "Headhunting de Ti",
+      value: DEFAULT_SERVICES.HEADHUNTING,
     },
 
     {
       triggers: ["outsourcing", "alocação", "asignación"],
-      value: "Outsourcing de Ti",
+      value: DEFAULT_SERVICES.OUTSOURCING,
     },
 
     {
       triggers: ["web"],
-      value: "Desenvolvimento Web",
+      value: DEFAULT_SERVICES.DESENVOLVIMENTO_WEB,
     },
 
     {
       triggers: ["commerce"],
-      value: "e-Commerce",
+      value: DEFAULT_SERVICES.E_COMMERCE,
     },
 
     {
       triggers: ["moodle", "e-learning"],
-      value: "EAD - e-Learning Moodle",
+      value: DEFAULT_SERVICES.EAD_MOODLE,
     },
 
     {
       triggers: ["alojamiento", "hospedagem", "hosting"],
-      value: "Hospedagem",
+      value: DEFAULT_SERVICES.HOSPEDAGEM,
     },
 
     {
       triggers: ["inteligencia", "soluções em ia", "artificial intelligence"],
-      value: "Inteligência Artificial",
+      value: DEFAULT_SERVICES.INTELIGENCIA_ARTIFICIAL,
     },
 
     {
       triggers: ["verificación", "background check", "verificação"],
-      value: "Background Check",
+      value: DEFAULT_SERVICES.BACKGROUND_CHECK,
     },
   ];
 
@@ -1413,7 +1436,7 @@ function obterPerguntasDefault(interesse) {
   let perguntasDefault = "";
 
   switch (interesse) {
-    case "Interesse: Consultoria de Ti":
+    case DEFAULT_INTERESTS.CONSULTORIA:
       perguntasDefault = `#### Checklist de Consultoria de Ti
 
 - **Objetivos e Processos**
@@ -1510,7 +1533,7 @@ function obterPerguntasDefault(interesse) {
 - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
       break;
 
-    case "Interesse: Robotic Process Automation (RPA)":
+    case DEFAULT_INTERESTS.RPA:
       perguntasDefault = `#### Checklist para Validação de Requerimentos de RPA
 
 **1. Escopo do Processo**
@@ -1569,7 +1592,7 @@ function obterPerguntasDefault(interesse) {
 - Qual é o prazo esperado para a implementação da solução?`;
       break;
 
-    case "Interesse: Desenvolvimento Mobile":
+    case DEFAULT_INTERESTS.DESENVOLVIMENTO_MOBILE:
       perguntasDefault = `#### Checklist para Validação de Requerimentos de Desenvolvimento Mobile
 
 - **Requisitos e Funcionalidades**
@@ -1664,7 +1687,7 @@ function obterPerguntasDefault(interesse) {
 - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
       break;
 
-    case "Interesse: Desenvolvimento Web":
+    case DEFAULT_INTERESTS.DESENVOLVIMENTO_WEB:
       perguntasDefault = `#### Checklist para Validação de Requerimentos de Desenvolvimento Web
 
 - **Requisitos e Funcionalidades**
@@ -1759,7 +1782,7 @@ function obterPerguntasDefault(interesse) {
 - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
       break;
 
-    case "Interesse: EAD - e-Learning Moodle":
+    case DEFAULT_INTERESTS.EAD_MOODLE:
       perguntasDefault = `#### Checklist para Validação de Requerimentos de e-Learning Moodle
 
 - **Requisitos e Funcionalidades**
@@ -1854,7 +1877,7 @@ function obterPerguntasDefault(interesse) {
 - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
       break;
 
-    case "Interesse: e-Commerce":
+    case DEFAULT_INTERESTS.E_COMMERCE:
       perguntasDefault = `#### Checklist para Validação de Requerimentos de e-Commerce
 
 
@@ -1950,7 +1973,7 @@ function obterPerguntasDefault(interesse) {
 - E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
       break;
 
-    case "Interesse: Outsourcing de Ti":
+    case DEFAULT_INTERESTS.OUTSOURCING:
       perguntasDefault = `### **4. Outsourcing e Headhunting**
 
 - **Necessidades de Contratação**
@@ -2006,7 +2029,7 @@ Considerando o contexto, perguntas adicionais poderiam incluir:
 - Quais são os desafios enfrentados ao tentar integrar novas tecnologias em seus serviços atuais?`;
       break;
 
-    case "Interesse: Headhunting de Ti":
+    case DEFAULT_INTERESTS.HEADHUNTING:
       perguntasDefault = `### **4. Outsourcing e Headhunting**
 
 - **Necessidades de Contratação**

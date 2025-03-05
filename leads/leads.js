@@ -697,28 +697,28 @@ function obterInteresse(texto) {
   // Definição dos mapeamentos de listas de valores para interesses padronizados
   const interestMappings = [
     {
-      triggers: ["rpa", "automação", "automation"],
+      triggers: ["rpa", "automação", "automation", "automatización"],
       value: "Robotic Process Automation (RPA)",
     },
 
     {
-      triggers: ["consultoria", "consulting"],
+      triggers: ["consultoria", "consulting", "consultoría"],
       value: "Consultoria de Ti",
     },
 
     {
-      triggers: ["aplicativo", "mobile", "app"],
+      triggers: ["aplicativo", "mobile", "app", "aplicaciones"],
 
       value: "Desenvolvimento Mobile",
     },
 
     {
-      triggers: ["headhunting", "recrutamento", "seleção"],
+      triggers: ["headhunting", "recrutamento", "reclutamiento", "selección"],
       value: "Headhunting de Ti",
     },
 
     {
-      triggers: ["outsourcing", "alocação"],
+      triggers: ["outsourcing", "alocação", "asignación"],
       value: "Outsourcing de Ti",
     },
 
@@ -736,7 +736,21 @@ function obterInteresse(texto) {
       triggers: ["moodle", "e-learning"],
       value: "EAD - e-Learning Moodle",
     },
-    // Adicione mais mapeamentos conforme necessário
+
+    {
+      triggers: ["alojamiento", "hospedagem", "hosting"],
+      value: "Hospedagem",
+    },
+
+    {
+      triggers: ["inteligencia", "soluções em ia", "artificial intelligence"],
+      value: "Inteligência Artificial",
+    },
+
+    {
+      triggers: ["verificación", "background check", "verificação"],
+      value: "Background Check",
+    },
   ];
 
   // Função auxiliar para extrair o interesse inicial

@@ -688,44 +688,101 @@ function obterOrigem(textoMinusculo) {
 
 // Função interna para identificar o interesse
 function obterInteresse(texto) {
-  const necessidadeRegex = /Necessidade: (.+)/i;
-  const interesseRegex = /Estou interessado em: (.+)/i;
-  const necessidadeMatch = texto.match(necessidadeRegex);
-  const interesseMatch = texto.match(interesseRegex);
+  // Definição dos padrões para extração inicial do interesse
+  const extractors = [
+    { regex: /Necessidade:\s*(.+)/i },
+    { regex: /Estou interessado em:\s*(.+)/i },
+  ];
 
-  let interesse = "Interesse: não informado";
+  // Definição dos mapeamentos de listas de valores para interesses padronizados
+  const interestMappings = [
+    {
+      triggers: ["rpa", "automação", "automation"],
+      value: "Robotic Process Automation (RPA)",
+    },
 
-  if (necessidadeMatch) {
-    interesse = "Interesse: " + necessidadeMatch[1];
-  } else if (interesseMatch) {
-    interesse = "Interesse: " + interesseMatch[1];
-  } else if (texto.includes("© 2024 Agence. Todos os direitos reservados.")) {
-    interesse = "Interesse: Desenvolvimento Mobile";
-  }
+    {
+      triggers: ["consultoria", "consulting"],
+      value: "Consultoria de Ti",
+    },
 
-  // Verifica se o interesse contém termos específicos
-  if (interesse.toLowerCase().includes("rpa")) {
-    interesse = "Interesse: Robotic Process Automation (RPA)";
-  } else if (interesse.toLowerCase().includes("consultoria")) {
-    interesse = "Interesse: Consultoria de Ti";
-  } else if (
-    interesse.toLowerCase().includes("aplicativo") ||
-    interesse.toLowerCase().includes("mobile")
+    {
+      triggers: ["aplicativo", "mobile", "app"],
+
+      value: "Desenvolvimento Mobile",
+    },
+
+    {
+      triggers: ["headhunting", "recrutamento", "seleção"],
+      value: "Headhunting de Ti",
+    },
+
+    {
+      triggers: ["outsourcing", "alocação"],
+      value: "Outsourcing de Ti",
+    },
+
+    {
+      triggers: ["web"],
+      value: "Desenvolvimento Web",
+    },
+
+    {
+      triggers: ["commerce"],
+      value: "e-Commerce",
+    },
+
+    {
+      triggers: ["moodle", "e-learning"],
+      value: "EAD - e-Learning Moodle",
+    },
+    // Adicione mais mapeamentos conforme necessário
+  ];
+
+  // Função auxiliar para extrair o interesse inicial
+  const extrairInteresseInicial = (texto, extractors) => {
+    for (const extractor of extractors) {
+      const match = texto.match(extractor.regex);
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+    }
+    return null;
+  };
+
+  // Função auxiliar para mapear o interesse com base nas listas de triggers
+  const mapearInteresse = (interesse, mappings) => {
+    const interesseLower = interesse.toLowerCase();
+
+    for (const mapping of mappings) {
+      for (const trigger of mapping.triggers) {
+        if (interesseLower.includes(trigger.toLowerCase())) {
+          return mapping.value;
+        }
+      }
+    }
+
+    return interesse; // Retorna o interesse original se não houver mapeamento
+  };
+
+  // Extração do interesse inicial
+  let interesse = extrairInteresseInicial(texto, extractors);
+
+  // Caso não tenha sido extraído, verificar condição específica
+  if (
+    !interesse &&
+    texto.includes("© 2024 Agence. Todos os direitos reservados.")
   ) {
-    interesse = "Interesse: Desenvolvimento Mobile";
-  } else if (interesse.toLowerCase().includes("headhunting")) {
-    interesse = "Interesse: Headhunting de Ti";
-  } else if (interesse.toLowerCase().includes("outsourcing")) {
-    interesse = "Interesse: Outsourcing de Ti";
-  } else if (interesse.toLowerCase().includes("web")) {
-    interesse = "Interesse: Desenvolvimento Web";
-  } else if (interesse.toLowerCase().includes("commerce")) {
-    interesse = "Interesse: e-Commerce";
-  } else if (interesse.toLowerCase().includes("moodle")) {
-    interesse = "Interesse: EAD - e-Learning Moodle";
+    interesse = "Desenvolvimento Mobile";
   }
 
-  return interesse;
+  // Definir o valor padrão caso não seja encontrado nenhum interesse
+  interesse = interesse || "não informado";
+
+  // Mapeamento do interesse para a versão padronizada
+  const interessePadronizado = mapearInteresse(interesse, interestMappings);
+
+  return `Interesse: ${interessePadronizado}`;
 }
 
 function obterPorte(texto) {

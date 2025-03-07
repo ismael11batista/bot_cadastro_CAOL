@@ -1183,7 +1183,66 @@ Quais são os principais clientes e concorrentes diretos da ${NomeDaEmpresa}? E 
 
 Considerando esse contexto e o cenário que temos aqui, que tipos de perguntas poderíamos fazer a eles? Além disso, quais perguntas eles poderiam nos fazer, e quais seriam boas respostas que poderíamos oferecer?
 
-Por favor me dê isso tudo em português do Brasil, o texto deve ser formatado de forma limpa e direta, sem o uso de cabeçalhos ou marcadores especiais, sem qualquer tipo de aspas ou caracteres que possam dar problema em códigos de sistemas.`;
+Por favor me dê isso tudo em português do Brasil, o texto deve ser formatado de forma limpa e direta, sem qualquer tipo de aspas simples ou duplas.
+
+Abaixo está a referência que você deve seguir para trazer a resposta no formato esperado. Os bullet points são feitos com hífens e é deixado uma linha vazia entre as perguntas, também entre as perguntas e as respostas. Além disso, existe uma string "TEXTO_EXTRAORDINÁRIO" entre duas sessões específicas uma linha vazia antes e uma linha vazia depois. Verifique cautelosamente o formato de resposta referência abaixo:
+
+<exemploResposta>
+A instituição de ensino superior mencionada é uma entidade pública que oferece cursos de graduação e pós-graduação, além de realizar pesquisas e atividades de extensão. Seus principais serviços incluem educação, pesquisa científica e extensão universitária, com foco em atender às demandas sociais e econômicas da região. A instituição atua em diversas áreas do conhecimento, como áreas A, B, C, D e E.
+
+Como potencial fornecedor de soluções de automação de processos robóticos (RPA), ao se preparar para uma reunião utilizando a metodologia GPCTBA & CI, considere as seguintes perguntas:
+
+- Pergunta 1
+
+- Pergunta 2
+
+- Pergunta 3
+
+- Pergunta 4
+
+- Pergunta 5
+
+- Pergunta 6
+
+- Pergunta 7
+
+- Pergunta 8
+
+
+TEXTO_EXTRAORDINÁRIO
+
+
+### **Perguntas que a instituição pode nos fazer**
+
+- Pergunta 1
+
+R: Resposta 1
+
+- Pergunta 2
+
+R: Resposta 2
+
+- Pergunta 3
+
+R: Resposta 3
+
+- Pergunta 4
+
+R: Resposta 4
+
+- Pergunta 5
+
+R: Resposta 5
+
+
+#### **Principais clientes da instituição**
+
+Os principais clientes da instituição incluem grupo A, grupo B e grupo C. Concorrentes diretos podem ser outras instituições na região e no país que oferecem serviços semelhantes.
+
+Em termos de inovação, a instituição está investindo em projetos de automação para aumentar a eficiência operacional, além de integrar suas atividades de pesquisa com plataformas de divulgação científica, promover a participação de grupo específico nas áreas de interesse e desenvolver parcerias nacionais e internacionais.
+
+</exemploResposta>
+`;
 }
 
 function copiarPromptGPT() {

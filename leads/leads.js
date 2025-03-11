@@ -912,7 +912,7 @@ function obterFaturamentoAnual(texto) {
   return "Faturamento Anual: não informado";
 }
 
-// Função auxiliar para obter o site da empresa
+// Extrai o email usando a função auxiliar já existente
 function obterSiteEmpresa(texto) {
   // Extrai o email usando a função auxiliar já existente
   let emailFormatado = obterEmail(texto);
@@ -926,17 +926,27 @@ function obterSiteEmpresa(texto) {
 
   // Lista dos domínios pessoais que devem resultar em COMPANY_URL
   const dominiosPessoais = [
-    "gmail.com",
-    "hotmail.com",
-    "yahoo.com",
-    "outlook.com",
-    "live.com",
+    "gmail.com", // Google, o mais usado no Brasil
+    "hotmail.com", // Microsoft, popular desde os anos 2000
+    "yahoo.com", // Yahoo, ainda presente no Brasil
+    "outlook.com", // Microsoft, crescente uso no Brasil
+    "live.com", // Microsoft, usado por contas antigas
+    "icloud.com", // Apple, comum entre usuários de iPhone no Brasil
+    "bol.com.br", // BOL, histórico e ainda usado no Brasil
+    "uol.com.br", // UOL, popular localmente
+    "terra.com.br", // Terra, provedor tradicional brasileiro
+    "ig.com.br", // iG, outro provedor nacional relevante
+    "aol.com", // AOL, menos comum, mas com usuários no Brasil
+    "protonmail.com", // Proton, nicho de privacidade com adoção crescente
+    "me.com", // Apple, domínio legado no Brasil
+    "mac.com", // Apple, outro domínio legado no Brasil
+    "globo.com",
   ];
 
-  // Verifica se o domínio extraído é um email pessoal
+  // Verifica se o domínio extraído é um email pessoal (comparação exata)
   let dominioLower = dominioSite.toLowerCase();
   for (let personal of dominiosPessoais) {
-    if (dominioLower.includes(personal)) {
+    if (dominioLower === personal) {
       return "COMPANY_URL";
     }
   }

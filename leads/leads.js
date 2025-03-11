@@ -912,6 +912,39 @@ function obterFaturamentoAnual(texto) {
   return "Faturamento Anual: não informado";
 }
 
+// Função auxiliar para obter o site da empresa
+function obterSiteEmpresa(texto) {
+  // Extrai o email usando a função auxiliar já existente
+  let emailFormatado = obterEmail(texto);
+
+  // Caso não seja possível extrair o email, retorna COMPANY_URL
+  if (!emailFormatado) return "COMPANY_URL";
+
+  // Obtém a parte do domínio do email
+  let dominioSite = emailFormatado.split("@")[1];
+  if (!dominioSite) return "COMPANY_URL";
+
+  // Lista dos domínios pessoais que devem resultar em COMPANY_URL
+  const dominiosPessoais = [
+    "gmail.com",
+    "hotmail.com",
+    "yahoo.com",
+    "outlook.com",
+    "live.com",
+  ];
+
+  // Verifica se o domínio extraído é um email pessoal
+  let dominioLower = dominioSite.toLowerCase();
+  for (let personal of dominiosPessoais) {
+    if (dominioLower.includes(personal)) {
+      return "COMPANY_URL";
+    }
+  }
+
+  // Para outros domínios, adiciona 'www.' na frente
+  return "www." + dominioSite;
+}
+
 // Função principal que identifica as informações automaticamente
 function identificarInformacoesAutomaticamente() {
   const texto = document.getElementById("inputText").value;
@@ -934,16 +967,7 @@ function formatarTextoLeadFilaA() {
   const NomeDoContato = obterNomeDoContato(texto);
   const NomeDaEmpresa = obterEmpresa(texto);
 
-  let EmailFormatado = obterEmail(texto);
-  let dominio_site = EmailFormatado.split("@")[1];
-  // Adicionar 'www.' ao início do domínio
-  siteDaEmpresa = "www." + dominio_site;
-
-  // Verificar se siteDaEmpresa está definido
-  // Se não estiver, atribuir COMPANY_URL
-  if (dominio_site === undefined) {
-    siteDaEmpresa = "COMPANY_URL";
-  }
+  const siteDaEmpresa = obterSiteEmpresa(texto);
 
   const origem = obterOrigem(textoMinusculo);
   const interesse = obterInteresse(texto);
@@ -971,7 +995,7 @@ function formatarTextoLeadFilaA() {
     nomeDaFila = "Fila Outbound";
   }
 
-  const resultadoTexto = `Chegou lead na ${nomeDaFila} para o @\n\nContato: ${NomeDoContato}\nEmpresa: ${NomeDaEmpresa}\nTelefone: ${telefone}${localidadeTexto}\n${interesse}\n${origem} \n\n${infoEconodata}Site da Empresa: ${siteDaEmpresa}\n\nLinkedin: ${perfilLinkedin}\n--------------------------------------------------------\npróximo da fila é o @`;
+  const resultadoTexto = `Chegou lead na ${nomeDaFila} para o @\n\nContato: ${NomeDoContato}\nEmpresa: ${NomeDaEmpresa}\nTelefone: ${telefone}${localidadeTexto}\n${interesse}\n${origem} \n\n${infoEconodata}Site da empresa: ${siteDaEmpresa}\n\nLinkedin: ${perfilLinkedin}\n--------------------------------------------------------\npróximo da fila é o @`;
   document.getElementById("resultado").textContent = resultadoTexto;
 }
 

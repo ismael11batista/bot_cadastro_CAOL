@@ -709,7 +709,6 @@ function obterOrigem(textoMinusculo) {
   }
 }
 
-// Função interna para identificar o interesse
 function obterInteresse(texto) {
   // Definição dos padrões para extração inicial do interesse
   const extractors = [
@@ -723,53 +722,42 @@ function obterInteresse(texto) {
       triggers: ["rpa", "automação", "automation", "automatización"],
       value: DEFAULT_SERVICES.RPA,
     },
-
     {
       triggers: ["consultoria", "consulting", "consultoría"],
       value: DEFAULT_SERVICES.CONSULTORIA,
     },
-
     {
       triggers: ["aplicativo", "mobile", "app", "aplicaciones"],
-
       value: DEFAULT_SERVICES.DESENVOLVIMENTO_MOBILE,
     },
-
     {
       triggers: ["headhunting", "recrutamento", "reclutamiento", "selección"],
       value: DEFAULT_SERVICES.HEADHUNTING,
     },
-
     {
       triggers: ["outsourcing", "alocação", "asignación"],
       value: DEFAULT_SERVICES.OUTSOURCING,
     },
-
     {
       triggers: ["web"],
       value: DEFAULT_SERVICES.DESENVOLVIMENTO_WEB,
     },
-
     {
       triggers: ["commerce"],
       value: DEFAULT_SERVICES.E_COMMERCE,
     },
-
     {
       triggers: ["moodle", "e-learning"],
       value: DEFAULT_SERVICES.EAD_MOODLE,
     },
-
     {
       triggers: ["alojamiento", "hospedagem", "hosting"],
       value: DEFAULT_SERVICES.HOSPEDAGEM,
     },
-
     {
-      triggers: ["inteligencia", "soluções em ia", "artificial intelligence"],
+      triggers: ["soluções em ia", "artificial intelligence", "intel"],
       value: DEFAULT_SERVICES.INTELIGENCIA_ARTIFICIAL,
     },
-
     {
       triggers: ["verificación", "background check", "verificação"],
       value: DEFAULT_SERVICES.BACKGROUND_CHECK,
@@ -788,9 +776,9 @@ function obterInteresse(texto) {
   };
 
   // Função auxiliar para mapear o interesse com base nas listas de triggers
+  // Agora, somente interesses que possuírem triggers mapeados serão permitidos
   const mapearInteresse = (interesse, mappings) => {
     const interesseLower = interesse.toLowerCase();
-
     for (const mapping of mappings) {
       for (const trigger of mapping.triggers) {
         if (interesseLower.includes(trigger.toLowerCase())) {
@@ -798,8 +786,7 @@ function obterInteresse(texto) {
         }
       }
     }
-
-    return interesse; // Retorna o interesse original se não houver mapeamento
+    return "não informado"; // Retorna "não informado" se não encontrar mapeamento
   };
 
   // Extração do interesse inicial
@@ -816,7 +803,7 @@ function obterInteresse(texto) {
   // Definir o valor padrão caso não seja encontrado nenhum interesse
   interesse = interesse || "não informado";
 
-  // Mapeamento do interesse para a versão padronizada
+  // Mapeamento do interesse para a versão padronizada, somente se for mapeado
   const interessePadronizado = mapearInteresse(interesse, interestMappings);
 
   return `Interesse: ${interessePadronizado}`;
@@ -948,8 +935,15 @@ function formatarTextoLeadFilaA() {
   const NomeDaEmpresa = obterEmpresa(texto);
 
   let EmailFormatado = obterEmail(texto);
-  let siteDaEmpresa = EmailFormatado.split("@")[1];
-  siteDaEmpresa = "www." + siteDaEmpresa;
+  let dominio_site = EmailFormatado.split("@")[1];
+  // Adicionar 'www.' ao início do domínio
+  siteDaEmpresa = "www." + dominio_site;
+
+  // Verificar se siteDaEmpresa está definido
+  // Se não estiver, atribuir COMPANY_URL
+  if (dominio_site === undefined) {
+    siteDaEmpresa = "COMPANY_URL";
+  }
 
   const origem = obterOrigem(textoMinusculo);
   const interesse = obterInteresse(texto);

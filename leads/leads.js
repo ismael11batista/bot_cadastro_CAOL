@@ -240,15 +240,23 @@ function mostrarPopUp(mensagem) {
   }, 1000);
 }
 
-// Função interna para extrair e formatar o e-mail
 function obterEmail(texto) {
-  const emailRegex = /E-mail: (.+)|Email: (.+)/i;
-  const emailMatch = texto.match(emailRegex);
-  if (emailMatch) {
-    return (emailMatch[1] || emailMatch[2]).toLowerCase();
-  } else {
-    return "não informado";
+  // Lista de expressões regulares para capturar o e-mail
+  const regexList = [
+    /Email lead:\s*([\w.-]+@[\w.-]+\.\w+)/i,
+    /E-mail lead:\s*([\w.-]+@[\w.-]+\.\w+)/i,
+    /Email:\s*([\w.-]+@[\w.-]+\.\w+)/i,
+    /E-mail:\s*([\w.-]+@[\w.-]+\.\w+)/i,
+  ];
+
+  for (const regex of regexList) {
+    const emailMatch = texto.match(regex);
+    if (emailMatch && emailMatch[1]) {
+      return emailMatch[1].toLowerCase();
+    }
   }
+
+  return "não informado";
 }
 
 // Função principal que formata o e-mail
@@ -669,44 +677,65 @@ function copiarLocalidade() {
   }
 }
 
-// Função interna para identificar a origem
-function obterOrigem(textoMinusculo) {
-  if (
-    textoMinusculo.includes("agencechatbot76@gmail.com") ||
-    textoMinusculo.includes("origem: chatbot")
-  ) {
-    return "Origem: Inbound Chatbot";
-  } else if (
-    textoMinusculo.includes("origem: telefone") ||
-    textoMinusculo.includes("origem: ligação")
-  ) {
-    return "Origem: Ligação ao Escritório";
-  } else if (textoMinusculo.includes("origem: whats")) {
-    return "Origem: Inbound Whatsapp";
-  } else if (textoMinusculo.includes("origem: inbound lp mobile")) {
-    return "Origem: Formulário LP Mobile";
-  } else if (textoMinusculo.includes("falecom@agence.com.br")) {
-    return "Origem: Inbound E-mail";
-  } else if (textoMinusculo.includes("fale conosco - agence")) {
-    return "Origem: Formulário Fale Conosco";
-  } else if (
-    textoMinusculo.includes(
-      "novo lead gerado pela lp de inteligência artificial"
-    )
-  ) {
-    return "Origem: Formulário LP IA";
-  } else if (
-    textoMinusculo.includes("origem: outbound e-mail") ||
-    textoMinusculo.includes("origem: outbound email")
-  ) {
-    return "Origem: Outbound E-mail";
-  } else if (textoMinusculo.includes("origem: outbound linkedin")) {
-    return "Origem: Outbound Linkedin";
-  } else if (textoMinusculo.includes("origem: outbound bdr")) {
-    return "Origem: Outbound BDR";
-  } else {
-    return "Origem: não identificada";
+function obterOrigem(texto) {
+  const textoMinusculo = texto.toLowerCase();
+
+  const originMappings = [
+    {
+      triggers: ["agencechatbot76@gmail.com", "origem: chatbot"],
+      value: "Origem: Inbound Chatbot",
+    },
+    {
+      triggers: ["origem: telefone", "origem: ligação"],
+      value: "Origem: Ligação ao Escritório",
+    },
+    {
+      triggers: ["origem: whats"],
+      value: "Origem: Inbound Whatsapp",
+    },
+    {
+      triggers: ["origem: inbound lp mobile"],
+      value: "Origem: Formulário LP Mobile",
+    },
+    {
+      triggers: ["falecom@agence.com.br"],
+      value: "Origem: Inbound E-mail",
+    },
+    {
+      triggers: ["fale conosco - agence"],
+      value: "Origem: Formulário Fale Conosco",
+    },
+    {
+      triggers: ["[leads] [pop-up", "Identificador: pop-up-"],
+      value: "Origem: Formulário Pop-up",
+    },
+    {
+      triggers: ["novo lead gerado pela lp de inteligência artificial"],
+      value: "Origem: Formulário LP IA",
+    },
+    {
+      triggers: ["origem: outbound e-mail", "origem: outbound email"],
+      value: "Origem: Outbound E-mail",
+    },
+    {
+      triggers: ["origem: outbound linkedin"],
+      value: "Origem: Outbound Linkedin",
+    },
+    {
+      triggers: ["origem: outbound bdr"],
+      value: "Origem: Outbound BDR",
+    },
+  ];
+
+  for (const mapping of originMappings) {
+    for (const trigger of mapping.triggers) {
+      if (textoMinusculo.includes(trigger)) {
+        return mapping.value;
+      }
+    }
   }
+
+  return "Origem: não identificada";
 }
 
 function obterInteresse(texto) {
@@ -714,12 +743,19 @@ function obterInteresse(texto) {
   const extractors = [
     { regex: /Necessidade:\s*(.+)/i },
     { regex: /Estou interessado em:\s*(.+)/i },
+    { regex: /Identificador: pop-up-\s*(.+)/i },
   ];
 
   // Definição dos mapeamentos de listas de valores para interesses padronizados
   const interestMappings = [
     {
-      triggers: ["rpa", "automação", "automation", "automatización"],
+      triggers: [
+        "rpa",
+        "automação",
+        "automation",
+        "automatización",
+        "automacao",
+      ],
       value: DEFAULT_SERVICES.RPA,
     },
     {
@@ -735,7 +771,7 @@ function obterInteresse(texto) {
       value: DEFAULT_SERVICES.HEADHUNTING,
     },
     {
-      triggers: ["outsourcing", "alocação", "asignación"],
+      triggers: ["outsourcing", "alocação", "asignación", "alocacao"],
       value: DEFAULT_SERVICES.OUTSOURCING,
     },
     {
@@ -759,7 +795,12 @@ function obterInteresse(texto) {
       value: DEFAULT_SERVICES.INTELIGENCIA_ARTIFICIAL,
     },
     {
-      triggers: ["verificación", "background check", "verificação"],
+      triggers: [
+        "verificación",
+        "background check",
+        "verificação",
+        "verificacao",
+      ],
       value: DEFAULT_SERVICES.BACKGROUND_CHECK,
     },
   ];

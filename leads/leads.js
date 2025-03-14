@@ -874,38 +874,31 @@ function obterPorte(texto) {
 }
 
 // Função para obter a quantidade de funcionários
+function limparQuantidade(valor) {
+  // Remove espaços extras, quebra em linha e remove a palavra "funcionários" se estiver no final
+  let quantidade = valor.replace(/^[\s\n]+|[\s\n]+$/g, "").trim();
+  quantidade = quantidade.split(/\r?\n/)[0].trim();
+  quantidade = quantidade.replace(/funcionários\s*$/i, "").trim();
+  return quantidade;
+}
+
 function obterQuantidadeFuncionarios(texto) {
-  const funcionariosRegex =
-    /icone Quantidade de Funcionários\s*Quantidade de Funcionários\s*([\s\S]*?)(?:icone like|icone dislike|$)/i;
-
-  const match = texto.match(funcionariosRegex);
-  if (match && match[1]) {
-    // Remove espaços extras e a palavra "funcionários" do final
-    let quantidade = match[1].replace(/^[\s\n]+|[\s\n]+$/g, "").trim();
-
-    // Trunca na primeira quebra de linha
-    quantidade = quantidade.split(/\r?\n/)[0].trim();
-    quantidade = quantidade.replace("funcionários", "");
-
-    return `Número de Funcionários: ${quantidade}`;
-  }
-
-  // Fallback para outros padrões possíveis
-  const fallbackRegexes = [
+  // Lista de regexes para capturar a quantidade de funcionários
+  const regexes = [
+    /icone Quantidade de Funcionários\s*Quantidade de Funcionários\s*([\s\S]*?)(?=icone like|icone dislike|$)/i,
     /Quantidade de Funcionários\s*:\s*([^<\n\r]+)/i,
     /(\d+\s*a\s*\d+)\s*funcionários/i,
+    /(\d{1,3}(?:[.,]\d{3})*\s*a\s*\d{1,3}(?:[.,]\d{3})*)\s*funcionários/i,
+    /icone\s+Funcionários\s+Funcionários\s+(Acima\s+de\s+[\d.,]+\s*funcionários)\s+Ícone\s+de\s+dados\s+da\s+receita\s+federal/i,
+
+    // Aqui você pode adicionar outros regexes se necessário
   ];
 
-  for (let regex of fallbackRegexes) {
-    const fallbackMatch = texto.match(regex);
-    if (fallbackMatch && fallbackMatch[1]) {
-      let quantidade = fallbackMatch[1].trim();
-
-      // Trunca na primeira quebra de linha
-      quantidade = quantidade.split(/\r?\n/)[0].trim();
-      quantidade = quantidade.replace("funcionários", "");
-
-      return `Número de Funcionários: ${quantidade}`;
+  for (const regex of regexes) {
+    const correspondencia = texto.match(regex);
+    if (correspondencia && correspondencia[1]) {
+      const quantidadeLimpa = limparQuantidade(correspondencia[1]);
+      return `Número de Funcionários: ${quantidadeLimpa}`;
     }
   }
 

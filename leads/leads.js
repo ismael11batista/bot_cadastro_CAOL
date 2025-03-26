@@ -45,6 +45,59 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", copiarLeadFaleComParaClipboard);
 });
 
+async function carregarArquivoTxt(nomeVar, caminhoArquivo) {
+  try {
+    const resposta = await fetch(caminhoArquivo);
+    if (!resposta.ok) {
+      throw new Error(
+        "Erro ao carregar " + caminhoArquivo + ": " + resposta.status
+      );
+    }
+    const conteudo = await resposta.text();
+    window[nomeVar] = conteudo; // Atribui o conteúdo à variável global
+  } catch (erro) {
+    console.error(erro);
+  }
+}
+
+// Exemplo: Carregando o arquivo de perguntas para consultoria e venda
+Promise.all([
+  carregarArquivoTxt(
+    "PerguntasBackgroundCheck",
+    "perguntas/perguntas_background.txt"
+  ),
+
+  carregarArquivoTxt(
+    "PerguntasConsultoria",
+    "perguntas/perguntas_consultoria.txt"
+  ),
+
+  carregarArquivoTxt("PerguntaseCommerce", "perguntas/perguntas_ecommerce.txt"),
+
+  carregarArquivoTxt(
+    "PerguntasHeadhunting",
+    "perguntas/perguntas_headhunting.txt"
+  ),
+
+  carregarArquivoTxt(
+    "PerguntasInteligenciaArtificial",
+    "perguntas/perguntas_ia.txt"
+  ),
+
+  carregarArquivoTxt("PerguntasMobile", "perguntas/perguntas_mobile.txt"),
+
+  carregarArquivoTxt("PerguntasMoodle", "perguntas/perguntas_moodle.txt"),
+
+  carregarArquivoTxt(
+    "PerguntasOutsourcing",
+    "perguntas/perguntas_outsourcing.txt"
+  ),
+
+  carregarArquivoTxt("PerguntasRPA", "perguntas/perguntas_rpa.txt"),
+
+  carregarArquivoTxt("PerguntasWeb", "perguntas/perguntas_web.txt"),
+]);
+
 // Função interna para extrair e formatar o nome
 function obterNomeDoContato(texto) {
   const nomeRegex = /Nome: (.+)|Name: (.+)/i;
@@ -795,12 +848,7 @@ function obterInteresse(texto) {
       value: DEFAULT_SERVICES.INTELIGENCIA_ARTIFICIAL,
     },
     {
-      triggers: [
-        "verificación",
-        "background check",
-        "verificação",
-        "verificacao",
-      ],
+      triggers: ["verificación", "backg", "verificação", "verificacao"],
       value: DEFAULT_SERVICES.BACKGROUND_CHECK,
     },
   ];
@@ -875,7 +923,7 @@ function obterPorte(texto) {
 
 // Função para obter a quantidade de funcionários
 function limparQuantidade(valor) {
-  // Remove espaços extras, quebra em linha e remove a palavra "funcionários" se estiver no final
+  // Remove espaços extras, quebra de linha e se existir a palavra "funcionários" no final
   let quantidade = valor.replace(/^[\s\n]+|[\s\n]+$/g, "").trim();
   quantidade = quantidade.split(/\r?\n/)[0].trim();
   quantidade = quantidade.replace(/funcionários\s*$/i, "").trim();
@@ -883,6 +931,18 @@ function limparQuantidade(valor) {
 }
 
 function obterQuantidadeFuncionarios(texto) {
+  // Defina os marcadores que delimitam os dados de funcionários
+  const marcadorInicio = "Busque por nome da empresa ou CNPJ"; // Altere conforme necessário
+  const marcadorFim = "Natureza Jurídica"; // Altere conforme necessário
+
+  // Se os marcadores existirem, extraímos somente o trecho entre eles
+  let textoAnalise = texto;
+  const inicio = texto.indexOf(marcadorInicio);
+  const fim = texto.indexOf(marcadorFim, inicio + marcadorInicio.length);
+  if (inicio !== -1 && fim !== -1) {
+    textoAnalise = texto.substring(inicio + marcadorInicio.length, fim).trim();
+  }
+
   // Lista de regexes para capturar a quantidade de funcionários
   const regexes = [
     /icone Quantidade de Funcionários\s*Quantidade de Funcionários\s*([\s\S]*?)(?=icone like|icone dislike|$)/i,
@@ -890,18 +950,16 @@ function obterQuantidadeFuncionarios(texto) {
     /(\d+\s*a\s*\d+)\s*funcionários/i,
     /(\d{1,3}(?:[.,]\d{3})*\s*a\s*\d{1,3}(?:[.,]\d{3})*)\s*funcionários/i,
     /icone\s+Funcionários\s+Funcionários\s+(Acima\s+de\s+[\d.,]+\s*funcionários)\s+Ícone\s+de\s+dados\s+da\s+receita\s+federal/i,
-
-    // Aqui você pode adicionar outros regexes se necessário
+    // Outros regexes se necessário
   ];
 
   for (const regex of regexes) {
-    const correspondencia = texto.match(regex);
+    const correspondencia = textoAnalise.match(regex);
     if (correspondencia && correspondencia[1]) {
       const quantidadeLimpa = limparQuantidade(correspondencia[1]);
       return `Número de Funcionários: ${quantidadeLimpa}`;
     }
   }
-
   return "Número de Funcionários: não informado";
 }
 
@@ -1358,155 +1416,6 @@ function removerTextoAposTermos(texto, termos) {
     : texto;
 }
 
-function FormatarLeadFaleCom(texto) {
-  // Regexes e listas de exclusão para cada categoria
-  const nomeRegexes = [
-    /(?<=para:\s)(.*?)(?=\s<)/,
-    /(?<=From: ')(.*?)(?=' via Falecom)/,
-    /(?<=From: falecom@agence.com.br <falecom@agence.com.br> On Behalf Of )(.*?)(?=\r?\nSent:)/,
-    /(?<=From: falecom@agence.com.br <falecom@agence.com.br> On Behalf Of )(.*?)(?=\nSent:)/,
-  ];
-  const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
-  const emailsIgnorados = [
-    "carlos.arruda@agence.cl",
-    "ismael.batista@sp.agence.com.br",
-    "falecom@agence.com.br",
-    "pedro.catini@agence.com.br",
-    "daniel.silva@sp.agence.com.br",
-    "carlos.carvalho@agence.com.br",
-    "danilo.camargo@sp.agence.com.br",
-  ];
-  const telefoneRegexes = [
-    /\b(?:\+?(\d{1,3}))?[-. ]?(\d{2,3})[-. ]?(\d{4,5})[-. ]?(\d{4})\b/g,
-    /\+\d{1,3}\s?\(\d{1,3}\)\s?\d{4,5}-\d{4}/g,
-    /\+\d{1,3}\s?\(\d{1,3}\)\s?\d{3,4}-\d{4}/g,
-  ];
-  const telefonesIgnorados = [
-    "+5512992117495",
-    "+551121577514",
-    "11987654321",
-    "+56227998951",
-    "+56974529257",
-    "+551135542187",
-  ];
-  const assuntoRegexes = [
-    /(?<=Subject: )([\s\S]*?)(?=\d{1,2} de \w+\. de \d{4}, \d{1,2}:\d{2})/,
-    /(?<=Subject: )([\s\S]*?)(?=\n\n\n)/,
-  ];
-
-  // Variáveis de resultado
-  let nomeFormatado = "";
-  let emailFormatado = "";
-  let telefoneFormatado = "";
-  let assuntoFormatado = `\n\nASSUNTO_FORMATADO\n`;
-
-  // Processamento de nome
-  for (const regex of nomeRegexes) {
-    const nomeMatch = texto.match(regex);
-    if (nomeMatch) {
-      nomeFormatado = nomeMatch[0]
-        .split(" ")
-        .map(
-          (palavra) =>
-            palavra.charAt(0).toUpperCase() + palavra.slice(1).toLowerCase()
-        )
-        .join(" ");
-      break;
-    }
-  }
-
-  // Processamento de email
-  const todosEmails = texto.match(emailRegex) || [];
-  const emailsValidos = todosEmails.filter(
-    (email) => !emailsIgnorados.includes(email.toLowerCase())
-  );
-
-  if (emailsValidos.length > 0) {
-    emailFormatado = emailsValidos[0].toLowerCase();
-  }
-
-  // Processamento de telefone
-  let todosTelefones = [];
-  telefoneRegexes.forEach((regex) => {
-    const telefonesEncontrados = [...texto.matchAll(regex)].map(
-      (match) => match[0]
-    );
-    todosTelefones = [...todosTelefones, ...telefonesEncontrados];
-  });
-  const telefonesValidos = todosTelefones.filter(
-    (telefone) => !telefonesIgnorados.includes(telefone.replace(/[-. ()]/g, ""))
-  );
-  if (telefonesValidos.length > 0) {
-    telefoneFormatado = telefonesValidos[0];
-  }
-
-  // Processamento de assunto com lógica específica
-  const iniciosParaRemoverAssunto = [
-    "Ismael Borges Batista",
-    // Adicione mais inícios para remover conforme necessário
-  ];
-
-  const termosParaRemoverAssunto = [
-    // Adicione mais termos para remover conforme necessário
-  ];
-
-  const termosParaCorteAssunto = [
-    "Atenciosamente",
-    "Obrigado",
-    "Obrigada",
-    "obrigado",
-    "obrigada",
-    "[Mensagem cortada]",
-    "Exibir toda a mensagem",
-    // Adicione mais termos conforme necessário
-  ];
-
-  for (const regex of assuntoRegexes) {
-    const assuntoMatch = texto.match(regex);
-    if (assuntoMatch) {
-      let assunto = assuntoMatch[0].trim();
-
-      // Processamento adicional do assunto com lógica específica
-      assunto = removerLinhasPorInicio(assunto, iniciosParaRemoverAssunto);
-      assunto = removerTermosEspecificos(assunto, termosParaRemoverAssunto);
-      assunto = ajustarQuebrasDeLinha(assunto);
-      assunto = removerTextoAposTermos(assunto, termosParaCorteAssunto);
-
-      assuntoFormatado = assunto.charAt(0).toUpperCase() + assunto.slice(1);
-      break; // Garante que apenas o último assunto seja processado e formatado
-    }
-  }
-
-  // Construção do texto formatado
-  let textoFormatado = `Nome: ${nomeFormatado}\nEmpresa: \nEmail: ${emailFormatado}\nEstou interessado em: \nTelefone: ${telefoneFormatado}\nComentários: ${assuntoFormatado}\nAgence - falecom@agence.com.br`;
-
-  // Exibição do resultado e/ou outras ações
-  textoFormatadoGlobal = textoFormatado; // Armazena o texto formatado na variável global
-
-  // Retorno do texto formatado, caso necessário
-  return textoFormatado;
-}
-
-function copiarLeadFaleComParaClipboard() {
-  const texto = document.getElementById("inputText").value; // Obtém o texto de entrada
-  FormatarLeadFaleCom(texto); // Formata o texto e atualiza a variável global
-
-  // Verifica se o textoFormatadoGlobal não está vazio
-  if (textoFormatadoGlobal !== "") {
-    navigator.clipboard
-      .writeText(textoFormatadoGlobal)
-      .then(() => {
-        mostrarPopUp("Texto copiado para a área de transferência!");
-      })
-      .catch((err) => {
-        console.error("Erro ao copiar o texto do Lead FaleCom: ", err);
-        mostrarPopUp("Falha ao copiar o texto do Lead FaleCom.");
-      });
-  } else {
-    mostrarPopUp("Nenhum texto disponível para copiar.");
-  }
-}
-
 function copiarLinkWhatsapp() {
   const texto = document.getElementById("inputText").value;
   const telefoneRegex = /Telefone:.*?(\d[\d\s().-]*)/i;
@@ -1558,714 +1467,43 @@ function obterPerguntasDefault(interesse) {
 
   switch (interesse) {
     case DEFAULT_INTERESTS.CONSULTORIA:
-      perguntasDefault = `#### Checklist de Consultoria de Ti
+      perguntasDefault = PerguntasConsultoria;
+      break;
 
-- **Objetivos e Processos**
-
-- Qual é o objetivo principal do projeto?
-
-- Como funciona esse processo hoje? Existe alguma ferramenta em uso hoje pelos usuários? Tem um nome ou foi desenvolvido internamente?
-
-- Você está considerando alguma integração com outros sistemas legados da empresa ou outros sites externos? Quais e por favor liste a forma de integração existente como API, Webservices, etc?
-
-
-- **Documentação e Identidade**
-
-- Já tem algum protótipo ou documentação do projeto?
-
-- Você tem um manual de identidade visual do projeto?
-
-- Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
-
-
-- **Tecnologia e Infraestrutura**
-
-- Quais são as premissas de infra-estrutura e arquitetura?
-
-- Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
-
-- Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
-
-
-- **Orçamento e Prazos**
-
-- Você tem alguma expectativa para as datas de início e término do projeto?
-
-- Existe um orçamento máximo já estabelecido para o projeto?
-
-- Qual é o prazo esperado para a implementação da solução?
-
-
-- **Equipe e Tomadores de Decisão**
-
-- Quem é o principal responsável pelo projeto do lado de vocês?
-
-- Como a sua empresa realiza o processo de compras?
-
-- Quais serão os demais participantes do processo de compra?
-
-- Qual o grau de influência de cada participante?
-
-- Existe alguém que possa impedir a compra (gatekeeper)?
-
-- Se sim, por qual motivo?
-
-
-- **Experiência Anterior e Competitividade**
-
-- Você já recebeu outros orçamentos? Qual foi a experiência?
-
-- Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
-
-
-- **Estrutura Organizacional**
-
-- Tem alguma consultoria externa de RH e/ou TI?
-
-- Tem time de TI Devs interno? Quantos?
-
-- Tem time de TI Infra/Help Desk? Quantos?
-
-
-### Perguntas Auxiliares (Transversais a Diversos Serviços)
-
-- **Estrutura Organizacional**
-
-- Tem time de TI Devs interno? Quantos?
-
-- Tem time de TI Infra/Help Desk? Quantos?
-
-
-- **Segurança e Compliance**
-
-- Vocês têm algum requisito de segurança?
-
-- Se sim, tem alguma documentação padrão a ser seguida?
-
-
-- **Usuários e Escalabilidade**
-  
-- Para o caso de o sistema ser de grande porte:
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+    case DEFAULT_INTERESTS.BACKGROUND_CHECK:
+      perguntasDefault = PerguntasBackgroundCheck;
       break;
 
     case DEFAULT_INTERESTS.RPA:
-      perguntasDefault = `#### Checklist para Validação de Requerimentos de RPA
-
-**1. Escopo do Processo**
-
-- Quantas etapas o processo possui e qual é a sua complexidade?
-
-- Quantos sistemas são necessários acessar (ERP, Planilhas, e-mails, FTP, etc.)?
-
-
-**2. Integração de Sistemas**
-
-- Quais sistemas e aplicativos precisam ser integrados?
-
-- Os sistemas requerem integração via API? Existe disponibilidade de APIs disponíveis para automação? Sim/Não
-
-- A integração requer leitura e escrita em dados de aplicações legadas? Sim/Não
-
-
-**3. Volume de Processamento**
-
-- Qual é o volume de tarefas/processos que precisam ser automatizados?
-
-- Com que frequência esses processos ocorrem (diariamente, semanalmente, mensalmente)?
-
-
-**4. Escalabilidade e Suporte**
-   
-- Há planos antecipados de expansão dos processos automatizados? Sim/Não
-
-- Precisa de suporte técnico e manutenção (Sistemas que passam constantemente por atualizações)?
-
-
-**5. Flexibilidade e Personalização**
-
-- É possível que o processo seja atualizado dentro de pouco tempo? Sim/Não
-
-
-**6. Segurança e Governança**
-
-- Existem requisitos específicos de segurança ou conformidade que precisam ser atendidos?
-
-- Como os dados sensíveis serão tratados durante a automação?
-
-
-**7. Deployment**
-
-- Qual é a infraestrutura preferida para executar o processo de automação: remoto ou local?
-
-- Há requisitos específicos de implantação (ex: Deve ser iniciado de forma automática, iniciado por uma pessoa, etc.)?
-
-
-**8. Orçamento e Prazos**
-
-- Qual é o orçamento estimado para o projeto de automação?
-
-- Qual é o prazo esperado para a implementação da solução?`;
+      perguntasDefault = PerguntasRPA;
       break;
 
     case DEFAULT_INTERESTS.DESENVOLVIMENTO_MOBILE:
-      perguntasDefault = `#### Checklist para Validação de Requerimentos de Desenvolvimento Mobile
-
-- **Requisitos e Funcionalidades**
-
-- Quais funcionalidades ou características específicas você gostaria de ver incorporadas no aplicativo móvel?
-
-- Você possui software personalizado ou utiliza apenas soluções prontas?
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?
-
-
-- **Tecnologia e Integração**
-
-- Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
-
-- Em caso mobile, tecnologia (iOS Swift ou Objective-C, Android Kotlin ou Java, Flutter, React Native)?
-
-- Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
-
-- Vocês têm ferramentas, frameworks ou linguagens de programação preferenciais para o desenvolvimento do aplicativo? Incluindo banco de dados preferencial?
-
-- Existem sistemas ou softwares atualmente usados internamente que precisam de integração com o aplicativo móvel proposto?
-
-
-- **Design e Experiência do Usuário**
-
-- Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
-
-- Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
-
-
-- **Infraestrutura e Hospedagem**
-
-- Podemos considerar o armazenamento da aplicação? Vamos ficar encarregados da Hospedagem também ou você vai hospedar?
-
-- Acerca de hospedagem, vocês trabalham com algum serviço específico de Cloud? Poderia ficar hosteado conosco ou necessariamente teria que ficar no seu ambiente?
-
-
-- **Documentação e Manutenção**
-
-- Já tem algum protótipo ou documentação do projeto?
-
-- É necessário documentar o projeto?
-
-- Se sim, você tem algum formato de documentação padrão? Quais são os documentos necessários para o projeto? Artefatos que devemos contemplar?
-
-- Com que frequência a SDI antecipa a atualização de conteúdo ou a adição de novas funcionalidades ao aplicativo? Atualizações regulares podem exigir suporte contínuo, por isso é essencial entender seus requisitos antecipadamente.
-
-
-- **Suporte e Operacional**
-  
-- O atendimento de suporte e manutenção desejado seria 24 x 7 ou 8 x 5?
-
-- Você precisará de uma configuração de VPN para trabalhar com vocês?
-
-
-- **Orçamento e Prazos**
-
-- Você tem alguma expectativa para as datas de início e término do projeto?
-
-- Existe um orçamento máximo já estabelecido para o projeto?
-
-
-### **Perguntas Auxiliares**
-
-- **Estrutura Organizacional**
-
-- Tem time de TI Devs interno? Quantos?
-
-- Tem time de TI Infra/Help Desk? Quantos?
-
-
-- **Segurança e Compliance**
-
-- Vocês têm algum requisito de segurança?
-
-- Se sim, tem alguma documentação padrão a ser seguida?
-
-
-- **Usuários e Escalabilidade**
-
-- Para o caso de o sistema ser de grande porte:
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      perguntasDefault = PerguntasMobile;
       break;
 
     case DEFAULT_INTERESTS.DESENVOLVIMENTO_WEB:
-      perguntasDefault = `#### Checklist para Validação de Requerimentos de Desenvolvimento Web
-
-- **Requisitos e Funcionalidades**
-
-- Quais funcionalidades ou características específicas você gostaria de ver incorporadas no aplicativo móvel?
-
-- Você possui software personalizado ou utiliza apenas soluções prontas?
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?
-
-
-- **Tecnologia e Integração**
-
-- Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
-
-- Em caso mobile, tecnologia (iOS Swift ou Objective-C, Android Kotlin ou Java, Flutter, React Native)?
-
-- Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
-
-- Vocês têm ferramentas, frameworks ou linguagens de programação preferenciais para o desenvolvimento do aplicativo? Incluindo banco de dados preferencial?
-
-- Existem sistemas ou softwares atualmente usados internamente que precisam de integração com o aplicativo móvel proposto?
-
-
-- **Design e Experiência do Usuário**
-
-- Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
-
-- Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
-
-
-- **Infraestrutura e Hospedagem**
-
-- Podemos considerar o armazenamento da aplicação? Vamos ficar encarregados da Hospedagem também ou você vai hospedar?
-
-- Acerca de hospedagem, vocês trabalham com algum serviço específico de Cloud? Poderia ficar hosteado conosco ou necessariamente teria que ficar no seu ambiente?
-
-
-- **Documentação e Manutenção**
-
-- Já tem algum protótipo ou documentação do projeto?
-
-- É necessário documentar o projeto?
-
-- Se sim, você tem algum formato de documentação padrão? Quais são os documentos necessários para o projeto? Artefatos que devemos contemplar?
-
-- Com que frequência a SDI antecipa a atualização de conteúdo ou a adição de novas funcionalidades ao aplicativo? Atualizações regulares podem exigir suporte contínuo, por isso é essencial entender seus requisitos antecipadamente.
-
-
-- **Suporte e Operacional**
-
-- O atendimento de suporte e manutenção desejado seria 24 x 7 ou 8 x 5?
-
-- Você precisará de uma configuração de VPN para trabalhar com vocês?
-
-
-- **Orçamento e Prazos**
-  
-- Você tem alguma expectativa para as datas de início e término do projeto?
-  
-- Existe um orçamento máximo já estabelecido para o projeto?
-
-
-### Perguntas Auxiliares (Transversais a Diversos Serviços)
-
-- **Estrutura Organizacional**
-
-- Tem time de TI Devs interno? Quantos?
-
-- Tem time de TI Infra/Help Desk? Quantos?
-
-
-- **Segurança e Compliance**
-
-- Vocês têm algum requisito de segurança?
-
-- Se sim, tem alguma documentação padrão a ser seguida?
-
-
-- **Usuários e Escalabilidade**
-
-- Para o caso de o sistema ser de grande porte:
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      perguntasDefault = PerguntasWeb;
       break;
 
     case DEFAULT_INTERESTS.EAD_MOODLE:
-      perguntasDefault = `#### Checklist para Validação de Requerimentos de e-Learning Moodle
-
-- **Requisitos e Funcionalidades**
-
-- Quais funcionalidades ou características específicas você gostaria de ver incorporadas no aplicativo móvel?
-
-- Você possui software personalizado ou utiliza apenas soluções prontas?
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?
-
-
-- **Tecnologia e Integração**
-
-- Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
-
-- Em caso mobile, tecnologia (iOS Swift ou Objective-C, Android Kotlin ou Java, Flutter, React Native)?
-
-- Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
-
-- Vocês têm ferramentas, frameworks ou linguagens de programação preferenciais para o desenvolvimento do aplicativo? Incluindo banco de dados preferencial?
-
-- Existem sistemas ou softwares atualmente usados internamente que precisam de integração com o aplicativo móvel proposto?
-
-
-- **Design e Experiência do Usuário**
-
-- Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
-
-- Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
-
-
-- **Infraestrutura e Hospedagem**
-
-- Podemos considerar o armazenamento da aplicação? Vamos ficar encarregados da Hospedagem também ou você vai hospedar?
-
-- Acerca de hospedagem, vocês trabalham com algum serviço específico de Cloud? Poderia ficar hosteado conosco ou necessariamente teria que ficar no seu ambiente?
-
-
-- **Documentação e Manutenção**
-
-- Já tem algum protótipo ou documentação do projeto?
-
-- É necessário documentar o projeto?
-
-- Se sim, você tem algum formato de documentação padrão? Quais são os documentos necessários para o projeto? Artefatos que devemos contemplar?
-
-- Com que frequência a SDI antecipa a atualização de conteúdo ou a adição de novas funcionalidades ao aplicativo? Atualizações regulares podem exigir suporte contínuo, por isso é essencial entender seus requisitos antecipadamente.
-
-
-- **Suporte e Operacional**
-
-- O atendimento de suporte e manutenção desejado seria 24 x 7 ou 8 x 5?
-
-- Você precisará de uma configuração de VPN para trabalhar com vocês?
-
-
-- **Orçamento e Prazos**
-
-- Você tem alguma expectativa para as datas de início e término do projeto?
-
-- Existe um orçamento máximo já estabelecido para o projeto?
-
-
-### Perguntas Auxiliares
-
-- **Estrutura Organizacional**
-
-- Tem time de TI Devs interno? Quantos?
-
-- Tem time de TI Infra/Help Desk? Quantos?
-
-
-- **Segurança e Compliance**
-
-- Vocês têm algum requisito de segurança?
-
-- Se sim, tem alguma documentação padrão a ser seguida?
-
-
-- **Usuários e Escalabilidade**
-
-- Para o caso de o sistema ser de grande porte:
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      perguntasDefault = PerguntasMoodle;
       break;
 
     case DEFAULT_INTERESTS.E_COMMERCE:
-      perguntasDefault = `#### Checklist para Validação de Requerimentos de e-Commerce
-
-
-- **Requisitos e Funcionalidades**
-
-- Quais funcionalidades ou características específicas você gostaria de ver incorporadas no aplicativo móvel?
-
-- Você possui software personalizado ou utiliza apenas soluções prontas?
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?
-
-
-- **Tecnologia e Integração**
-
-- Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
-
-- Em caso mobile, tecnologia (iOS Swift ou Objective-C, Android Kotlin ou Java, Flutter, React Native)?
-
-- Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
-
-- Vocês têm ferramentas, frameworks ou linguagens de programação preferenciais para o desenvolvimento do aplicativo? Incluindo banco de dados preferencial?
-
-- Existem sistemas ou softwares atualmente usados internamente que precisam de integração com o aplicativo móvel proposto?
-
-
-- **Design e Experiência do Usuário**
-
-- Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
-
-- Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
-
-
-- **Infraestrutura e Hospedagem**
-
-- Podemos considerar o armazenamento da aplicação? Vamos ficar encarregados da Hospedagem também ou você vai hospedar?
-
-- Acerca de hospedagem, vocês trabalham com algum serviço específico de Cloud? Poderia ficar hosteado conosco ou necessariamente teria que ficar no seu ambiente?
-
-
-- **Documentação e Manutenção**
-
-- Já tem algum protótipo ou documentação do projeto?
-
-- É necessário documentar o projeto?
-
-- Se sim, você tem algum formato de documentação padrão? Quais são os documentos necessários para o projeto? Artefatos que devemos contemplar?
-
-- Com que frequência a SDI antecipa a atualização de conteúdo ou a adição de novas funcionalidades ao aplicativo? Atualizações regulares podem exigir suporte contínuo, por isso é essencial entender seus requisitos antecipadamente.
-
-
-- **Suporte e Operacional**
-
-- O atendimento de suporte e manutenção desejado seria 24 x 7 ou 8 x 5?
-
-- Você precisará de uma configuração de VPN para trabalhar com vocês?
-
-
-- **Orçamento e Prazos**
-
-- Você tem alguma expectativa para as datas de início e término do projeto?
-
-- Existe um orçamento máximo já estabelecido para o projeto?
-
-
-### Perguntas Auxiliares
-
-- **Estrutura Organizacional**
-
-- Tem time de TI Devs interno? Quantos?
-
-- Tem time de TI Infra/Help Desk? Quantos?
-
-
-- **Segurança e Compliance**
-
-- Vocês têm algum requisito de segurança?
-
-- Se sim, tem alguma documentação padrão a ser seguida?
-
-
-- **Usuários e Escalabilidade**
-
-- Para o caso de o sistema ser de grande porte:
-
-- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
-
-- Qual seria o número total de usuários previstos para o sistema web/app mobile?
-
-- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?`;
+      perguntasDefault = PerguntaseCommerce;
       break;
 
     case DEFAULT_INTERESTS.OUTSOURCING:
-      perguntasDefault = `### **4. Outsourcing e Headhunting**
-
-- **Necessidades de Contratação**
-
-- Vocês vêm enfrentando problemas na contratação de funcionários?
-
-- Atualmente tem vagas em aberto com dificuldade no preenchimento?
-
-
-- **Retenção e Rotatividade**
-
-- Como é a rotatividade destes funcionários? É comum eles ficarem pouco e saírem logo depois de contratados?
-
-
-- **Perfis e Qualificações**
-
-- Quantidade e Senioridade dos profissionais: Junior (Até 2 anos de experiência), Pleno (De 3 a 5 anos) ou Sênior (De 6 anos para mais).
-
-- Conhecimento de programação necessária: ASP, .NET, PHP, Ruby, Python, Java, etc.
-
-- Conhecimento de programação em algum framework específico? Cake, Zend, Laravel, Rails, Django, etc.
-
-- Conhecimento de programação desejável: ASP, .NET, PHP, Ruby, Python, Java, etc.
-
-- Conhecimento de banco de dados necessário: SQL Server, MySQL, PostgreSQL, Oracle, etc.
-
-
-- **Custos e Regimes de Contratação**
-
-- Qual o custo por hora/homem que vocês têm com esses funcionários?
-
-- Qual o regime de contratação? CLT ou PJ?
-
-
-- **Logística e Localização**
-
-- Localização que deverá ficar o profissional: Bairro/Rua/Referência/Etc.
-
-- Obrigatoriamente o profissional deverá ficar in-loco ou poderia ser remoto (sendo remoto o preço pode cair de 20% a 30%):
-
-- Tempo estimado de alocação: 6 meses? 1 ano? Indeterminado?
-
-- Data de início necessário para o profissional: Imediata? Daqui 1 semana? 1 mês?
-
-
-- **Treinamento e Adaptação**
-- Qual o tempo de treinamento e de adaptação?
-
-Considerando o contexto, perguntas adicionais poderiam incluir: 
-
-- Como vocês estão atualmente inovando na área de tecnologia?
-
-- Quais são os desafios enfrentados ao tentar integrar novas tecnologias em seus serviços atuais?`;
+      perguntasDefault = PerguntasOutsourcing;
       break;
 
     case DEFAULT_INTERESTS.HEADHUNTING:
-      perguntasDefault = `### **4. Outsourcing e Headhunting**
-
-- **Necessidades de Contratação**
-
-- Vocês vêm enfrentando problemas na contratação de funcionários?
-
-- Atualmente tem vagas em aberto com dificuldade no preenchimento?
-
-
-- **Retenção e Rotatividade**
-
-- Como é a rotatividade destes funcionários? É comum eles ficarem pouco e saírem logo depois de contratados?
-
-
-- **Perfis e Qualificações**
-
-- Quantidade e Senioridade dos profissionais: Junior (Até 2 anos de experiência), Pleno (De 3 a 5 anos) ou Sênior (De 6 anos para mais).
-
-- Conhecimento de programação necessária: ASP, .NET, PHP, Ruby, Python, Java, etc.
-
-- Conhecimento de programação em algum framework específico? Cake, Zend, Laravel, Rails, Django, etc.
-
-- Conhecimento de programação desejável: ASP, .NET, PHP, Ruby, Python, Java, etc.
-
-- Conhecimento de banco de dados necessário: SQL Server, MySQL, PostgreSQL, Oracle, etc.
-
-
-- **Custos e Regimes de Contratação**
-
-- Qual o custo por hora/homem que vocês têm com esses funcionários?
-
-- Qual o regime de contratação? CLT ou PJ?
-
-
-- **Logística e Localização**
-
-- Localização que deverá ficar o profissional: Bairro/Rua/Referência/Etc.
-
-- Obrigatoriamente o profissional deverá ficar in-loco ou poderia ser remoto (sendo remoto o preço pode cair de 20% a 30%):
-
-- Tempo estimado de alocação: 6 meses? 1 ano? Indeterminado?
-
-- Data de início necessário para o profissional: Imediata? Daqui 1 semana? 1 mês?
-
-
-- **Treinamento e Adaptação**
-- Qual o tempo de treinamento e de adaptação?
-
-Considerando o contexto, perguntas adicionais poderiam incluir: 
-
-- Como vocês estão atualmente inovando na área de tecnologia?
-
-- Quais são os desafios enfrentados ao tentar integrar novas tecnologias em seus serviços atuais?`;
+      perguntasDefault = PerguntasHeadhunting;
       break;
 
     case DEFAULT_INTERESTS.INTELIGENCIA_ARTIFICIAL:
-      perguntasDefault = `#### Checklist para Validação de Requerimentos de Desenvolvimento de Soluções de IA Generativa
-
-**Objetivos e Aplicações de IA Generativa**
-
-- Quais são os principais objetivos que você deseja alcançar com a solução de IA generativa? (Ex.: automação de respostas, geração de conteúdo, assistentes virtuais, etc.)
-
-- Que tipo de saída generativa você espera do modelo? (Ex.: textos naturais, respostas em linguagem específica, resumos, traduções, código, etc.)
-
-
-**Dados e Fontes**
-
-- Que tipos de dados você possui ou planeja utilizar para treinar o LLM?
-
-- Os dados já estão organizados e limpos, ou será necessário suporte para coleta e pré-processamento?
-
-- Você tem dados sensíveis ou proprietários que exigem tratamento especial?
-
-
-**Público e Usuários**
-
-- Quem será o público-alvo ou os usuários finais da solução? (Ex.: colaboradores internos, clientes externos.)
-
-
-**Desempenho e Escalabilidade**
-
-- Quais são os requisitos de desempenho esperados do modelo? (Ex.: tempo de resposta, precisão nas respostas.)
-
-- Qual é o volume estimado de interações simultâneas que o LLM precisará processar?
-
-
-**Tecnologia e Integração**
-
-- A solução precisará integrar-se com sistemas existentes? Se sim, quais? (Ex.: CRMs, ERPs, plataformas de chat.)
-
-- Há preferência por um modelo específico para o desenvolvimento? (Ex.: OpenAI, Grok, Claude, Gemini.)
-
-
-**Design e Experiência do Usuário**
-
-- Como os usuários irão interagir com a solução? (Ex.: chatbot, API, interface web ou mobile.)
-
-
-**Segurança e Compliance**
-
-- Quais são os requisitos de segurança mais importantes para a solução? (Ex.: criptografia, proteção contra ataques.)
-
-- A solução precisa cumprir alguma regulamentação específica? (Ex.: LGPD, GDPR.)
-
-
-**Orçamento e Prazos**
-
-- Qual é a data prevista para o início do projeto e a expectativa de entrega?
-
-- Você tem um orçamento máximo definido para o desenvolvimento? Se sim, qual?
-
-
-**Estrutura Organizacional e Colaboração**
-
-- Quem será o ponto de contato principal do seu lado para gerenciar o projeto?`;
+      perguntasDefault = PerguntasInteligenciaArtificial;
       break;
 
     default:

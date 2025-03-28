@@ -1,73 +1,128 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images/tools2.png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/tools2.png" />
     <title>Homepage - Agence Tools</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<body>
+  <body>
+    <!-- <a href="https://www.instagram.com/ismaelllbatista/" target="blank">
+      <img
+        src="images/socialmedia/instagram.png"
+        alt="Link para Instagram"
+        class="instragram-btn"
+      />
+    </a>
 
-    <a href="https://www.instagram.com/ismaelllbatista/" target=blank> <img src="images/socialmedia/instagram.png"
-            alt="Link para Instagram" class="instragram-btn"> </a>
+    <a href="https://whatsa.me/+5548991994246" target="_blank">
+      <img
+        src="images/socialmedia/whatsapp.png"
+        alt="Link para Whatsapp"
+        class="whatsapp-btn"
+      />
+    </a>
 
-    <a href="https://whatsa.me/+5548991994246" target="_blank"> <img src="images/socialmedia/whatsapp.png"
-            alt="Link para Whatsapp" class="whatsapp-btn"> </a>
+    <a
+      href="https://www.facebook.com/profile.php?id=100081798843855"
+      target="_blank"
+    >
+      <img
+        src="images/socialmedia/facebook.png"
+        alt="Link para Facebook"
+        class="facebook-btn"
+      />
+    </a>
 
-    <a href="https://www.facebook.com/profile.php?id=100081798843855" target="_blank"> <img
-            src="images/socialmedia/facebook.png" alt="Link para Facebook" class="facebook-btn"> </a>
+    <a
+      href="https://www.youtube.com/channel/UCjT3dFmoWU3i79MBWEt8fNg"
+      target="_blank"
+    >
+      <img
+        src="images/socialmedia/youtube.png"
+        alt="Link para Youtube"
+        class="youtube-btn"
+      />
+    </a>
 
-    <a href="https://www.youtube.com/channel/UCjT3dFmoWU3i79MBWEt8fNg" target="_blank"> <img
-            src="images/socialmedia/youtube.png" alt="Link para Youtube" class="youtube-btn"> </a>
+    <a
+      href="https://www.linkedin.com/in/ismael-batista-252509174/"
+      target="_blank"
+    >
+      <img
+        src="images/socialmedia/linkedin.png"
+        alt="Link para Linkedin"
+        class="linkedin-btn"
+      />
+    </a>
 
+    <a href="https://www.tiktok.com/@ismaelllbatista" target="_blank">
+      <img
+        src="images/socialmedia/tiktok.png"
+        alt="Link para Tiktok"
+        class="tiktok-btn"
+      />
+    </a> -->
 
-    <a href="https://www.linkedin.com/in/ismael-batista-252509174/" target="_blank"> <img
-            src="images/socialmedia/linkedin.png" alt="Link para Linkedin" class="linkedin-btn"> </a>
-
-
-    <a href="https://www.tiktok.com/@ismaelllbatista" target="_blank"> <img src="images/socialmedia/tiktok.png"
-            alt="Link para Tiktok" class="tiktok-btn"> </a>
-
-
-    <div class="top-bar">
-        Bem-vindo!
-    </div>
+    <div class="top-bar">Bem-vindo!</div>
 
     <header class="header">
-        <p> Agence Consultoria </p>
-        <h1></h1>
+      <p>Agence Consultoria</p>
+      <h1></h1>
     </header>
 
     <section class="info-div">
-        <button id="LinkedinBtn" class="feature-btn">BDR</button>
-        <button id="calendarBtn" class="feature-btn">Calendar</button>
-        <button id="textFormatterBtn" class="feature-btn">Leads</button>
-        <button id="notesBtn" class="feature-btn">Notes</button>
+      <button id="LinkedinBtn" class="feature-btn">BDR</button>
+      <button id="calendarBtn" class="feature-btn">Calendar</button>
+      <button id="textFormatterBtn" class="feature-btn">Leads</button>
+      <button id="notesBtn" class="feature-btn">Notes</button>
     </section>
 
     <div class="hero">
-        <div class="selector">
-            <div id="selectField">
-                <p id="selectText">Select Page </p>
-                <img src="images/arrow.png" id="arrowIcon">
-
-            </div>
-            <ul id="list" class="hide">
-                <li class="options" data-url="autoformat/index.html">AutoFormat Text</li>
-                <li class="options" data-url="googleads/googleads.html">Google Ads</li>
-                <li class="options" data-url="textospadrao/standard.html">Standard Answers</li>
-            </ul>
+      <div class="selector">
+        <div id="selectField">
+          <p id="selectText">Select Page</p>
+          <img src="images/arrow.png" id="arrowIcon" />
         </div>
+        <ul id="list" class="hide">
+          <li class="options" data-url="autoformat/index.html">
+            AutoFormat Text
+          </li>
+          <li class="options" data-url="googleads/googleads.html">
+            Google Ads
+          </li>
+          <li class="options" data-url="textospadrao/standard.html">
+            Standard Answers
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <footer class="footer">
-        <p>Inovando e reinventando o negócio de nossos clientes com a visão além da tecnologia.</p>
-    </footer>
-
     <script src="script.js"></script>
-</body>
 
+    <!-- Script de ajuste de zoom -->
+    <script>
+      function ajustarZoom() {
+        // Defina a largura base para a qual o zoom será 1 (100%)
+        const larguraBase = 1920; // Você pode ajustar este valor conforme necessário
+        // Obtenha a largura atual da janela
+        const larguraAtual = window.innerWidth;
+        // Calcule o nível de zoom
+        const nivelZoom = larguraAtual / larguraBase;
+        // Defina limites para o zoom (opcional)
+        const zoomMin = 0.5; // 50%
+        const zoomMax = 0.9; // 100%
+        // Ajuste o nível de zoom dentro dos limites
+        const zoomFinal = Math.min(Math.max(nivelZoom, zoomMin), zoomMax);
+        // Aplique o zoom ao elemento <body>
+        document.body.style.zoom = zoomFinal;
+      }
+      // Chame a função quando a página carregar
+      window.addEventListener("load", ajustarZoom);
+      // Chame a função sempre que a janela for redimensionada
+      window.addEventListener("resize", ajustarZoom);
+    </script>
+  </body>
 </html>

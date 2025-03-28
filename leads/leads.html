@@ -11,7 +11,7 @@
 <body>
 
     <!-- Botão para Voltar à Homepage, colocado no início para fácil posicionamento -->
-    <a href="../index.html" class="btn-voltar">Voltar à Homepage</a>
+    <a href="../index.html" class="btn-voltar"></a>
 
     <a href="#" onclick="copiarPromptGPT()"> <img src="../images/chatgpt.png" alt="Prompt ChatGPT" class="ChatGPT-btn">
     </a>
@@ -19,7 +19,11 @@
     <a href="#" onclick="copiarLinkWhatsapp()"> <img src="../images/whatsapp.png" alt="Link Whatsapp"
             class="whatsapp-btn">
     </a>
-    
+
+    <a href="#" onclick="copiarPerguntasDefault()"> <img src="../images/question.png" alt="Copia as perguntas padrão que serão feitas pelo consultor ao Lead na primeira reunião."
+            class="question-btn">
+    </a>
+	
     <!-- Novos botões para copiar conteúdo das células S2 e S4 -->
     <a href="#" id="copiarS2"> <img src="../images/agence2.png" alt="Copiar S2" class="copy-btn"> </a>
     <a href="#" id="copiarS4"> <img src="../images/cn.png" alt="Copiar S4" class="copy-btn"> </a>
@@ -57,7 +61,7 @@
             <button class="btn-adicionar" onclick="copiarEmail()">E-mail</button>
             <button class="btn-adicionar" onclick="copiarAssunto()">Assunto</button>
             <button class="btn-adicionar" onclick="copiarLocalidade()">Localidade</button>
-            <button id="copiarLeadFaleCom" class="btn-adicionar">Lead FaleCom</button>
+            <button id="copiarLeadFaleCom" class="btn-adicionar" onclick="window.open('../falecom/index.html', '_blank');">Lead FaleCom</button>
 
             <button class="btn-adicionar" onclick="copiarLinkedin()">
                 <span class="button-content">
@@ -97,7 +101,7 @@
 
             <!-- Container Principal para Resultado Automático à Direita -->
             <div class="containerLeadAutomatico">
-                <div id="resultado" class="resultado">Chegou lead na Fila A para o @<br><br>Contato: não informado<br>Empresa: não informado<br>Telefone: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Perfil linkedin:<br>ainda não identificado<br>--------------------------------------------------------<br>próximo da fila é o @</div>
+                <div id="resultado" class="resultado">Chegou lead na Fila A para o @<br><br>Contato: não informado<br>Empresa: não informado<br>Telefone: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Site da empresa: COMPANY_URL<br><br>Linkedin: ainda não identificado<br>--------------------------------------------------------<br>próximo da fila é o @</div>
             </div>
         </div>
 
@@ -114,7 +118,37 @@
 
     <script src="leads.js"></script>
 
-	<script src="https://apis.google.com/js/api.js"></script>	
+	<script src="https://apis.google.com/js/api.js"></script>
+
+	<!-- Script de ajuste de zoom -->
+	<script>
+	  function ajustarZoom() {
+	    // Defina a largura base para a qual o zoom será 1 (100%)
+	    const larguraBase = 1920; // Você pode ajustar este valor conforme necessário
+	
+	    // Obtenha a largura atual da janela
+	    const larguraAtual = window.innerWidth;
+	
+	    // Calcule o nível de zoom
+	    const nivelZoom = larguraAtual / larguraBase;
+	
+	    // Defina limites para o zoom (opcional)
+	    const zoomMin = 0.5; // 50%
+	    const zoomMax = 0.9; // 100%
+	
+	    // Ajuste o nível de zoom dentro dos limites
+	    const zoomFinal = Math.min(Math.max(nivelZoom, zoomMin), zoomMax);
+	
+	    // Aplique o zoom ao elemento <body>
+	    document.body.style.zoom = zoomFinal;
+	  }
+	
+	  // Chame a função quando a página carregar
+	  window.addEventListener("load", ajustarZoom);
+	
+	  // Chame a função sempre que a janela for redimensionada
+	  window.addEventListener("resize", ajustarZoom);
+	</script>	
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {

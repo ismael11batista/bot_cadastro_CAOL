@@ -1,0 +1,56 @@
+#### Checklist para Validação de Requerimentos de RPA
+
+**1. Escopo do Processo**
+
+- Quantas etapas o processo possui e qual é a sua complexidade?
+
+- Quantos sistemas são necessários acessar (ERP, Planilhas, e-mails, FTP, etc.)?
+
+
+**2. Integração de Sistemas**
+
+- Quais sistemas e aplicativos precisam ser integrados?
+
+- Os sistemas requerem integração via API? Existe disponibilidade de APIs disponíveis para automação? Sim/Não
+
+- A integração requer leitura e escrita em dados de aplicações legadas? Sim/Não
+
+
+**3. Volume de Processamento**
+
+- Qual é o volume de tarefas/processos que precisam ser automatizados?
+
+- Com que frequência esses processos ocorrem (diariamente, semanalmente, mensalmente)?
+
+
+**4. Escalabilidade e Suporte**
+   
+- Há planos antecipados de expansão dos processos automatizados? Sim/Não
+
+- Precisa de suporte técnico e manutenção (Sistemas que passam constantemente por atualizações)?
+
+
+**5. Flexibilidade e Personalização**
+
+- É possível que o processo seja atualizado dentro de pouco tempo? Sim/Não
+
+
+**6. Segurança e Governança**
+
+- Existem requisitos específicos de segurança ou conformidade que precisam ser atendidos?
+
+- Como os dados sensíveis serão tratados durante a automação?
+
+
+**7. Deployment**
+
+- Qual é a infraestrutura preferida para executar o processo de automação: remoto ou local?
+
+- Há requisitos específicos de implantação (ex: Deve ser iniciado de forma automática, iniciado por uma pessoa, etc.)?
+
+
+**8. Orçamento e Prazos**
+
+- Qual é o orçamento estimado para o projeto de automação?
+
+- Qual é o prazo esperado para a implementação da solução?

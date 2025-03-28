@@ -1,0 +1,53 @@
+### **4. Outsourcing e Headhunting**
+
+- **Necessidades de Contratação**
+
+- Vocês vêm enfrentando problemas na contratação de funcionários?
+
+- Atualmente tem vagas em aberto com dificuldade no preenchimento?
+
+
+- **Retenção e Rotatividade**
+
+- Como é a rotatividade destes funcionários? É comum eles ficarem pouco e saírem logo depois de contratados?
+
+
+- **Perfis e Qualificações**
+
+- Quantidade e Senioridade dos profissionais: Junior (Até 2 anos de experiência), Pleno (De 3 a 5 anos) ou Sênior (De 6 anos para mais).
+
+- Conhecimento de programação necessária: ASP, .NET, PHP, Ruby, Python, Java, etc.
+
+- Conhecimento de programação em algum framework específico? Cake, Zend, Laravel, Rails, Django, etc.
+
+- Conhecimento de programação desejável: ASP, .NET, PHP, Ruby, Python, Java, etc.
+
+- Conhecimento de banco de dados necessário: SQL Server, MySQL, PostgreSQL, Oracle, etc.
+
+
+- **Custos e Regimes de Contratação**
+
+- Qual o custo por hora/homem que vocês têm com esses funcionários?
+
+- Qual o regime de contratação? CLT ou PJ?
+
+
+- **Logística e Localização**
+
+- Localização que deverá ficar o profissional: Bairro/Rua/Referência/Etc.
+
+- Obrigatoriamente o profissional deverá ficar in-loco ou poderia ser remoto (sendo remoto o preço pode cair de 20% a 30%):
+
+- Tempo estimado de alocação: 6 meses? 1 ano? Indeterminado?
+
+- Data de início necessário para o profissional: Imediata? Daqui 1 semana? 1 mês?
+
+
+- **Treinamento e Adaptação**
+- Qual o tempo de treinamento e de adaptação?
+
+Considerando o contexto, perguntas adicionais poderiam incluir: 
+
+- Como vocês estão atualmente inovando na área de tecnologia?
+
+- Quais são os desafios enfrentados ao tentar integrar novas tecnologias em seus serviços atuais?

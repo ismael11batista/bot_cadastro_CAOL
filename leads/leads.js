@@ -759,7 +759,7 @@ function obterOrigem(texto) {
       value: "Origem: Formulário Fale Conosco",
     },
     {
-      triggers: ["[leads] [pop-up", "Identificador: pop-up-"],
+      triggers: ["[leads] [pop-up", "Identificador: pop-up-", "popup"],
       value: "Origem: Formulário Pop-up",
     },
     {

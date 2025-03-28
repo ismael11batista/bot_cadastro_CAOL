@@ -1,385 +1,362 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 /* Estilos globais */
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
+  font-size: 16px;
+  zoom: 1;
+  font-family: "Roboto", sans-serif;
+  height: 100%;
+  /* Garante que o html e o body ocupem pelo menos a altura total da tela */
+
+  min-height: 100vh;
+  /* Garante que o mínimo seja a altura da viewport, útil para conteúdo menor que a tela */
+
+  body {
+    font-family: "Roboto", sans-serif;
+    background: linear-gradient(0deg, #07090a, #08090a);
+    color: rgba(255, 255, 255, 0.605);
+    padding: 10px;
+  }
+
+  .todo-app {
+    max-width: 900px;
+    background: transparent;
+    /* Alterado para fundo transparente */
+    margin: 0px auto;
+    padding: 30px 30px 70px;
+    border-radius: 0px;
+  }
+
+  .todo-app h2 {
+    color: rgba(255, 255, 255, 0.605);
+    /* Cor do Titulo "To do List" */
+    display: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .todo-app h2 img {
+    width: 30px;
+    margin-left: 10px;
+    margin-bottom: -5px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #304163;
+    /* Cor do fundo dentro da caixa de texto */
+    border-radius: 5px;
+    padding-left: 20px;
+    margin-bottom: 25px;
+  }
+
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.605);
+    /* Cor do texto dentro da caixa de texto */
+  }
+
+  button {
+    border: none;
+    outline: none;
+    padding: 16px 50px;
+    background: #06126c81;
+    /* Background color do botão adicionar  */
+    color: rgba(255, 255, 255, 0.605);
+    /* Cor do texto do botão adicionar */
     font-size: 16px;
-    zoom: 1;
-    font-family: 'Roboto', sans-serif;
-    height: 100%;
-    /* Garante que o html e o body ocupem pelo menos a altura total da tela */
+    cursor: pointer;
+    border-radius: 0px;
+  }
 
-    min-height: 100vh;
-    /* Garante que o mínimo seja a altura da viewport, útil para conteúdo menor que a tela */
+  button:hover {
+    background-color: #06126c81;
+  }
 
+  ul li {
+    list-style: none;
+    font-size: 17px;
+    padding: 12px 8px 12px 50px;
+    user-select: text;
+    /* Permite que o usuário selecione o texto */
+    cursor: text;
+    /* Muda o cursor para indicar a possibilidade de seleção de texto */
 
-    body {
-        font-family: 'Roboto', sans-serif;
-        background: linear-gradient(0deg,#000000, #080808 );
-        color: rgba(255, 255, 255, 0.605);
-        padding: 10px;
-    }
+    position: relative;
+    background: #324468;
+    /* Background color da atividade já adicionada no to do list */
+  }
 
+  ul li::before {
+    content: "";
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    top: 8px;
+    left: 8px;
+    background-image: url("../images/unchecked.png");
+  }
 
-    .todo-app {
-        max-width: 900px;
-        background: transparent;
-        ;
-        /* Alterado para fundo transparente */
-        margin: 0px auto;
-        padding: 30px 30px 70px;
-        border-radius: 0px;
-    }
+  ul li.checked {
+    color: #17ac09;
+    text-decoration: line-through;
+  }
 
-    .todo-app h2 {
-        color: rgba(255, 255, 255, 0.605);
-        /* Cor do Titulo "To do List" */
-        display: center;
-        align-items: center;
-        margin-bottom: 20px;
+  ul li.checked::before {
+    background-image: url("../images/checked.png");
+  }
 
-    }
+  ul li span {
+    position: absolute;
+    right: 0;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    color: rgba(22, 22, 85, 0.605);
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+  }
 
-    .todo-app h2 img {
-        width: 30px;
-        margin-left: 10px;
-        margin-bottom: -5px;
+  ul li span:hover {
+    background: rgba(255, 255, 255, 0.605);
+  }
 
-    }
+  /* Estilos para Anotações dos Projetos */
+  #anotacoes-projetos {
+    max-width: 900px;
+    background: transparent;
+    margin: 10px auto;
+    padding: 40px 30px 70px;
+    border-radius: 0px;
+    color: rgba(255, 255, 255, 0.605);
+    /* Cor do texto */
+  }
 
-    .row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: #304163;
-        /* Cor do fundo dentro da caixa de texto */
-        border-radius: 5px;
-        padding-left: 20px;
-        margin-bottom: 25px;
+  #anotacoes-projetos h2 {
+    display: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
 
-    }
+  #anotacoes-projetos button {
+    border: none;
+    outline: none;
+    padding: 16px 50px;
+    background: #06126c81;
+    /* Background color do botão adicionar  */
+    color: rgba(255, 255, 255, 0.605);
+    /* Cor do texto do botão adicionar */
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0px;
+    font-family: "Roboto", sans-serif;
+  }
 
-    input {
-        flex: 1;
-        border: none;
-        outline: none;
-        background: transparent;
-        padding: 10px;
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.605);
-        /* Cor do texto dentro da caixa de texto */
+  #anotacoes-projetos button:hover {
+    background-color: #06126c81;
+  }
 
-    }
+  /* Estilos para a lista de anotações */
+  #lista-anotacoes li {
+    list-style: none;
+    font-size: 17px;
+    padding: 12px 20px;
+    /* Padding ajustado para corresponder ao To-Do List */
+    background: #324468;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    position: relative;
+    /* Para posicionamento absoluto do botão de remover */
+  }
 
+  #lista-anotacoes li span {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    /* Centraliza verticalmente */
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+  }
 
-    button {
-        border: none;
-        outline: none;
-        padding: 16px 50px;
-        background: #06126c81;
-        /* Background color do botão adicionar  */
-        color: rgba(255, 255, 255, 0.605);
-        /* Cor do texto do botão adicionar */
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 0px;
-    }
+  #lista-anotacoes li span:hover {
+    background: rgba(255, 255, 255, 0.605);
+  }
 
-    button:hover {
-        background-color: #06126c81;
-    }
+  #lista-anotacoes li::before {
+    background-image: none;
+    content: none;
+    /* Remove o conteúdo gerado pelo ::before */
+  }
 
+  /* Estilo para o botão de Voltar à Homepage */
+  .btn-voltar {
+    position: fixed;
+    bottom: 10px;
+    z-index: 1000;
+    left: 50%;
+    /* Ajustado para 50% para iniciar o posicionamento do centro */
+    transform: translateX(-50%);
+    /* Desloca o botão para a esquerda pela metade de sua largura */
+    padding: 10px;
+    background-color: #414e68;
+    color: rgba(255, 255, 255, 0.605);
+    border: 2px solid #84b5ff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-weight: bold;
+    /* Adiciona negrito ao texto */
+    display: inline-block;
+    /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
+  }
 
-    ul li {
-        list-style: none;
-        font-size: 17px;
-        padding: 12px 8px 12px 50px;
-        user-select: text;
-        /* Permite que o usuário selecione o texto */
-        cursor: text;
-        /* Muda o cursor para indicar a possibilidade de seleção de texto */
+  .btn-voltar:hover {
+    background-color: rgba(0, 87, 179, 0.908);
+  }
 
-        position: relative;
-        background: #324468;
-        /* Background color da atividade já adicionada no to do list */
+  /* Estilos das tarefas */
+  ul {
+    list-style-type: none;
+  }
 
-    }
+  li {
+    background-color: #324468;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: move;
+    transition: background 0.3s ease, color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-    ul li::before {
-        content: '';
-        position: absolute;
-        height: 28px;
-        width: 28px;
-        border-radius: 50%;
-        background-size: cover;
-        background-position: center;
-        top: 8px;
-        left: 8px;
-        background-image: url('../images/unchecked.png');
+  li:hover {
+    background-color: #35486d;
+  }
 
+  li.dragging {
+    opacity: 0.5;
+  }
 
-    }
+  /* Estilos do campo de entrada e botão de adicionar */
+  textarea {
+    background-color: #324468;
+    color: rgba(255, 255, 255, 0.605);
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 6px;
+    resize: none;
+    font-family: "Roboto", sans-serif;
+  }
 
-    ul li.checked {
-        color: #17ac09;
-        text-decoration: line-through;
-    }
+  #conteudo-principal {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
 
-    ul li.checked::before {
-        background-image: url('../images/checked.png');
-    }
+  .bloco {
+    background-color: transparent;
+    box-shadow: 0 4px 8px transparent;
+    border-radius: 0px;
+    padding: 0px;
+    width: calc(50% - 20px);
+    margin: 10px;
+  }
 
-    ul li span {
-        position: absolute;
-        right: 0;
-        top: 5px;
-        width: 40px;
-        height: 40px;
-        font-size: 22px;
-        color: rgba(22, 22, 85, 0.605);
-        line-height: 40px;
-        text-align: center;
-        border-radius: 50%;
-    }
+  .bloco h2 {
+    color: rgba(255, 255, 255, 0.605);
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    /* Texto "Anotações dos Projetos" */
+  }
 
-    ul li span:hover {
-        background: rgba(255, 255, 255, 0.605);
-    }
-
-
-
-    /* Estilos para Anotações dos Projetos */
-    #anotacoes-projetos {
-        max-width: 900px;
-        background: transparent;
-        margin: 10px auto;
-        padding: 40px 30px 70px;
-        border-radius: 0px;
-        color: rgba(255, 255, 255, 0.605);
-        /* Cor do texto */
-    }
-
-    #anotacoes-projetos h2 {
-        display: center;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-
-    #anotacoes-projetos button {
-        border: none;
-        outline: none;
-        padding: 16px 50px;
-        background: #06126c81;
-        /* Background color do botão adicionar  */
-        color: rgba(255, 255, 255, 0.605);
-        /* Cor do texto do botão adicionar */
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 0px;
-        font-family: 'Roboto', sans-serif;
-
-    }
-
-    #anotacoes-projetos button:hover {
-        background-color: #06126c81;
-    }
-
-    /* Estilos para a lista de anotações */
-    #lista-anotacoes li {
-        list-style: none;
-        font-size: 17px;
-        padding: 12px 20px;
-        /* Padding ajustado para corresponder ao To-Do List */
-        background: #324468;
-        margin-bottom: 8px;
-        border-radius: 5px;
-        /* Bordas arredondadas */
-        position: relative;
-        /* Para posicionamento absoluto do botão de remover */
-    }
-
-    #lista-anotacoes li span {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        /* Centraliza verticalmente */
-        width: 40px;
-        height: 40px;
-        font-size: 22px;
-        line-height: 40px;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    #lista-anotacoes li span:hover {
-        background: rgba(255, 255, 255, 0.605);
-    }
-
-    #lista-anotacoes li::before {
-        background-image: none;
-        content: none;
-        /* Remove o conteúdo gerado pelo ::before */
-    }
-
-
-    /* Estilo para o botão de Voltar à Homepage */
-    .btn-voltar {
-        position: fixed;
-        bottom: 10px;
-        z-index: 1000;
-        left: 50%;
-        /* Ajustado para 50% para iniciar o posicionamento do centro */
-        transform: translateX(-50%);
-        /* Desloca o botão para a esquerda pela metade de sua largura */
-        padding: 10px;
-        background-color: #414e68;
-        color: rgba(255, 255, 255, 0.605);
-        border: 2px solid #84b5ff;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        text-decoration: none;
-        font-weight: bold;
-        /* Adiciona negrito ao texto */
-        display: inline-block;
-        /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
-    }
-
-    .btn-voltar:hover {
-        background-color: rgba(0, 87, 179, 0.908);
-    }
-
-
-    /* Estilos das tarefas */
-    ul {
-        list-style-type: none;
-    }
-
-    li {
-        background-color: #324468;
-        padding: 10px 15px;
-        margin-bottom: 10px;
-        border-radius: 6px;
-        cursor: move;
-        transition: background 0.3s ease, color 0.3s ease;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    li:hover {
-        background-color: #35486d;
-    }
-
-    li.dragging {
-        opacity: 0.5;
-    }
-
-    /* Estilos do campo de entrada e botão de adicionar */
-    textarea {
-        background-color: #324468;
-        color: rgba(255, 255, 255, 0.605);
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        border: none;
-        border-radius: 6px;
-        resize: none;
-        font-family: 'Roboto', sans-serif;
-
-    }
-
-
+  @media (max-width: 768px) {
     #conteudo-principal {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: flex-start;
+      flex-direction: column;
     }
 
     .bloco {
-        background-color: transparent;
-        box-shadow: 0 4px 8px transparent;
-        border-radius: 0px;
-        padding: 0px;
-        width: calc(50% - 20px);
-        margin: 10px;
+      width: 100%;
     }
+  }
 
-    .bloco h2 {
-        color: rgba(255, 255, 255, 0.605);
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-        /* Texto "Anotações dos Projetos" */
-    }
+  /* Estilo para o botão de Voltar à Homepage */
+  .btn-voltar {
+    position: fixed;
+    bottom: 10px;
+    z-index: 1000;
+    left: 50%;
+    /* Ajustado para 50% para iniciar o posicionamento do centro */
+    transform: translateX(-50%);
+    /* Desloca o botão para a esquerda pela metade de sua largura */
+    padding: 10px;
+    background: linear-gradient(45deg, #00021d, #000a42);
+    color: rgba(255, 255, 255, 0.605);
+    border: 1px solid rgba(255, 255, 255, 0.605);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-weight: bold;
+    /* Adiciona negrito ao texto */
+    display: inline-block;
+    /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
+  }
 
-    @media (max-width: 768px) {
-        #conteudo-principal {
-            flex-direction: column;
-        }
+  .btn-voltar:hover {
+    background: linear-gradient(45deg, #00043a, #001170);
+  }
 
-        .bloco {
-            width: 100%;
-        }
-    }
+  .pop-up {
+    position: fixed;
+    bottom: 10px;
+    left: 10%;
+    transform: translateX(-50%);
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+  }
 
-    /* Estilo para o botão de Voltar à Homepage */
-    .btn-voltar {
-        position: fixed;
-        bottom: 10px;
-        z-index: 1000;
-        left: 50%;
-        /* Ajustado para 50% para iniciar o posicionamento do centro */
-        transform: translateX(-50%);
-        /* Desloca o botão para a esquerda pela metade de sua largura */
-        padding: 10px;
-        background: linear-gradient(45deg, #00021d, #000a42);
-        color: rgba(255, 255, 255, 0.605);
-        border: 1px solid rgba(255, 255, 255, 0.605);
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        text-decoration: none;
-        font-weight: bold;
-        /* Adiciona negrito ao texto */
-        display: inline-block;
-        /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
-    }
-
-    .btn-voltar:hover {
-        background: linear-gradient(45deg, #00043a, #001170);
-    }
-
-
-
-
-    .pop-up {
-        position: fixed;
-        bottom: 10px;
-        left: 10%;
-        transform: translateX(-50%);
-        background-color: #007bff;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        z-index: 1000;
-        transition: opacity 0.5s ease-in-out;
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .pop-up.active {
-        opacity: 1;
-        transition: opacity 0.5s ease-in-out;
-    }
+  .pop-up.active {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
 }

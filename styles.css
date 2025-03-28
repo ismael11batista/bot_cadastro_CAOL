@@ -7,7 +7,7 @@ html {
   padding: 0;
   font-family: "Roboto", sans-serif;
   font-size: xx-large;
-  background: linear-gradient(0deg, #000000, #080808);
+  background: linear-gradient(0deg, #010411, #010107);
   zoom: 0.82;
   color: #e0e0e0;
   width: 100%;
@@ -69,19 +69,6 @@ html {
 
 .feature-btn:hover {
   background: linear-gradient(45deg, #00021d, #00092e);
-}
-
-.footer {
-  background: linear-gradient(45deg, #00021d, #000416);
-  color: rgba(255, 255, 255, 0.605);
-  text-align: center;
-  padding: 10px;
-  width: 100%;
-  font-family: "Roboto", sans-serif;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 0; /* Ajuste conforme necessário para ficar acima de outros elementos */
 }
 
 @media (max-width: 768px) {

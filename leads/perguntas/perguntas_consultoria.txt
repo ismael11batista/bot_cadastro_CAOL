@@ -1,0 +1,94 @@
+#### Checklist de Consultoria de Ti
+
+- **Objetivos e Processos**
+
+- Qual é o objetivo principal do projeto?
+
+- Como funciona esse processo hoje? Existe alguma ferramenta em uso hoje pelos usuários? Tem um nome ou foi desenvolvido internamente?
+
+- Você está considerando alguma integração com outros sistemas legados da empresa ou outros sites externos? Quais e por favor liste a forma de integração existente como API, Webservices, etc?
+
+
+- **Documentação e Identidade**
+
+- Já tem algum protótipo ou documentação do projeto?
+
+- Você tem um manual de identidade visual do projeto?
+
+- Você pode fornecer acesso à documentação relevante como personas de usuários, fluxos de trabalho ou diretrizes de design? Além de um simples manual do usuário caso seja somente isso que vocês tenham?
+
+
+- **Tecnologia e Infraestrutura**
+
+- Quais são as premissas de infra-estrutura e arquitetura?
+
+- Existe preferência por alguma tecnologia (PHP, .NET C#, Python, Java, Node.JS, etc)?
+
+- Existe preferência por algum banco de dados (MySQL, PostgreSQL, Oracle, SQL Server, MongoDB)?
+
+
+- **Orçamento e Prazos**
+
+- Você tem alguma expectativa para as datas de início e término do projeto?
+
+- Existe um orçamento máximo já estabelecido para o projeto?
+
+- Qual é o prazo esperado para a implementação da solução?
+
+
+- **Equipe e Tomadores de Decisão**
+
+- Quem é o principal responsável pelo projeto do lado de vocês?
+
+- Como a sua empresa realiza o processo de compras?
+
+- Quais serão os demais participantes do processo de compra?
+
+- Qual o grau de influência de cada participante?
+
+- Existe alguém que possa impedir a compra (gatekeeper)?
+
+- Se sim, por qual motivo?
+
+
+- **Experiência Anterior e Competitividade**
+
+- Você já recebeu outros orçamentos? Qual foi a experiência?
+
+- Você tem exemplos de sistemas concorrentes? Em caso afirmativo, liste os links.
+
+
+- **Estrutura Organizacional**
+
+- Tem alguma consultoria externa de RH e/ou TI?
+
+- Tem time de TI Devs interno? Quantos?
+
+- Tem time de TI Infra/Help Desk? Quantos?
+
+
+### Perguntas Auxiliares (Transversais a Diversos Serviços)
+
+- **Estrutura Organizacional**
+
+- Tem time de TI Devs interno? Quantos?
+
+- Tem time de TI Infra/Help Desk? Quantos?
+
+
+- **Segurança e Compliance**
+
+- Vocês têm algum requisito de segurança?
+
+- Se sim, tem alguma documentação padrão a ser seguida?
+
+
+- **Usuários e Escalabilidade**
+  
+- Para o caso de o sistema ser de grande porte:
+
+- Qual público de usuários que deverá utilizar esse sistema web/app mobile?
+
+- Qual seria o número total de usuários previstos para o sistema web/app mobile?
+
+- E qual seria o número de usuários simultâneos esperados para o sistema web/app mobile?

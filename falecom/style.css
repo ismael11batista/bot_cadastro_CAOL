@@ -1,127 +1,121 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    font-size: 16px;
-    zoom: 1;
-    font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  zoom: 1;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(0deg,#000000, #080808 );
-    color: rgba(255, 255, 255, 0.605);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* Centraliza horizontalmente os elementos filhos */
-    min-height: 100vh;
-    /* Garante que o body ocupe a altura total da tela */
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(0deg, #000000, #080808);
+  color: rgba(255, 255, 255, 0.605);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centraliza horizontalmente os elementos filhos */
+  min-height: 100vh;
+  /* Garante que o body ocupe a altura total da tela */
 }
 
 textarea,
 #adjustedText {
-    font-family: 'Roboto', sans-serif;
-
-    background-color: #0D0D0D;
-    font-size: large;
-    color: rgba(255, 255, 255, 0.605);
-    width: 98%;
-    padding: 10px;
-    margin: 20px auto;
-    /* Centraliza horizontalmente */
-    border: 1px solid rgba(255, 255, 255, 0.605);
-    border-radius: 10px;
-    resize: none;
-    height: 300px;
+  background-color: #0d0d0d;
+  font-size: xx-large;
+  color: rgba(255, 255, 255, 0.605);
+  width: 95%;
+  padding: 10px;
+  margin: 20px;
+  border: 5px solid rgba(255, 255, 255, 0.605);
+  border-radius: 10px;
+  resize: none;
+  height: 280px;
+  margin-bottom: 15px;
 }
 
 #adjustedText {
-    white-space: pre-wrap;
-    /* Mantém a formatação de quebra de linha e espaços */
-    background-color: transparent;
-    border: 1px solid transparent;
-    min-height: 200px;
+  white-space: pre-wrap;
+  /* Mantém a formatação de quebra de linha e espaços */
+  background-color: transparent;
+  border: 1px solid transparent;
+  min-height: 200px;
 }
 
 button {
-    position: fixed;
-    bottom: 10px;
-    z-index: 1000;
-    left: 50%;
-    bottom: 60%;
-    transform: translateX(-50%);
-    padding: 10px ;
-    background-color: #0D0D0D;
-    color: rgba(255, 255, 255, 0.605);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-family: 'Roboto', sans-serif;
-    border: 0px solid rgba(255, 255, 255, 0.605);
-    font-weight: bold;
-    /* Define a largura mínima para 50px */
-    min-width: 250px;
-
-
+  position: fixed;
+  bottom: 10px;
+  z-index: 1000;
+  left: 50%;
+  bottom: 60%;
+  transform: translateX(-50%);
+  padding: 10px;
+  background-color: #0d0d0d;
+  color: rgba(255, 255, 255, 0.605);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Roboto", sans-serif;
+  border: 0px solid rgba(255, 255, 255, 0.605);
+  font-weight: bold;
+  /* Define a largura mínima para 50px */
+  min-width: 250px;
 }
 
 button:hover {
-    background-color: #18356e;
+  background-color: #18356e;
 }
-
 
 /* Estilo para o botão de Voltar à Homepage */
 .btn-voltar {
-    position: fixed;
-    bottom: 10px;
-    z-index: 1000;
-    left: 50%;
-    /* Ajustado para 50% para iniciar o posicionamento do centro */
-    transform: translateX(-50%);
-    /* Desloca o botão para a esquerda pela metade de sua largura */
-    padding: 10px;
-    background: linear-gradient(45deg, #00021d, #000a42);
-    color: rgba(255, 255, 255, 0.605);
-    border: 1px solid rgba(255, 255, 255, 0.605);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
-    font-weight: bold;
-    /* Adiciona negrito ao texto */
-    display: inline-block;
-    /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
+  position: fixed;
+  bottom: 10px;
+  z-index: 1000;
+  left: 50%;
+  /* Ajustado para 50% para iniciar o posicionamento do centro */
+  transform: translateX(-50%);
+  /* Desloca o botão para a esquerda pela metade de sua largura */
+  padding: 10px;
+  background: linear-gradient(45deg, #00021d, #000a42);
+  color: rgba(255, 255, 255, 0.605);
+  border: 1px solid rgba(255, 255, 255, 0.605);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  font-weight: bold;
+  /* Adiciona negrito ao texto */
+  display: inline-block;
+  /* Alterado de 'center' para 'inline-block', já que 'center' não é um valor válido para 'display' */
 }
 
 .btn-voltar:hover {
-    background: linear-gradient(45deg, #00043a, #001170);
+  background: linear-gradient(45deg, #00043a, #001170);
 }
 
 .pop-up {
-    position: fixed;
-    bottom: 10px;
-    left: 10%;
-    transform: translateX(-50%);
-    background-color: #0056b3;
-    color: rgba(255, 255, 255, 0.605);
-    padding: 10px 20px;
-    border-radius: 5px;
-    z-index: 1000;
-    transition: opacity 0.5s ease-in-out;
-    opacity: 0;
-    pointer-events: none;
+  position: fixed;
+  bottom: 10px;
+  left: 10%;
+  transform: translateX(-50%);
+  background-color: #0056b3;
+  color: rgba(255, 255, 255, 0.605);
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .pop-up.active {
-    opacity: 1;
+  opacity: 1;
 }

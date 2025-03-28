@@ -1,0 +1,59 @@
+#### Checklist para Validação de Requerimentos de Desenvolvimento de Soluções de IA Generativa
+
+**Objetivos e Aplicações de IA Generativa**
+
+- Quais são os principais objetivos que você deseja alcançar com a solução de IA generativa? (Ex.: automação de respostas, geração de conteúdo, assistentes virtuais, etc.)
+
+- Que tipo de saída generativa você espera do modelo? (Ex.: textos naturais, respostas em linguagem específica, resumos, traduções, código, etc.)
+
+
+**Dados e Fontes**
+
+- Que tipos de dados você possui ou planeja utilizar para treinar o LLM?
+
+- Os dados já estão organizados e limpos, ou será necessário suporte para coleta e pré-processamento?
+
+- Você tem dados sensíveis ou proprietários que exigem tratamento especial?
+
+
+**Público e Usuários**
+
+- Quem será o público-alvo ou os usuários finais da solução? (Ex.: colaboradores internos, clientes externos.)
+
+
+**Desempenho e Escalabilidade**
+
+- Quais são os requisitos de desempenho esperados do modelo? (Ex.: tempo de resposta, precisão nas respostas.)
+
+- Qual é o volume estimado de interações simultâneas que o LLM precisará processar?
+
+
+**Tecnologia e Integração**
+
+- A solução precisará integrar-se com sistemas existentes? Se sim, quais? (Ex.: CRMs, ERPs, plataformas de chat.)
+
+- Há preferência por um modelo específico para o desenvolvimento? (Ex.: OpenAI, Grok, Claude, Gemini.)
+
+
+**Design e Experiência do Usuário**
+
+- Como os usuários irão interagir com a solução? (Ex.: chatbot, API, interface web ou mobile.)
+
+
+**Segurança e Compliance**
+
+- Quais são os requisitos de segurança mais importantes para a solução? (Ex.: criptografia, proteção contra ataques.)
+
+- A solução precisa cumprir alguma regulamentação específica? (Ex.: LGPD, GDPR.)
+
+
+**Orçamento e Prazos**
+
+- Qual é a data prevista para o início do projeto e a expectativa de entrega?
+
+- Você tem um orçamento máximo definido para o desenvolvimento? Se sim, qual?
+
+
+**Estrutura Organizacional e Colaboração**
+
+- Quem será o ponto de contato principal do seu lado para gerenciar o projeto?

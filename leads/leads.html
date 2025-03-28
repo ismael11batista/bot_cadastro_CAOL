@@ -120,36 +120,6 @@
 
 	<script src="https://apis.google.com/js/api.js"></script>
 
-	<!-- Script de ajuste de zoom -->
-	<script>
-	  function ajustarZoom() {
-	    // Defina a largura base para a qual o zoom será 1 (100%)
-	    const larguraBase = 1920; // Você pode ajustar este valor conforme necessário
-	
-	    // Obtenha a largura atual da janela
-	    const larguraAtual = window.innerWidth;
-	
-	    // Calcule o nível de zoom
-	    const nivelZoom = larguraAtual / larguraBase;
-	
-	    // Defina limites para o zoom (opcional)
-	    const zoomMin = 0.5; // 50%
-	    const zoomMax = 0.9; // 100%
-	
-	    // Ajuste o nível de zoom dentro dos limites
-	    const zoomFinal = Math.min(Math.max(nivelZoom, zoomMin), zoomMax);
-	
-	    // Aplique o zoom ao elemento <body>
-	    document.body.style.zoom = zoomFinal;
-	  }
-	
-	  // Chame a função quando a página carregar
-	  window.addEventListener("load", ajustarZoom);
-	
-	  // Chame a função sempre que a janela for redimensionada
-	  window.addEventListener("resize", ajustarZoom);
-	</script>	
-
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
 			const apiKey = 'AIzaSyCCaW-e21Rn5F8ziL1HSsozZgJrtmOI6Hg';

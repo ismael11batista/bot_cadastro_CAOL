@@ -1083,6 +1083,8 @@ function formatarTextoLeadFilaA() {
   const NomeDoContato = obterNomeDoContato(texto);
   const NomeDaEmpresa = obterEmpresa(texto);
 
+  const EmailFormatado = obterEmail(texto);
+
   const siteDaEmpresa = obterSiteEmpresa(texto);
 
   const origem = obterOrigem(textoMinusculo);
@@ -1133,7 +1135,7 @@ function formatarTextoLeadFilaA() {
     nomeDaFila = "Fila Outbound";
   }
 
-  const resultadoTexto = `Chegou lead na ${nomeDaFila} para o @\n\nContato: ${NomeDoContato}\nEmpresa: ${NomeDaEmpresa}\nTelefone: ${telefone}${localidadeTexto}\n${interesse}\n${origem} \n\n${infoEconodata}Site da empresa: ${siteDaEmpresa}\n\nLinkedin${dois_pontos} ${perfilLinkedin}\n--------------------------------------------------------\npróximo da fila é o @`;
+  const resultadoTexto = `Chegou lead na ${nomeDaFila} para o @\n\nEmpresa: ${NomeDaEmpresa}\nContato: ${NomeDoContato}\nTelefone: ${telefone}${localidadeTexto}\nE-mail: ${EmailFormatado}\n${interesse}\n${origem}\nLinkedin${dois_pontos} ${perfilLinkedin}\n\n${infoEconodata}Site da empresa: ${siteDaEmpresa}\n--------------------------------------------------------\npróximo da fila é o @`;
   document.getElementById("resultado").textContent = resultadoTexto;
 }
 
@@ -1314,7 +1316,7 @@ function formatarTextoLeadConsultor() {
     localidadeTexto = `\nDDI ${ddi}: ${localidadeRaw}`;
   }
 
-  TextoLeadConsultor = `Chegou lead para você.\n\nContato: ${NomeDoContato}\nEmpresa: ${NomeDaEmpresa}\nTelefone: ${telefoneInfo.telefone}${localidadeTexto}\nE-mail: ${EmailFormatado}\n${interesse}\n${origem}\n\nAssunto: ${assuntoFormatado}`;
+  TextoLeadConsultor = `Chegou lead para você.\n\nEmpresa: ${NomeDaEmpresa}\nContato: ${NomeDoContato}\nTelefone: ${telefoneInfo.telefone}${localidadeTexto}\nE-mail: ${EmailFormatado}\n${interesse}\n${origem}\n\nAssunto: ${assuntoFormatado}`;
 
   // Atualizando o elemento HTML com o texto especial
   document.getElementById("detalhesLead").textContent = TextoLeadConsultor;

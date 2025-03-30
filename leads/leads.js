@@ -686,11 +686,24 @@ function obterTelefoneFormatado(texto) {
   if (telefoneMatch && telefoneMatch[1].trim() !== "") {
     let numeros = telefoneMatch[1].replace(/\D/g, "");
     const resultado = formatarTelefone(numeros);
+
+    // Tenta extrair o DDI para telefones não brasileiros (sem DDD)
+    let ddi = "";
+    if (!resultado.ddd) {
+      // O formato esperado para números internacionais é: "+<DDI> ..."
+      const ddiRegex = /^\+(\d{1,3})\s/;
+      const ddiMatch = resultado.formatado.match(ddiRegex);
+      if (ddiMatch) {
+        ddi = ddiMatch[1];
+      }
+    }
+
     return {
       telefone: resultado.formatado,
       localidade: resultado.localidade,
       ddd: resultado.ddd,
       pais: resultado.pais,
+      ddi: ddi,
     };
   } else {
     return {
@@ -698,6 +711,7 @@ function obterTelefoneFormatado(texto) {
       localidade: "",
       ddd: null,
       pais: "",
+      ddi: "",
     };
   }
 }
@@ -1074,11 +1088,29 @@ function formatarTextoLeadFilaA() {
   const origem = obterOrigem(textoMinusculo);
   const interesse = obterInteresse(texto);
 
-  // Usando a nova função obterTelefoneFormatado
   const telefoneInfo = obterTelefoneFormatado(texto);
   const telefone = telefoneInfo.telefone;
-  const localidade = telefoneInfo.localidade;
-  const ddd = telefoneInfo.ddd;
+  const ddd = telefoneInfo.ddd; // Utilizado para telefones brasileiros
+  const pais = telefoneInfo.pais; // Nome do país ou "Brasil"
+  const ddi = telefoneInfo.ddi; // Código DDI, para telefones internacionais
+  const localidadeRaw = telefoneInfo.localidade; // Nome da localidade ou país
+
+  // Construir a linha de localidade somente se a informação estiver 100%
+  // Exibir "DDD xx: [localidade]" para números brasileiros
+  // ou "DDI xx: [nome do país]" para internacionais (ddi diferente de 55)
+  let localidadeTexto = "";
+  if (ddd && localidadeRaw && localidadeRaw !== "DDD não reconhecido") {
+    localidadeTexto = `\nDDD ${ddd}: ${localidadeRaw}`;
+  } else if (
+    !ddd &&
+    ddi &&
+    pais &&
+    pais !== "Brasil" &&
+    localidadeRaw &&
+    localidadeRaw !== "Número não reconhecido"
+  ) {
+    localidadeTexto = `\nDDI ${ddi}: ${localidadeRaw}`;
+  }
 
   let infoEconodata = obterEconodata(texto);
 
@@ -1089,7 +1121,11 @@ function formatarTextoLeadFilaA() {
 
   let perfilLinkedin = obterLinkedin(texto);
 
-  const localidadeTexto = ddd ? `\nDDD ${ddd}: ${localidade}` : "";
+  if (perfilLinkedin.includes("https://www.linkedin.com")) {
+    dois_pontos = ":";
+  } else {
+    dois_pontos = "";
+  }
 
   // Verifica se a origem contém a palavra "outbound"
   let nomeDaFila = "Fila A"; // Valor padrão
@@ -1097,7 +1133,7 @@ function formatarTextoLeadFilaA() {
     nomeDaFila = "Fila Outbound";
   }
 
-  const resultadoTexto = `Chegou lead na ${nomeDaFila} para o @\n\nContato: ${NomeDoContato}\nEmpresa: ${NomeDaEmpresa}\nTelefone: ${telefone}${localidadeTexto}\n${interesse}\n${origem} \n\n${infoEconodata}Site da empresa: ${siteDaEmpresa}\n\nLinkedin: ${perfilLinkedin}\n--------------------------------------------------------\npróximo da fila é o @`;
+  const resultadoTexto = `Chegou lead na ${nomeDaFila} para o @\n\nContato: ${NomeDoContato}\nEmpresa: ${NomeDaEmpresa}\nTelefone: ${telefone}${localidadeTexto}\n${interesse}\n${origem} \n\n${infoEconodata}Site da empresa: ${siteDaEmpresa}\n\nLinkedin${dois_pontos} ${perfilLinkedin}\n--------------------------------------------------------\npróximo da fila é o @`;
   document.getElementById("resultado").textContent = resultadoTexto;
 }
 
@@ -1255,11 +1291,30 @@ function formatarTextoLeadConsultor() {
   let assuntoFormatado = obterAssunto(texto);
 
   const telefoneInfo = obterTelefoneFormatado(texto);
-  const localidadeTexto = telefoneInfo.ddd
-    ? `\nDDD ${telefoneInfo.ddd}: ${telefoneInfo.localidade}`
-    : "";
+  const telefone = telefoneInfo.telefone;
+  const ddd = telefoneInfo.ddd; // Utilizado para telefones brasileiros
+  const pais = telefoneInfo.pais; // Nome do país ou "Brasil"
+  const ddi = telefoneInfo.ddi; // Código DDI, para telefones internacionais
+  const localidadeRaw = telefoneInfo.localidade; // Nome da localidade ou país
 
-  TextoLeadConsultor = `Chegou lead para você.\n\nContato: ${NomeDoContato}\nEmpresa: ${NomeDaEmpresa}\nE-mail: ${EmailFormatado}\nTelefone: ${telefoneInfo.telefone}${localidadeTexto}\n${interesse}\n${origem}\n\nAssunto: ${assuntoFormatado}`;
+  // Construir a linha de localidade somente se a informação estiver 100%
+  // Exibir "DDD xx: [localidade]" para números brasileiros
+  // ou "DDI xx: [nome do país]" para internacionais (ddi diferente de 55)
+  let localidadeTexto = "";
+  if (ddd && localidadeRaw && localidadeRaw !== "DDD não reconhecido") {
+    localidadeTexto = `\nDDD ${ddd}: ${localidadeRaw}`;
+  } else if (
+    !ddd &&
+    ddi &&
+    pais &&
+    pais !== "Brasil" &&
+    localidadeRaw &&
+    localidadeRaw !== "Número não reconhecido"
+  ) {
+    localidadeTexto = `\nDDI ${ddi}: ${localidadeRaw}`;
+  }
+
+  TextoLeadConsultor = `Chegou lead para você.\n\nContato: ${NomeDoContato}\nEmpresa: ${NomeDaEmpresa}\nTelefone: ${telefoneInfo.telefone}${localidadeTexto}\nE-mail: ${EmailFormatado}\n${interesse}\n${origem}\n\nAssunto: ${assuntoFormatado}`;
 
   // Atualizando o elemento HTML com o texto especial
   document.getElementById("detalhesLead").textContent = TextoLeadConsultor;

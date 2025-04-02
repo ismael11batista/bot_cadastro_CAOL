@@ -1602,3 +1602,166 @@ function copiarPerguntasDefault() {
     mostrarPopUp(`${interesse}`);
   }
 }
+
+/* Classe que encapsula a lógica de um Popup Editor de forma modular */
+class PopupEditor {
+  constructor(options) {
+    // As opções devem incluir os elementos do DOM:
+    // openButton, popupContainer, closeButton, textArea, copyButton.
+    // Também pode receber uma função "formatter" para transformar o texto, se necessário.
+    this.openButton = options.openButton;
+    this.popupContainer = options.popupContainer;
+    this.closeButton = options.closeButton;
+    this.textArea = options.textArea;
+    this.copyButton = options.copyButton;
+    this.formatter = options.formatter || (text => text);
+
+    this._attachEvents();
+  }
+
+  _attachEvents() {
+    // Abre o popup ao clicar no botão de abrir
+    if (this.openButton) {
+      this.openButton.addEventListener('click', () => {
+        this.open();
+      });
+    }
+    // Fecha o popup ao clicar no botão de fechar
+    if (this.closeButton) {
+      this.closeButton.addEventListener('click', () => {
+        this.close();
+      });
+    }
+    // Fecha o popup ao clicar fora do conteúdo
+    window.addEventListener('click', (event) => {
+      if (event.target === this.popupContainer) {
+        this.close();
+      }
+    });
+    // Fecha o popup ao pressionar ESC
+    document.addEventListener('keydown', (event) => {
+      if (event.key === "Escape") {
+        this.close();
+      }
+    });
+    // Evento para copiar o texto (já formatado, se função for fornecida)
+    if (this.copyButton) {
+      this.copyButton.addEventListener('click', () => {
+        this.copy();
+      });
+    }
+  }
+
+  open() {
+    this.popupContainer.style.display = 'flex';
+    // Opcional: focar a área de texto ao abrir
+    if (this.textArea) {
+      this.textArea.focus();
+    }
+  }
+
+  close() {
+    this.popupContainer.style.display = 'none';
+  }
+
+  copy() {
+    const rawText = this.textArea.value;
+    const formattedText = this.formatter(rawText);
+    navigator.clipboard.writeText(formattedText).then(() => {
+      this._showPopUpMessage('Texto copiado!');
+      // Fecha o popup após copiar
+      this.close();
+    }).catch((err) => {
+      this._showPopUpMessage('Erro ao copiar o texto');
+      console.error(err);
+    });
+  }
+
+  _showPopUpMessage(message) {
+    // Exibe o popup de mensagem (exemplo simples)
+    let messageElem = document.querySelector('.pop-up-message');
+    if (!messageElem) {
+      messageElem = document.createElement('div');
+      messageElem.className = 'pop-up-message';
+      // Estilo básico; pode ser customizado via CSS
+      messageElem.style.position = 'fixed';
+      messageElem.style.top = '20px';
+      messageElem.style.right = '20px';
+      messageElem.style.padding = '10px 20px';
+      messageElem.style.background = '#333';
+      messageElem.style.color = '#fff';
+      messageElem.style.borderRadius = '4px';
+      messageElem.style.zIndex = '1000';
+      document.body.appendChild(messageElem);
+    }
+    messageElem.textContent = message;
+    messageElem.style.opacity = '1';
+    setTimeout(() => {
+      messageElem.style.opacity = '0';
+    }, 1000);
+  }
+}
+
+/* Exemplo de função de formatação */
+function formatText(text) {
+  const lines = text.split('\n');
+  const nonEmptyLines = lines.filter(line => line.trim() !== '');
+  const result = [];
+  nonEmptyLines.forEach(line => {
+    let formattedLine = line;
+    // Se linha termina com "?", adiciona prefixo "- "
+    if (line.trim().endsWith('?')) {
+      formattedLine = '- ' + line;
+    }
+    // Regra 1: "TEXTO_EXTRAORDINÁRIO" com 2 quebras de linha antes e depois
+    if (line.indexOf("TEXTO_EXTRAORDINÁRIO") !== -1) {
+      result.push('');
+      result.push('');
+      result.push(formattedLine);
+      result.push('');
+      result.push('');
+    }
+    // Regra 2: "Principais clientes" (ignora case) – se a linha tiver até 100 caracteres
+    else if (line.toLowerCase().indexOf("principais clientes") !== -1) {
+      if (line.trim().length <= 100) {
+        result.push('');
+        result.push('');
+        result.push('**' + formattedLine + '**');
+      } else {
+        result.push('');
+        result.push(formattedLine);
+      }
+    }
+    // Regra 3: "Perguntas" e "nos fazer": envolve com asteriscos
+    else if (line.indexOf("Perguntas") !== -1 && line.indexOf("nos fazer") !== -1) {
+      result.push('**' + formattedLine + '**');
+    }
+    // Regra 4: "termos de inovação": insere linha vazia antes
+    else if (line.indexOf("termos de inovação") !== -1) {
+      result.push('');
+      result.push(formattedLine);
+    }
+    // Regra 5: linhas que contenham ":" ou "R: " ou "?"
+    else if (line.indexOf(':') !== -1 || line.indexOf("R: ") !== -1 || line.indexOf('?') !== -1) {
+      result.push('');
+      result.push(formattedLine);
+    }
+    // Regra 6: caso contrário, insere normalmente
+    else {
+      result.push(formattedLine);
+    }
+  });
+  return result.join('\n');
+}
+
+/* Exemplo de utilização do PopupEditor */
+document.addEventListener('DOMContentLoaded', () => {
+  const popupEditorInstance = new PopupEditor({
+    openButton: document.getElementById('openPopupEditor'),
+    popupContainer: document.getElementById('popupEditor'),
+    closeButton: document.getElementById('closePopup'),
+    textArea: document.getElementById('popupText'),
+    copyButton: document.getElementById('popupCopyText'),
+    formatter: formatText // Função para formatação customizada
+  });
+});

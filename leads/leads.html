@@ -87,7 +87,7 @@
         <div class="info-principal">
             <!-- Nova Seção de Detalhes do Lead à Esquerda -->
             <div class="detalhes-lead">
-                <div id="detalhesLead" class="containerLeadAutomatico">Chegou lead para você.<br><br>Contato: não informado<br>Empresa: não informado<br>E-mail: não informado<br>Telefone: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Assunto: não encontrado
+                <div id="detalhesLead" class="containerLeadAutomatico">Chegou lead para você.<br><br>Contato: não informado<br>Empresa: não informado<br>Telefone: não informado<br>E-mail: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Assunto: não encontrado
                     <!-- Conteúdo dos Detalhes do Lead será inserido aqui -->
                 </div>
             </div>
@@ -101,7 +101,7 @@
 
             <!-- Container Principal para Resultado Automático à Direita -->
             <div class="containerLeadAutomatico">
-                <div id="resultado" class="resultado">Chegou lead na Fila A para o @<br><br>Contato: não informado<br>Empresa: não informado<br>Telefone: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Site da empresa: COMPANY_URL<br><br>Linkedin: ainda não identificado<br>--------------------------------------------------------<br>próximo da fila é o @</div>
+                <div id="resultado" class="resultado">Chegou lead na Fila A para o @<br><br>Contato: não informado<br>Empresa: não informado<br>Telefone: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Site da empresa: COMPANY_URL<br><br>Linkedin ainda não identificado<br>--------------------------------------------------------<br>próximo da fila é o @</div>
             </div>
         </div>
 
@@ -116,9 +116,57 @@
         <div class="tira-direita"></div>
     </div>
 
+
+    <!-- Botão para acionar o popup do editor usando um SVG de caneta -->
+    <button id="openPopupEditor" class="btn-editor" aria-label="Editor Pop Up">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 000-1.42l-2.34-2.34a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/>
+        </svg>
+    </button>
+    
+    <!-- Popup Modal Integrado -->
+    <div id="popupEditor" class="system-popup">
+        <div class="system-popup-content">
+        <span id="closePopup" class="system-close">&times;</span>
+        <h2>Formate seu Texto</h2>
+        <textarea id="popupText" class="system-textarea" placeholder=""></textarea>
+        <button id="popupCopyText" class="system-button">Copiar Texto</button>
+        </div>
+    </div>
+
     <script src="leads.js"></script>
 
 	<script src="https://apis.google.com/js/api.js"></script>
+
+	<!-- Script de ajuste de zoom -->
+	<script>
+	  function ajustarZoom() {
+	    // Defina a largura base para a qual o zoom será 1 (100%)
+	    const larguraBase = 1920; // Você pode ajustar este valor conforme necessário
+	
+	    // Obtenha a largura atual da janela
+	    const larguraAtual = window.innerWidth;
+	
+	    // Calcule o nível de zoom
+	    const nivelZoom = larguraAtual / larguraBase;
+	
+	    // Defina limites para o zoom (opcional)
+	    const zoomMin = 0.5; // 50%
+	    const zoomMax = 0.9; // 100%
+	
+	    // Ajuste o nível de zoom dentro dos limites
+	    const zoomFinal = Math.min(Math.max(nivelZoom, zoomMin), zoomMax);
+	
+	    // Aplique o zoom ao elemento <body>
+	    document.body.style.zoom = zoomFinal;
+	  }
+	
+	  // Chame a função quando a página carregar
+	  window.addEventListener("load", ajustarZoom);
+	
+	  // Chame a função sempre que a janela for redimensionada
+	  window.addEventListener("resize", ajustarZoom);
+	</script>	
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {

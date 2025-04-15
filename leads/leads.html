@@ -87,7 +87,7 @@
         <div class="info-principal">
             <!-- Nova Seção de Detalhes do Lead à Esquerda -->
             <div class="detalhes-lead">
-                <div id="detalhesLead" class="containerLeadAutomatico">Chegou lead para você.<br><br>Contato: não informado<br>Empresa: não informado<br>Telefone: não informado<br>E-mail: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Assunto: não encontrado
+                <div id="detalhesLead" class="containerLeadAutomatico">Chegou lead para você.<br><br>Empresa: não informado<br>Contato: não informado<br>Telefone: não informado<br>E-mail: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Assunto: não encontrado
                     <!-- Conteúdo dos Detalhes do Lead será inserido aqui -->
                 </div>
             </div>
@@ -101,7 +101,7 @@
 
             <!-- Container Principal para Resultado Automático à Direita -->
             <div class="containerLeadAutomatico">
-                <div id="resultado" class="resultado">Chegou lead na Fila A para o @<br><br>Contato: não informado<br>Empresa: não informado<br>Telefone: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Site da empresa: COMPANY_URL<br><br>Linkedin ainda não identificado<br>--------------------------------------------------------<br>próximo da fila é o @</div>
+                <div id="resultado" class="resultado">Chegou lead na Fila A para o @<br><br>Empresa: não informado<br>Contato: não informado<br>Telefone: não informado<br>E-mail: não informado<br>Interesse: não informado<br>Origem: não identificada<br>Linkedin ainda não identificado<br><br>Site da empresa: COMPANY_URL<br>--------------------------------------------------------<br>próximo da fila é o @</div>
             </div>
         </div>
 
@@ -137,6 +137,36 @@
     <script src="leads.js"></script>
 
 	<script src="https://apis.google.com/js/api.js"></script>
+
+	<!-- Script de ajuste de zoom -->
+	<script>
+	  function ajustarZoom() {
+	    // Defina a largura base para a qual o zoom será 1 (100%)
+	    const larguraBase = 1920; // Você pode ajustar este valor conforme necessário
+	
+	    // Obtenha a largura atual da janela
+	    const larguraAtual = window.innerWidth;
+	
+	    // Calcule o nível de zoom
+	    const nivelZoom = larguraAtual / larguraBase;
+	
+	    // Defina limites para o zoom (opcional)
+	    const zoomMin = 0.5; // 50%
+	    const zoomMax = 0.9; // 100%
+	
+	    // Ajuste o nível de zoom dentro dos limites
+	    const zoomFinal = Math.min(Math.max(nivelZoom, zoomMin), zoomMax);
+	
+	    // Aplique o zoom ao elemento <body>
+	    document.body.style.zoom = zoomFinal;
+	  }
+	
+	  // Chame a função quando a página carregar
+	  window.addEventListener("load", ajustarZoom);
+	
+	  // Chame a função sempre que a janela for redimensionada
+	  window.addEventListener("resize", ajustarZoom);
+	</script>	
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {

@@ -95,7 +95,7 @@ textarea {
 
 .btn-adicionar,
 .btn-adicionar2,
-.btn-adicionar3 {
+.btn-copiar-mensagens-formatadas {
   padding: 10px;
   background-color: #13161a;
   color: #ffffff9a;
@@ -111,7 +111,7 @@ textarea {
 
 .btn-adicionar:hover,
 .btn-adicionar2:hover,
-.btn-adicionar3:hover {
+.btn-copiar-mensagens-formatadas:hover {
   background-color: #0e141f;
 }
 
@@ -136,11 +136,11 @@ textarea {
   margin-right: 15px; /* Aumenta o espaço entre o ícone e o texto */
 }
 
-.btn-adicionar3 {
+.btn-copiar-mensagens-formatadas {
   min-width: 480px;
 }
 
-.info-container-duplo,
+.info-container-triplo,
 .info-container {
   display: flex;
   flex-direction: line;
@@ -218,26 +218,6 @@ button:hover {
   background: #121212;
 }
 
-#thumbs-down {
-  width: 20px;
-  vertical-align: middle;
-  /* Centraliza verticalmente a imagem com o texto */
-  margin-left: 10px;
-  /* Adiciona espaço entre o texto e a imagem */
-  transition: transform 0.5s;
-  /* Mantém a transição suave */
-}
-
-#thumbs-up {
-  width: 20px;
-  vertical-align: middle;
-  /* Centraliza verticalmente a imagem com o texto */
-  margin-left: 10px;
-  /* Adiciona espaço entre o texto e a imagem */
-  transition: transform 0.5s;
-  /* Mantém a transição suave */
-}
-
 #econodata {
   width: 100px;
   vertical-align: middle;
@@ -249,7 +229,7 @@ button:hover {
 }
 
 /* Layout principal */
-.info-principal {
+.exibir-textos-formatados {
   display: flex;
   justify-content: space-around;
   /* Espaçamento uniforme */
@@ -260,9 +240,9 @@ button:hover {
 }
 
 .resultado,
-.info-adicional,
-.containerLeadAutomatico,
-.detalhes-lead {
+.info-econodata,
+.containerExibirTextosFormatados,
+.mensagem-consultor {
   background-color: transparent;
   height: 250px;
   align-items: center;
@@ -292,10 +272,10 @@ button:hover {
   border: 0px solid rgba(255, 255, 255, 0.605);
 }
 
-/* Ajuste para caixas de detalhes do lead, informações adicionais e info-principal */
-.containerLeadAutomatico,
-.info-adicional,
-.detalhes-lead {
+/* Ajuste para caixas de detalhes do lead, informações adicionais e exibir-textos-formatados */
+.containerExibirTextosFormatados,
+.info-econodata,
+.mensagem-consultor {
   display: flex;
   text-align: center;
   justify-content: center;
@@ -317,12 +297,12 @@ button:hover {
 
 /* Media query para ajustes em telas menores */
 @media (max-width: 768px) {
-  .info-principal {
+  .exibir-textos-formatados {
     flex-direction: column;
   }
 }
 
-.detalhes-lead {
+.mensagem-consultor {
   padding-top: 0px;
   padding-left: 10.5%;
   overflow: hidden;
@@ -330,7 +310,7 @@ button:hover {
   -webkit-box-orient: vertical;
 }
 
-.info-principal {
+.exibir-textos-formatados {
   padding-right: 10%;
 }
 
@@ -441,12 +421,12 @@ button:hover {
 
 /* Posicionamento específico para cada botão de cópia */
 #copiarS2 .copy-btn {
-  top: 91%; /* Ajuste este valor conforme necessário */
+  top: 79%; /* Ajuste este valor conforme necessário */
   height: 42px;
 }
 
 #copiarS4 .copy-btn {
-  top: 77%; /* Ajuste este valor conforme necessário */
+  top: 65%; /* Ajuste este valor conforme necessário */
 }
 
 

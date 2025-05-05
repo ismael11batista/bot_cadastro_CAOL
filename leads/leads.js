@@ -1,10 +1,17 @@
-let NomeDoContato = "";
-let NomeDaEmpresa = "";
-let EmailDoContato = "";
-let TextoLeadConsultor = ""; // Variável global para armazenar o texto especial
-let EmailFormatado = "";
-var textoFormatadoGlobal = ""; // Variável global para armazenar o texto formatado
-let PromptGPTFormatado = "";
+let nome_do_contato = "";
+let nome_da_empresa = "";
+let email_do_contato = "";
+let mensagem_consultor = ""; // Variável global para armazenar o texto especial
+let prompt_GPT_formatado = "";
+let origem_global = "";
+let porte_global = "";
+let interesse_global = "";
+let assunto_formatado = "";
+let info_econodata = "";
+let perfil_linkedin = "";
+let site_da_empresa = "";
+let telefone_formatado = "";
+let localidade_formatada = "";
 
 // Definição das constantes de interesse
 const DEFAULT_SERVICES = {
@@ -31,19 +38,74 @@ const DEFAULT_INTERESTS = Object.fromEntries(
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("inputText").addEventListener("input", function () {
-    identificarInformacoesAutomaticamente(); // Função existente
-    obterInformacoesEconodata();
-    formatarTextoLeadConsultor(); // Chamada da função para formatar e exibir detalhes do lead
+    identificarInformacoesAutomaticamente();
+    formatarTextoLeadConsultor();
     formatarPromptGPT();
   });
 
-  document
-    .getElementById("copiarTextoEspecial")
-    .addEventListener("click", copiarTextoEspecial);
-  document
-    .getElementById("copiarLeadFaleCom")
-    .addEventListener("click", copiarLeadFaleComParaClipboard);
+  document.getElementById("copiarTextoEspecial").addEventListener("click", copiarTextoEspecial);
+
 });
+
+// Função principal que identifica as informações automaticamente
+function identificarInformacoesAutomaticamente() {
+  const texto = document.getElementById("inputText").value;
+  const textoMinusculo = texto.toLowerCase();
+  
+  localidade_formatada = "";
+  const telefoneInfo = obterTelefoneFormatado(texto);
+  telefone_formatado = telefoneInfo.telefone;
+  
+  const ddd = telefoneInfo.ddd; // Utilizado para telefones brasileiros
+  const pais = telefoneInfo.pais; // Nome do país ou "Brasil"
+  const ddi = telefoneInfo.ddi; // Código DDI, para telefones internacionais
+  const localidadeRaw = telefoneInfo.localidade; // Nome da localidade ou país
+
+  // Construir a linha de localidade somente se a informação estiver 100%
+  // Exibir "DDD xx: [localidade]" para números brasileiros
+  // ou "DDI xx: [nome do país]" para internacionais (ddi diferente de 55)
+
+  if (ddd && localidadeRaw && localidadeRaw !== "DDD não reconhecido") {
+    localidade_formatada = `\nDDD ${ddd}: ${localidadeRaw}`;
+  } else if (
+    !ddd &&
+    ddi &&
+    pais &&
+    pais !== "Brasil" &&
+    localidadeRaw &&
+    localidadeRaw !== "Número não reconhecido"
+  ) {
+    localidade_formatada = `\nDDI ${ddi}: ${localidadeRaw}`;
+  }
+
+  info_econodata = obterEconodata(texto);
+  
+  origem_global = obterOrigem(textoMinusculo);
+  interesse_global = obterInteresse(texto);
+  porte_global = obterPorte(texto);
+
+  nome_do_contato = obterNomeDoContato(texto);
+  nome_da_empresa = obterEmpresa(texto);
+  email_do_contato = obterEmail(texto);
+
+  site_da_empresa = obterSiteEmpresa(texto);
+
+  assunto_formatado = obterAssunto(texto);
+
+  perfil_linkedin = obterLinkedin(texto);
+
+  mensagem_fila_a = formatarTextoLeadFilaA()
+
+  // Exibe as informações capturadas nos elementos HTML correspondentes
+  document.getElementById("origemLead").textContent = origem_global;
+  document.getElementById("interesseLead").textContent = interesse_global;
+  document.getElementById("porteLead").textContent = porte_global;
+
+  document.getElementById("info-econodata").textContent = info_econodata;
+
+  document.getElementById("resultado").textContent = mensagem_fila_a;
+}
+
 
 async function carregarArquivoTxt(nomeVar, caminhoArquivo) {
   try {
@@ -160,11 +222,9 @@ function obterLinkedin(texto) {
 
 // Função principal que formata o nome
 function copiarNome() {
-  const texto = document.getElementById("inputText").value;
-  const nomeFormatado = obterNomeDoContato(texto);
-  if (nomeFormatado) {
-    NomeDoContato = nomeFormatado;
-    copiarParaClipboard(nomeFormatado);
+  if (nome_do_contato) {
+    nome_do_contato = nome_do_contato;
+    copiarParaClipboard(nome_do_contato);
   } else {
     copiarParaClipboard("Nome nao identificado");
     mostrarPopUp("Nome nao identificado");
@@ -173,11 +233,9 @@ function copiarNome() {
 
 // Função principal que formata a empresa
 function copiarEmpresa() {
-  const texto = document.getElementById("inputText").value;
-  const empresaFormatada = obterEmpresa(texto);
-  if (empresaFormatada) {
-    NomeDaEmpresa = empresaFormatada;
-    copiarParaClipboard(empresaFormatada);
+  if (nome_da_empresa) {
+    nome_da_empresa = nome_da_empresa;
+    copiarParaClipboard(nome_da_empresa);
   } else {
     copiarParaClipboard("Sem informação");
     mostrarPopUp("Empresa não identificada.");
@@ -186,10 +244,9 @@ function copiarEmpresa() {
 
 // Função principal que formata o perfil do LinkedIn
 function copiarLinkedin() {
-  const texto = document.getElementById("inputText").value;
-  const perfilLinkedin = obterLinkedin(texto);
-  if (perfilLinkedin) {
-    copiarParaClipboard(perfilLinkedin);
+
+  if (perfil_linkedin) {
+    copiarParaClipboard(perfil_linkedin);
   } else {
     copiarParaClipboard("Linkedin não identificado.");
     mostrarPopUp("Linkedin não identificado");
@@ -251,11 +308,9 @@ function substituirQuebrasLinha(texto) {
 
 // Função principal que usa a função interna para formatar o assunto
 function copiarAssunto() {
-  const texto = document.getElementById("inputText").value;
-  const assuntoFormatado = obterAssunto(texto);
-  if (assuntoFormatado) {
-    copiarParaClipboard(assuntoFormatado);
-    mostrarPopUp("Assunto formatado e copiado para a área de transferência");
+  if (assunto_formatado) {
+    copiarParaClipboard(assunto_formatado);
+    mostrarPopUp("Assunto copiado!");
   } else {
     copiarParaClipboard("Campo de assunto não encontrado.");
     mostrarPopUp("Campo de assunto não encontrado.");
@@ -314,12 +369,8 @@ function obterEmail(texto) {
 
 // Função principal que formata o e-mail
 function copiarEmail() {
-  const texto = document.getElementById("inputText").value;
-  const emailFormatado = obterEmail(texto);
-  if (emailFormatado) {
-    EmailDoContato = emailFormatado; // Atualiza a variável global corretamente
-    EmailFormatado = emailFormatado; // Mantém esta linha se precisar do email formatado em minúsculas em outra parte do código
-    copiarParaClipboard(emailFormatado);
+  if (email_do_contato) {
+    copiarParaClipboard(email_do_contato);
   } else {
     copiarParaClipboard("email@email.com");
     mostrarPopUp("e-mail não encontrado.");
@@ -1020,15 +1071,15 @@ function obterFaturamentoAnual(texto) {
 
 // Extrai o email usando a função auxiliar já existente
 function obterSiteEmpresa(texto) {
-  // Extrai o email usando a função auxiliar já existente
+  // // Extrai o email usando a função auxiliar já existente
   let emailFormatado = obterEmail(texto);
 
   // Caso não seja possível extrair o email, retorna COMPANY_URL
   if (!emailFormatado) return "COMPANY_URL";
 
   // Obtém a parte do domínio do email
-  let dominioSite = emailFormatado.split("@")[1];
-  if (!dominioSite) return "COMPANY_URL";
+  let dominio_do_site = emailFormatado.split("@")[1];
+  if (!dominio_do_site) return "COMPANY_URL";
 
   // Lista dos domínios pessoais que devem resultar em COMPANY_URL
   const dominiosPessoais = [
@@ -1050,7 +1101,7 @@ function obterSiteEmpresa(texto) {
   ];
 
   // Verifica se o domínio extraído é um email pessoal (comparação exata)
-  let dominioLower = dominioSite.toLowerCase();
+  let dominioLower = dominio_do_site.toLowerCase();
   for (let personal of dominiosPessoais) {
     if (dominioLower === personal) {
       return "COMPANY_URL";
@@ -1058,85 +1109,29 @@ function obterSiteEmpresa(texto) {
   }
 
   // Para outros domínios, adiciona 'www.' na frente
-  return "www." + dominioSite;
-}
-
-// Função principal que identifica as informações automaticamente
-function identificarInformacoesAutomaticamente() {
-  const texto = document.getElementById("inputText").value;
-  const textoMinusculo = texto.toLowerCase();
-
-  const origem = obterOrigem(textoMinusculo);
-  const interesse = obterInteresse(texto);
-  const porte = obterPorte(texto);
-
-  // Exibe as informações capturadas nos elementos HTML correspondentes
-  document.getElementById("origemLead").textContent = origem;
-  document.getElementById("interesseLead").textContent = interesse;
-  document.getElementById("porteLead").textContent = porte;
+  return "www." + dominio_do_site;
 }
 
 function formatarTextoLeadFilaA() {
-  const texto = document.getElementById("inputText").value;
-  const textoMinusculo = texto.toLowerCase();
 
-  const NomeDoContato = obterNomeDoContato(texto);
-  const NomeDaEmpresa = obterEmpresa(texto);
+  if (info_econodata) {
+    info_econodata_fila_a = `${info_econodata}\n\n`;
+  } else info_econodata_fila_a = "";
 
-  const EmailFormatado = obterEmail(texto);
-
-  const siteDaEmpresa = obterSiteEmpresa(texto);
-
-  const origem = obterOrigem(textoMinusculo);
-  const interesse = obterInteresse(texto);
-
-  const telefoneInfo = obterTelefoneFormatado(texto);
-  const telefone = telefoneInfo.telefone;
-  const ddd = telefoneInfo.ddd; // Utilizado para telefones brasileiros
-  const pais = telefoneInfo.pais; // Nome do país ou "Brasil"
-  const ddi = telefoneInfo.ddi; // Código DDI, para telefones internacionais
-  const localidadeRaw = telefoneInfo.localidade; // Nome da localidade ou país
-
-  // Construir a linha de localidade somente se a informação estiver 100%
-  // Exibir "DDD xx: [localidade]" para números brasileiros
-  // ou "DDI xx: [nome do país]" para internacionais (ddi diferente de 55)
-  let localidadeTexto = "";
-  if (ddd && localidadeRaw && localidadeRaw !== "DDD não reconhecido") {
-    localidadeTexto = `\nDDD ${ddd}: ${localidadeRaw}`;
-  } else if (
-    !ddd &&
-    ddi &&
-    pais &&
-    pais !== "Brasil" &&
-    localidadeRaw &&
-    localidadeRaw !== "Número não reconhecido"
-  ) {
-    localidadeTexto = `\nDDI ${ddi}: ${localidadeRaw}`;
-  }
-
-  let infoEconodata = obterEconodata(texto);
-
-  // Verifica se infoEconodata não está vazia e adiciona espaços
-  if (infoEconodata) {
-    infoEconodata = `${infoEconodata}\n\n`;
-  }
-
-  let perfilLinkedin = obterLinkedin(texto);
-
-  if (perfilLinkedin.includes("https://www.linkedin.com")) {
+  if (perfil_linkedin.includes("https://www.linkedin.com")) {
     dois_pontos = ":";
   } else {
     dois_pontos = "";
   }
 
-  // Verifica se a origem contém a palavra "outbound"
-  let nomeDaFila = "Fila A"; // Valor padrão
-  if (origem.toLowerCase().includes("outbound")) {
-    nomeDaFila = "Fila Outbound";
+  let nome_fila = "Fila A"; // Valor padrão
+  if (origem_global.toLowerCase().includes("outbound")) {
+    nome_fila = "Fila Outbound";
   }
 
-  const resultadoTexto = `Chegou lead na ${nomeDaFila} para o @\n\nEmpresa: ${NomeDaEmpresa}\nContato: ${NomeDoContato}\nTelefone: ${telefone}${localidadeTexto}\nE-mail: ${EmailFormatado}\n${interesse}\n${origem}\nLinkedin${dois_pontos} ${perfilLinkedin}\n\n${infoEconodata}Site da empresa: ${siteDaEmpresa}\n--------------------------------------------------------\npróximo da fila é o @`;
-  document.getElementById("resultado").textContent = resultadoTexto;
+  const mensagem_fila_a = `Chegou lead na ${nome_fila} para o @\n\nEmpresa: ${nome_da_empresa}\nContato: ${nome_do_contato}\nTelefone: ${telefone_formatado}${localidade_formatada}\nE-mail: ${email_do_contato}\n${interesse_global}\n${origem_global}\nLinkedin${dois_pontos} ${perfil_linkedin}\n\n${info_econodata_fila_a}Site da empresa: ${site_da_empresa}\n--------------------------------------------------------\npróximo da fila é o @`;
+
+  return mensagem_fila_a;
 }
 
 function copiarTextoLeadFilaA() {
@@ -1152,36 +1147,18 @@ function copiarTextoLeadFilaA() {
     });
 }
 
-document
-  .getElementById("inputText")
-  .addEventListener("input", formatarTextoLeadFilaA);
-
-// Garante que a formatação seja feita automaticamente ao carregar a página, se houver texto preenchido.
-document.addEventListener("DOMContentLoaded", function () {
-  if (document.getElementById("inputText").value) {
-    formatarTextoLeadFilaA();
-  }
-});
-
-// Função principal para obter todas as informações e retornar a string infoEconodata
 function obterEconodata(texto) {
-  let infoEconodata = "";
+  let info_econodata = "";
 
-  // Definindo as expressões regulares para cada tipo de informação
-
-  // 1. Regex específico para CNPJ após ", opera com o CNPJ "
   const cnpjRegexSpecific =
     /, opera com o CNPJ (\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})/i;
 
-  // 2. Outros regexes para CNPJ (mantidos conforme o código original)
   const cnpjRegexOriginal = /CNPJ: (\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})/i;
-  // Adicione aqui outros regexes de CNPJ se existirem, por exemplo:
-  // const cnpjRegexAlternative = /outro padrão de regex para CNPJ/i;
 
   // Array de regexes na ordem de prioridade
   const cnpjRegexes = [
     cnpjRegexSpecific,
-    cnpjRegexOriginal /*, cnpjRegexAlternative */,
+    cnpjRegexOriginal,
   ];
 
   let cnpjMatch = null;
@@ -1194,29 +1171,20 @@ function obterEconodata(texto) {
     }
   }
 
-  // Se o CNPJ for encontrado, adiciona as informações à string infoEconodata
+  // Se o CNPJ for encontrado, adiciona as informações à string info_econodata
   if (cnpjMatch) {
-    infoEconodata += `CNPJ: ${cnpjMatch[1]}\n`;
-    infoEconodata += obterPorte(texto) + "\n";
-    infoEconodata += obterQuantidadeFuncionarios(texto) + "\n";
-    infoEconodata += obterFaturamentoAnual(texto);
+    info_econodata += `CNPJ: ${cnpjMatch[1]}\n`;
+    info_econodata += obterPorte(texto) + "\n";
+    info_econodata += obterQuantidadeFuncionarios(texto) + "\n";
+    info_econodata += obterFaturamentoAnual(texto);
   }
 
-  return infoEconodata.trim();
-}
-
-// Função principal que identifica informações adicionais e exibe no HTML
-function obterInformacoesEconodata() {
-  const texto = document.getElementById("inputText").value;
-  const infoEconodata = obterEconodata(texto);
-
-  // Exibindo as informações
-  document.getElementById("informacoesAdicionais").textContent = infoEconodata;
+  return info_econodata.trim();
 }
 
 function copiarInformacoesEconodata() {
   const textoParaCopiar = document.getElementById(
-    "informacoesAdicionais"
+    "info-econodata"
   ).textContent;
   navigator.clipboard
     .writeText(textoParaCopiar)
@@ -1231,11 +1199,11 @@ function copiarInformacoesEconodata() {
 
 function PesquisarLinkedin() {
   const texto = document.getElementById("inputText").value;
-  NomeDoContato = obterNomeDoContato(texto);
-  NomeDaEmpresa = obterEmpresa(texto);
+  nome_do_contato = obterNomeDoContato(texto);
+  nome_da_empresa = obterEmpresa(texto);
 
-  if (NomeDoContato && NomeDaEmpresa) {
-    const query = `${NomeDoContato} ${NomeDaEmpresa} Linkedin`;
+  if (nome_do_contato && nome_da_empresa) {
+    const query = `${nome_do_contato} ${nome_da_empresa} Linkedin`;
     const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
     window.open(url, "_blank");
   } else {
@@ -1244,11 +1212,9 @@ function PesquisarLinkedin() {
 }
 
 function SiteDaEmpresa() {
-  const texto = document.getElementById("inputText").value;
-  EmailDoContato = obterEmail(texto); // Isso garantirá que EmailDoContato esteja atualizado
 
-  if (EmailDoContato) {
-    const dominio = EmailDoContato.split("@")[1];
+  if (email_do_contato) {
+    const dominio = email_do_contato.split("@")[1];
     const dominiosPessoais = [
       "gmail.com",
       "hotmail.com",
@@ -1280,52 +1246,17 @@ function SiteDaEmpresa() {
 }
 
 function formatarTextoLeadConsultor() {
-  const texto = document.getElementById("inputText").value;
-  const textoMinusculo = texto.toLowerCase();
 
-  const origem = obterOrigem(textoMinusculo);
-  const interesse = obterInteresse(texto);
-
-  let NomeDoContato = obterNomeDoContato(texto);
-  let NomeDaEmpresa = obterEmpresa(texto);
-  let EmailFormatado = obterEmail(texto);
-
-  let assuntoFormatado = obterAssunto(texto);
-
-  const telefoneInfo = obterTelefoneFormatado(texto);
-  const telefone = telefoneInfo.telefone;
-  const ddd = telefoneInfo.ddd; // Utilizado para telefones brasileiros
-  const pais = telefoneInfo.pais; // Nome do país ou "Brasil"
-  const ddi = telefoneInfo.ddi; // Código DDI, para telefones internacionais
-  const localidadeRaw = telefoneInfo.localidade; // Nome da localidade ou país
-
-  // Construir a linha de localidade somente se a informação estiver 100%
-  // Exibir "DDD xx: [localidade]" para números brasileiros
-  // ou "DDI xx: [nome do país]" para internacionais (ddi diferente de 55)
-  let localidadeTexto = "";
-  if (ddd && localidadeRaw && localidadeRaw !== "DDD não reconhecido") {
-    localidadeTexto = `\nDDD ${ddd}: ${localidadeRaw}`;
-  } else if (
-    !ddd &&
-    ddi &&
-    pais &&
-    pais !== "Brasil" &&
-    localidadeRaw &&
-    localidadeRaw !== "Número não reconhecido"
-  ) {
-    localidadeTexto = `\nDDI ${ddi}: ${localidadeRaw}`;
-  }
-
-  TextoLeadConsultor = `Chegou lead para você.\n\nEmpresa: ${NomeDaEmpresa}\nContato: ${NomeDoContato}\nTelefone: ${telefoneInfo.telefone}${localidadeTexto}\nE-mail: ${EmailFormatado}\n${interesse}\n${origem}\n\nAssunto: ${assuntoFormatado}`;
+  mensagem_consultor = `Chegou lead para você.\n\nEmpresa: ${nome_da_empresa}\nContato: ${nome_do_contato}\nTelefone: ${telefone_formatado}${localidade_formatada}\nE-mail: ${email_do_contato}\n${interesse_global}\n${origem_global}\n\nAssunto: ${assunto_formatado}`;
 
   // Atualizando o elemento HTML com o texto especial
-  document.getElementById("detalhesLead").textContent = TextoLeadConsultor;
+  document.getElementById("mensagem-consultor").textContent = mensagem_consultor;
 }
 
 function copiarTextoLeadConsultor() {
   formatarTextoLeadConsultor(); // Garante que o texto especial esteja atualizado
   navigator.clipboard
-    .writeText(TextoLeadConsultor)
+    .writeText(mensagem_consultor)
     .then(() => {
       mostrarPopUp("Texto copiado!");
     })
@@ -1336,27 +1267,14 @@ function copiarTextoLeadConsultor() {
 }
 
 function formatarPromptGPT() {
-  const texto = document.getElementById("inputText").value;
-  const textoMinusculo = texto.toLowerCase();
 
-  const origem = obterOrigem(textoMinusculo);
+  let interesse_formatado = interesse_global.split(": ")[1]
 
-  let interesse = obterInteresse(texto);
-  interesse = interesse.replace("Interesse: ", "");
+  prompt_GPT_formatado = `Acesse o site ${site_da_empresa} e me traga um resumo do que essa empresa faz, seus principais serviços e principais clientes.
 
-  let NomeDaEmpresa = obterEmpresa(texto);
-  let EmailFormatado = obterEmail(texto);
+Além disso, e segundo meu contexto como potencial fornecedor de ${interesse_formatado}, e sabendo que é esse o serviço desejado por essa empresa, quais seriam as perguntas que eu devo fazer utilizando a metodologia GPCTBA & CI nessa primeira reunião que terei com eles. Considere também que esse lead da empresa ${nome_da_empresa} chegou com o seguinte texto no formulário do fale conosco: "${assunto_formatado}"
 
-  let siteDaEmpresa = EmailFormatado.split("@")[1];
-  siteDaEmpresa = "www." + siteDaEmpresa;
-
-  let assuntoFormatado = obterAssunto(texto);
-
-  PromptGPTFormatado = `Acesse o site ${siteDaEmpresa} e me traga um resumo do que essa empresa faz, seus principais serviços e principais clientes.
-
-Além disso, e segundo meu contexto como potencial fornecedor de ${interesse}, e sabendo que é esse o serviço desejado por essa empresa, quais seriam as perguntas que eu devo fazer utilizando a metodologia GPCTBA & CI nessa primeira reunião que terei com eles. Considere também que esse lead da empresa ${NomeDaEmpresa} chegou com o seguinte texto no formulário do fale conosco: "${assuntoFormatado}"
-
-Quais são os principais clientes e concorrentes diretos da ${NomeDaEmpresa}? E o que estão fazendo de inovação nesse ramo que sou potencial fornecedor.
+Quais são os principais clientes e concorrentes diretos da ${nome_da_empresa}? E o que estão fazendo de inovação nesse ramo que sou potencial fornecedor.
 
 Considerando esse contexto e o cenário que temos aqui, que tipos de perguntas poderíamos fazer a eles? Além disso, quais perguntas eles poderiam nos fazer, e quais seriam boas respostas que poderíamos oferecer?
 
@@ -1425,7 +1343,7 @@ Em termos de inovação, a instituição está investindo em projetos de automa�
 function copiarPromptGPT() {
   formatarPromptGPT(); // Garante que o texto especial esteja atualizado
   navigator.clipboard
-    .writeText(PromptGPTFormatado)
+    .writeText(prompt_GPT_formatado)
     .then(() => {
       mostrarPopUp("Texto copiado!");
     })

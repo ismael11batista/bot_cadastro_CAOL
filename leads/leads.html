@@ -25,8 +25,8 @@
     </a>
 	
     <!-- Novos botões para copiar conteúdo das células S2 e S4 -->
-    <a href="#" id="copiarS2"> <img src="../images/agence2.png" alt="Copiar S2" class="copy-btn"> </a>
-    <a href="#" id="copiarS4"> <img src="../images/cn.png" alt="Copiar S4" class="copy-btn"> </a>
+    <!-- <a href="#" id="copiarS2"> <img src="../images/agence2.png" alt="Copiar S2" class="copy-btn"> </a> -->
+    <!-- <a href="#" id="copiarS4"> <img src="../images/cn.png" alt="Copiar S4" class="copy-btn"> </a> -->
 
     <!-- Adicione este bloco dentro do <body> da sua página complexa -->
     <div class="consultores">
@@ -74,39 +74,39 @@
 
         <div class="buttons-row">
 
-            <button onclick="copiarTextoLeadConsultor()" class="btn-adicionar3">Aviso Lead Consultor</button>
+            <button onclick="copiarTextoLeadConsultor()" class="btn-copiar-mensagens-formatadas">Aviso Lead Consultor</button>
 
-            <button onclick="copiarInformacoesEconodata()" class="btn-adicionar3"> <img src="../images/econodata.png"
+            <button onclick="copiarInformacoesEconodata()" class="btn-copiar-mensagens-formatadas"> <img src="../images/econodata.png"
                     id="econodata"></button>
 
-            <button onclick="copiarTextoLeadFilaA()" class="btn-adicionar3">Aviso Lead Fila A</button>
+            <button onclick="copiarTextoLeadFilaA()" class="btn-copiar-mensagens-formatadas">Aviso Lead Fila A</button>
 
         </div>
 
         <!-- Container Principal para Informações Automáticas e Adicionais Lado a Lado -->
-        <div class="info-principal">
+        <div class="exibir-textos-formatados">
             <!-- Nova Seção de Detalhes do Lead à Esquerda -->
-            <div class="detalhes-lead">
-                <div id="detalhesLead" class="containerLeadAutomatico">Chegou lead para você.<br><br>Empresa: não informado<br>Contato: não informado<br>Telefone: não informado<br>E-mail: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Assunto: não encontrado
+            <div class="mensagem-consultor">
+                <div id="mensagem-consultor" class="containerExibirTextosFormatados">Chegou lead para você.<br><br>Empresa: não informado<br>Contato: não informado<br>Telefone: não informado<br>E-mail: não informado<br>Interesse: não informado<br>Origem: não identificada<br><br>Assunto: não encontrado
                     <!-- Conteúdo dos Detalhes do Lead será inserido aqui -->
                 </div>
             </div>
 
             <!-- Seção para Informações Adicionais no Meio -->
-            <div class="info-adicional">
-                <div id="informacoesAdicionais" class="containerLeadAutomatico">
+            <div class="info-econodata">
+                <div id="info-econodata" class="containerExibirTextosFormatados">
                     <!-- Conteúdo das Informações Adicionais será inserido aqui -->
                 </div>
             </div>
 
             <!-- Container Principal para Resultado Automático à Direita -->
-            <div class="containerLeadAutomatico">
+            <div class="containerExibirTextosFormatados">
                 <div id="resultado" class="resultado">Chegou lead na Fila A para o @<br><br>Empresa: não informado<br>Contato: não informado<br>Telefone: não informado<br>E-mail: não informado<br>Interesse: não informado<br>Origem: não identificada<br>Linkedin ainda não identificado<br><br>Site da empresa: COMPANY_URL<br>--------------------------------------------------------<br>próximo da fila é o @</div>
             </div>
         </div>
 
         <!-- Container para Interesse e Origem do Lead -->
-        <div class="info-container-duplo">
+        <div class="info-container-triplo">
             <div id="interesseLead" class="info-div2">Interesse: não informado</div>
             <div id="origemLead" class="info-div2">Origem: não identificada</div>
             <div id="porteLead" class="info-div2">Porte da Empresa: não informado</div>
@@ -137,6 +137,36 @@
     <script src="leads.js"></script>
 
 	<script src="https://apis.google.com/js/api.js"></script>
+
+	<!-- Script de ajuste de zoom -->
+	<script>
+	  function ajustarZoom() {
+	    // Defina a largura base para a qual o zoom será 1 (100%)
+	    const larguraBase = 1920; // Você pode ajustar este valor conforme necessário
+	
+	    // Obtenha a largura atual da janela
+	    const larguraAtual = window.innerWidth;
+	
+	    // Calcule o nível de zoom
+	    const nivelZoom = larguraAtual / larguraBase;
+	
+	    // Defina limites para o zoom (opcional)
+	    const zoomMin = 0.5; // 50%
+	    const zoomMax = 1.5; // 100%
+	
+	    // Ajuste o nível de zoom dentro dos limites
+	    const zoomFinal = Math.min(Math.max(nivelZoom, zoomMin), zoomMax);
+	
+	    // Aplique o zoom ao elemento <body>
+	    document.body.style.zoom = zoomFinal;
+	  }
+	
+	  // Chame a função quando a página carregar
+	  window.addEventListener("load", ajustarZoom);
+	
+	  // Chame a função sempre que a janela for redimensionada
+	  window.addEventListener("resize", ajustarZoom);
+	</script>	
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
